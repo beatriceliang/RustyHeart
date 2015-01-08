@@ -1,0 +1,13 @@
+import sys
+import random
+class Rusty:
+	def __init__(self,location,speed):
+		self.location = location
+		self.speed = speed
+	def moveLeft(self):
+		self.location[0]-=self.speed[0]
+	def moveRight(self):
+		self.location[0]+=self.speed[0]
+	def jumpUp(self):
+		self.location[0]-=self.speed[1]
+	def com

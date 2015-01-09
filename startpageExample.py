@@ -1,6 +1,10 @@
-# Beatrice Liang and Tiffany Lam
+# Bruce A. Maxwell
 # January 2015
-# Creates a startpage
+#
+# Pygame Tutorial Example 1
+#
+# Creates a static scene and then waits for an event to quit
+#
 
 ####################### Setup #########################
 # useful imports
@@ -28,7 +32,7 @@ screen = pygame.display.set_mode( (640, 480) )
 startBackground = pygame.image.load( "heartPicture.jpeg" ).convert_alpha()
 
 # create a font
-afont = pygame.font.SysFont( "Times New Roman", 72, bold=True )
+afont = pygame.font.SysFont( "Cambria", 72, bold=True )
 
 # render a surface with some text
 text = afont.render( "RUSTY HEART", True, (0, 0, 0) )
@@ -42,7 +46,7 @@ screen.fill( (255, 255, 255) )
 screen.blit( startBackground, (-30, -30) )
 
 # create a font
-afont = pygame.font.SysFont( "Arial", 60, bold=True )
+afont = pygame.font.SysFont( "Times New Roman", 60, bold=True )
 
 # render a surface with some text
 start = afont.render( "START", True, (255, 255, 255) )

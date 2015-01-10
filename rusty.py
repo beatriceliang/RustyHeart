@@ -8,7 +8,7 @@ class Rusty:
 		self.originLocation = []
 		self.originLocation.append(location[0])
 		self.originLocation.append(location[1])
-		self.alreadyPressed = 0
+		self.alreadyPressed = [0,0,0]
 		
 		
 	def move(self):
@@ -32,5 +32,5 @@ class Rusty:
 		self.speed[1]+=1
 	def comeToGround(self):
 		self.location[1] = self.originLocation[1]
-		#self.speed[1] -=1
+		
 		

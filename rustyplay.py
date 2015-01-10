@@ -121,20 +121,25 @@ while 1:
         
         if event.type == pygame.KEYDOWN:   
             if event.key == pygame.K_LEFT:
+            	
                 rus.speedLeft()
                 
             if event.key == pygame.K_RIGHT:
             	rus.speedRight()
             	
             if event.key == pygame.K_UP:
-            	rus.state = "jumpup"
-            	count = 0
+            	if(count>5):
+            	    rus.state = "jumpup"
+            	    count = 0
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
-            	rus.speedRight()
+                if(rus.stateInAir!="left"):
+            	    rus.speedRight()
+            	rus.stateInAir = "notInAir"
             if event.key == pygame.K_RIGHT:
             	rus.speedLeft()
-            
+            if event.key == pygame.K_UP:
+            	rus.speed[1] = 0
                 
         if event.type == pygame.QUIT:
             sys.exit()
@@ -151,17 +156,24 @@ while 1:
     	if(count==0):
     	    rus.speed[1] = -1
             rus.state="speedtop"
+            
+            	
     if(rus.state=="speedtop"):
     	if(count==1):
     	    rus.speed[1] = 0
     	    rus.state = "jumpdown"
+    	    
+            	
     if(rus.state=="jumpdown"):
-    	if(count==2):
+    	if(count==4):
     	    rus.speed[1] = 1
     	    rus.state = "ground"
+    	   
     if(rus.state=="ground"):
-    	if(count>=3):
+    	if(count==5):
     	    rus.speed[1] = 0
+    	    
+            	
     	    
     	
     count+=1

@@ -5,7 +5,7 @@ class Rusty:
 		self.location = location
 		self.speed = speed
 		self.state = state
-		
+		self.stateInAir = "notInAir"
 		self.originLocation = []
 		self.originLocation.append(location[0])
 		self.originLocation.append(location[1])

@@ -121,13 +121,11 @@ while 1:
         
         if event.type == pygame.KEYDOWN:   
             if event.key == pygame.K_LEFT:
-            	rus.speedLeft()
-                if(rus.alreadyPressed[0]!=0):
-                    rus.alreadyPressed[1] = 1
+                rus.speedLeft()
+                rus.alreadyPressed[1] = 1
             if event.key == pygame.K_RIGHT:
                 rus.speedRight()
-                if(rus.alreadyPressed[0]!=0):
-                    rus.alreadyPressed[2] = 1
+                rus.alreadyPressed[2] = 1
             if event.key == pygame.K_UP:
             	rus.speedUp()
             	rus.alreadyPressed[0] = 1

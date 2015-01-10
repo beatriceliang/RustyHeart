@@ -10,7 +10,7 @@ import pygame
 
 # initialize pygame
 pygame.init()
-rus = rusty.Rusty([0,0],[0,0],0)
+rus = rusty.Rusty([0,0],[0,0],"ground")
 
 # initialize the fonts
 try:
@@ -103,12 +103,13 @@ drawBkg( screen, text, refresh )
 
 # update the display before we start the main loop
 pygame.display.update()
-
+count = 0
 
 # respond to mouse motion events until someone clicks a mouse or hits a key
 print "Entering main loop"
 while 1:
-      
+    rus.speed[0] = 0	
+    rus.speed[1] = 0
     # handle events and erase things
     for event in pygame.event.get():
     	
@@ -122,51 +123,56 @@ while 1:
         if event.type == pygame.KEYDOWN:   
             if event.key == pygame.K_LEFT:
                 rus.speedLeft()
-                rus.alreadyPressed[1] = 1
+                
+            	
             if event.key == pygame.K_RIGHT:
-                rus.speedRight()
-                rus.alreadyPressed[2] = 1
+            	rus.speedRight()
+            	
             if event.key == pygame.K_UP:
-            	rus.speedUp()
-            	rus.alreadyPressed[0] = 1
+            	rus.state = "jumpup"
+            	count = 0
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
-            	if(rus.alreadyPressed[1]!=2):
-            	    rus.speedRight()
-                rus.alreadyPressed[1] = 0
+            	rus.speedRight()
             if event.key == pygame.K_RIGHT:
-                if(rus.alreadyPressed[2]!=2):
-            	    rus.speedLeft()
+            	rus.speedLeft()
             if event.key == pygame.K_UP:
-                rus.changeState(1)
-                rus.alreadyPressed[0] = 0
+            	rus.state="jumpdown"
+                
         if event.type == pygame.QUIT:
             sys.exit()
     drawBkg(screen,text,refresh,rusdudeRect)
-   # print "alreadyPressed"
-    #print rus.alreadyPressed
+  
+   
+    print "speed"
+    print rus.speed[1]
+    print "count"
+    print count
     
-    if(rus.state==2):
-    	rus.comeToGround()
-    if (rus.state==1):
-    	rus.speedDown()
-	rus.changeState(2)
-	continue
     
+    if(rus.state=="jumpup"):
+    	if(count==0):
+    	    rus.speed[1] = -1
+            rus.state="speedtop"
+    if(rus.state=="speedtop"):
+    	if(count==2):
+    	    rus.speed[1] = 0
+    	    rus.state = "jumpdown"
+    if(rus.state=="jumpdown"):
+    	if(count==4):
+    	    rus.speed[1] = +1
+    	    rus.state = "ground"
+    if(rus.state=="ground"):
+    	if(count==5):
+    	    rus.speed[1] = 0
+    	    
+    	
+    count+=1
+   
+   
     rus.move()
-    
-    if(rus.alreadyPressed[0]==1):
-    	rus.changeState(2)
-    	rus.alreadyPressed[0] = 2
-    	continue
-    if(rus.alreadyPressed[1]==1):
-        rus.speedRight()
-        rus.alreadyPressed[1] = 2
-        continue
-    if(rus.alreadyPressed[2]==1):
-        rus.speedLeft()
-        rus.alreadyPressed[2] = 2
-        continue
+   
+ 
     # If the game is in focus, draw things
     rusdudeRect = pygame.Rect((rusdudeRect.width/2+rus.location[0],rusdudeRect.height/2+rus.location[1]),(rusdudeRect.width,rusdudeRect.height))
     screen.blit(rusdude,rusdudeRect)

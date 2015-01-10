@@ -5,7 +5,7 @@ import pygame
 
 class RustyHeart:
 	def __init__(self):
-		self.rusty = new rusty.Rusty((0,400),(0,0), "stationary" )
+		self.rusty = rusty.Rusty((0,400),(0,0), "stationary" )
 		self.state = "start"
 		pygame.init()
 

@@ -108,62 +108,78 @@ pygame.display.update()
 # respond to mouse motion events until someone clicks a mouse or hits a key
 print "Entering main loop"
 while 1:
-   
-	# handle events and erase things
-	for event in pygame.event.get():
-		
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_LEFT:
-				rus.speedLeft()
-			if event.key == pygame.K_RIGHT:
-				rus.speedRight()
-			if event.key == pygame.K_UP:
-				rus.speedUp()
-				
-				rus.alreadyPressed = 1
-			
-		if event.type == pygame.KEYUP:
-			if event.key == pygame.K_LEFT:
-				rus.speedRight()
-			if event.key == pygame.K_RIGHT:
-				rus.speedLeft()
-			if event.key == pygame.K_UP:
-				rus.changeState(1)
-				rus.alreadyPressed = 0
-		if event.type == pygame.QUIT:
-			sys.exit()
-	drawBkg(screen,text,refresh,rusdudeRect)
+      
+    # handle events and erase things
+    for event in pygame.event.get():
+    	
+        if event.type == pygame.MOUSEMOTION:
+            # erase the existing broom
+            drawBkg( screen, text, refresh, rusdudeRect )
+            
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            sys.exit()
+        
+        if event.type == pygame.KEYDOWN:   
+            if event.key == pygame.K_LEFT:
+                rus.speedLeft()
+                rus.alreadyPressed[1] = 1
+            if event.key == pygame.K_RIGHT:
+                rus.speedRight()
+                rus.alreadyPressed[2] = 1
+            if event.key == pygame.K_UP:
+            	rus.speedUp()
+            	rus.alreadyPressed[0] = 1
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+            	if(rus.alreadyPressed[1]!=2):
+            	    rus.speedRight()
+                rus.alreadyPressed[1] = 0
+            if event.key == pygame.K_RIGHT:
+                if(rus.alreadyPressed[2]!=2):
+            	    rus.speedLeft()
+            if event.key == pygame.K_UP:
+                rus.changeState(1)
+                rus.alreadyPressed[0] = 0
+        if event.type == pygame.QUIT:
+            sys.exit()
+    drawBkg(screen,text,refresh,rusdudeRect)
    # print "alreadyPressed"
-	#print rus.alreadyPressed
-	if (rus.state==1):
-		rus.speedDown()
-		rus.changeState(2)
-		continue
-	
-	if(rus.state==2):
-		rus.comeToGround()
-	
-	rus.move()
-	
-	if(rus.alreadyPressed==1):
-		#print "when notmovien"
-		rus.alreadyPressed = 2
-		rus.speedDown()
-		continue
-		
-	# If the game is in focus, draw things
-	rusdudeRect = pygame.Rect((rusdudeRect.width/2+rus.location[0],rusdudeRect.height/2+rus.location[1]),(rusdudeRect.width,rusdudeRect.height))
-	screen.blit(rusdude,rusdudeRect)
-	refresh.append(rusdudeRect)
+    #print rus.alreadyPressed
+    
+    if(rus.state==2):
+    	rus.comeToGround()
+    if (rus.state==1):
+    	rus.speedDown()
+	rus.changeState(2)
+	continue
+    
+    rus.move()
+    
+    if(rus.alreadyPressed[0]==1):
+    	rus.changeState(2)
+    	rus.alreadyPressed[0] = 2
+    	continue
+    if(rus.alreadyPressed[1]==1):
+        rus.speedRight()
+        rus.alreadyPressed[1] = 2
+        continue
+    if(rus.alreadyPressed[2]==1):
+        rus.speedLeft()
+        rus.alreadyPressed[2] = 2
+        continue
+    # If the game is in focus, draw things
+    rusdudeRect = pygame.Rect((rusdudeRect.width/2+rus.location[0],rusdudeRect.height/2+rus.location[1]),(rusdudeRect.width,rusdudeRect.height))
+    screen.blit(rusdude,rusdudeRect)
+    refresh.append(rusdudeRect)
 
-	# update the parts of the screen that need it
-	pygame.display.update( refresh )
+    # update the parts of the screen that need it
+    pygame.display.update( refresh )
 
-	# clear out the refresh rects
-	refresh = []
+    # clear out the refresh rects
+    refresh = []
 
-	# throttle the game speed to 30fps
-	gameClock.tick(30)
+    # throttle the game speed to 30fps
+    gameClock.tick(30)
 		
 # done
 print "Terminating"

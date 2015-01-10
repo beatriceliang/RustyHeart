@@ -108,8 +108,7 @@ count = 0
 # respond to mouse motion events until someone clicks a mouse or hits a key
 print "Entering main loop"
 while 1:
-    rus.speed[0] = 0	
-    rus.speed[1] = 0
+   
     # handle events and erase things
     for event in pygame.event.get():
     	
@@ -124,7 +123,6 @@ while 1:
             if event.key == pygame.K_LEFT:
                 rus.speedLeft()
                 
-            	
             if event.key == pygame.K_RIGHT:
             	rus.speedRight()
             	
@@ -136,8 +134,7 @@ while 1:
             	rus.speedRight()
             if event.key == pygame.K_RIGHT:
             	rus.speedLeft()
-            if event.key == pygame.K_UP:
-            	rus.state="jumpdown"
+            
                 
         if event.type == pygame.QUIT:
             sys.exit()
@@ -155,15 +152,15 @@ while 1:
     	    rus.speed[1] = -1
             rus.state="speedtop"
     if(rus.state=="speedtop"):
-    	if(count==2):
+    	if(count==1):
     	    rus.speed[1] = 0
     	    rus.state = "jumpdown"
     if(rus.state=="jumpdown"):
-    	if(count==4):
-    	    rus.speed[1] = +1
+    	if(count==2):
+    	    rus.speed[1] = 1
     	    rus.state = "ground"
     if(rus.state=="ground"):
-    	if(count==5):
+    	if(count>=3):
     	    rus.speed[1] = 0
     	    
     	

@@ -5,6 +5,7 @@ import pygame
 
 class RustyHeart:
 	def __init__(self):
+		'''Creates an instance of Rusty, initializes pygame'''
 		self.rusty = rusty.Rusty((0,400),(0,0), "stationary" )
 		self.state = "start"
 		pygame.init()
@@ -22,6 +23,7 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 	def drawBkg(self, refresh,imageName = None, rect = None):
+		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if imageName != None:
 			background = pygame.image.load(imageName).convert_alpha()
 		if rect == None:
@@ -42,6 +44,7 @@ class RustyHeart:
 		self.drawBkg(refresh)
 		pygame.display.update()
 		while self.state == "start":
+			'''Creates the start screen'''
 			self.drawBkg(refresh, imageName = "heartPicture.jpeg")
 			
 			afont = pygame.font.SysFont("Arial", 72)
@@ -59,9 +62,7 @@ class RustyHeart:
 					if event.key == pygame.K_q:
 						sys.exit()
 					if event.key == pygame.K_SPACE:
-						#refresh = []
 						self.state = "sandbox"
-						#break
 			pygame.display.update(refresh)
 		while self.state == "sandbox":
 			self.drawBkg(refresh)
@@ -69,9 +70,50 @@ class RustyHeart:
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_q:
 						sys.exit()
+					if event.key == pygame.K_SPACE:
+						self.state = "credits"
 			pygame.display.update(refresh)
-		
-			
+
+		while self.state == "credits":
+			credits = []
+			self.drawBkg(refresh)
+
+			afont = pygame.font.SysFont("Arial", 50)
+			title = afont.render("Credits",True,(0,0,0))
+			self.screen.blit(title,(0,0))
+
+			afont = pygame.font.SysFont("Arial", 20)
+			credits.append(afont.render("Producer: ...........................................................Beatrice Liang", True,(0,0,0)))
+			credits.append(afont.render("Designer: ...........................................................Luis Henriquez-Perez", True,(0,0,0)))
+			credits.append(afont.render("Lead Programmer: .............................................Itrat Akhter", True,(0,0,0)))
+			credits.append(afont.render("Lead Visual Artist: ..............................................Catherine Alden", True,(0,0,0)))
+			credits.append(afont.render("Lead Audio Artist: ...............................................Tiffany Lam", True,(0,0,0)))
+			credits.append(afont.render("Quality Assurance Specialist: ...............................Shama Ramos", True,(0,0,0)))
+			resourcesLoc = 50
+			for i in range(len(credits)):
+				resourcesLoc += 25
+				self.screen.blit(credits[i], (0,resourcesLoc))
+
+			afont = pygame.font.SysFont("Arial", 50)
+			title = afont.render("Resources", True,(0,0,0))
+			self.screen.blit(title,(0,resourcesLoc+40))
+
+			resources = []
+			afont = pygame.font.SysFont("Arial", 20)
+			resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
+
+			for i in range(len(resources)):
+				self.screen.blit(resources[i],(0,resourcesLoc+110+20*i))
+
+			for event in pygame.event.get():
+				if event.type == pygame.KEYDOWN:
+					sys.exit()
+					# if event.key == pygame.K_q:
+					# 	sys.exit()
+					# if event.key == pygame.K_SPACE:
+					# 	self.state = "credits"
+			pygame.display.update(refresh)
+
 if __name__ == '__main__':
 	game = RustyHeart()
 	game.main()

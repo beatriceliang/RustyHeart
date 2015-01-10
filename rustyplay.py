@@ -123,21 +123,22 @@ while 1:
             if event.key == pygame.K_LEFT:
             	
                 rus.speedLeft()
-                
+                rus.stateInAir = "left"
             if event.key == pygame.K_RIGHT:
             	rus.speedRight()
-            	
+            	rus.stateInAir = "right"
             if event.key == pygame.K_UP:
             	if(count>5):
             	    rus.state = "jumpup"
             	    count = 0
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
-                if(rus.stateInAir!="left"):
-            	    rus.speedRight()
+                
+            	rus.speedRight()
             	rus.stateInAir = "notInAir"
             if event.key == pygame.K_RIGHT:
             	rus.speedLeft()
+            	rus.stateInAir = "notInAir"
             if event.key == pygame.K_UP:
             	rus.speed[1] = 0
                 
@@ -156,23 +157,38 @@ while 1:
     	if(count==0):
     	    rus.speed[1] = -1
             rus.state="speedtop"
-            
+            if(rus.stateInAir=="left"):
+            	rus.speed[0] = -1
+            if(rus.stateInAir=="right"):
+            	rus.speed[0] = 1
             	
     if(rus.state=="speedtop"):
     	if(count==1):
     	    rus.speed[1] = 0
     	    rus.state = "jumpdown"
-    	    
+    	    if(rus.stateInAir=="left"):
+            	rus.speed[0] = -1
+            if(rus.stateInAir=="right"):
+            	rus.speed[0] = 1
             	
     if(rus.state=="jumpdown"):
     	if(count==4):
     	    rus.speed[1] = 1
     	    rus.state = "ground"
+    	    if(rus.stateInAir=="left"):
+            	rus.speed[0] = -1
+            if(rus.stateInAir=="right"):
+            	rus.speed[0] = 1
     	   
     if(rus.state=="ground"):
     	if(count==5):
     	    rus.speed[1] = 0
-    	    
+    	    if(rus.stateInAir=="left"):
+            	rus.speed[0] = -1
+    	        rus.stateInAir = "notInAir" 
+    	    if(rus.stateInAir=="right"):
+            	rus.speed[0] = 1
+    	        rus.stateInAir = "notInAir" 
             	
     	    
     	

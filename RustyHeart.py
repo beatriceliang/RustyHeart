@@ -43,76 +43,107 @@ class RustyHeart:
 		refresh = []
 		self.drawBkg(refresh)
 		pygame.display.update()
-		while self.state == "start":
-			'''Creates the start screen'''
-			self.drawBkg(refresh, imageName = "heartPicture.jpeg")
+		
+		soundstate = "start"
+		pygame.mixer.music.load('start.mp3')
+		pygame.mixer.music.play(-1)
+
+		while True:
+			if soundstate == "play":
+				pygame.mixer.music.play(-1)
+				soundstate = "start"
+			if self.state == "start":
+				'''Creates the start screen'''
+				self.drawBkg(refresh, imageName = "heartPicture.jpeg")
+				
+				afont = pygame.font.SysFont("Arial", 72)
+				title = afont.render("Rusty Heart",True,(155,50,50))
+				self.screen.blit(title,(140,150))
+
+				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
+				space = afont.render("press SPACE to continue", True, (155,50,50))
+				self.screen.blit(space,(200,250))
+
+				quit = afont.render("press q to quit", True, (155,50,50))
+				self.screen.blit(quit,(250,300))
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_q:
+							sys.exit()
+						if event.key == pygame.K_SPACE:
+							self.state = "sandbox"
+							pygame.mixer.music.load('chaos.mp3')
+							soundstate = "play"
+				pygame.display.update(refresh)
 			
-			afont = pygame.font.SysFont("Arial", 72)
-			title = afont.render("Rusty Heart",True,(155,50,50))
-			self.screen.blit(title,(140,150))
+			if self.state == "sandbox":
+				self.drawBkg(refresh)
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_q:
+							sys.exit()
+						if event.key == pygame.K_SPACE:
+							self.state = "credits"
+							pygame.mixer.music.load('radiomartini.mp3')
+							soundstate = "play"
+				pygame.display.update(refresh)
+				
+			if self.state == "credits":
+				'''Creates a credits page'''
+				credits = []
+				self.drawBkg(refresh)
 
-			afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
-			space = afont.render("press SPACE to continue", True, (155,50,50))
-			self.screen.blit(space,(200,250))
+				afont = pygame.font.SysFont("Arial", 50)
+				title = afont.render("Credits",True,(0,0,0))
+				self.screen.blit(title,(0,0))
 
-			quit = afont.render("press q to quit", True, (155,50,50))
-			self.screen.blit(quit,(250,300))
-			for event in pygame.event.get():
-				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_q:
+				afont = pygame.font.SysFont("Lucida Console", 20)
+				credits.append(afont.render("Producer: .......................Beatrice Liang", True,(0,0,0)))
+				credits.append(afont.render("Designer: .......................Luis Henriquez-Perez", True,(0,0,0)))
+				credits.append(afont.render("Lead Programmer: ................Itrat Akhter", True,(0,0,0)))
+				credits.append(afont.render("Lead Visual Artist: .............Catherine Alden", True,(0,0,0)))
+				credits.append(afont.render("Lead Audio Artist: ..............Tiffany Lam", True,(0,0,0)))
+				credits.append(afont.render("Quality Assurance Specialist: ...Shama Ramos", True,(0,0,0)))
+				resourcesLoc = 50
+				for i in range(len(credits)):
+					resourcesLoc += 25
+					self.screen.blit(credits[i], (0,resourcesLoc))
+
+				afont = pygame.font.SysFont("Arial", 50)
+				title = afont.render("Resources", True,(0,0,0))
+				self.screen.blit(title,(0,resourcesLoc+40))
+
+				resources = []
+				afont = pygame.font.SysFont("Lucida Console", 15)
+				resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
+				resources.append(afont.render("Songs: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
+				for i in range(len(resources)):
+					self.screen.blit(resources[i],(0,resourcesLoc+110+20*i))
+
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_q:
+							sys.exit()
+						if event.key == pygame.K_SPACE:
+						 	self.state = "thanks"
+						 	pygame.mixer.music.load('spazzmaticpolka.mp3')
+						 	soundstate = "play"
+				pygame.display.update(refresh)
+			if self.state == "thanks":
+				self.drawBkg(refresh)
+
+				afont = pygame.font.SysFont("Arial", 50)
+				title = afont.render("Special Thanks To",True,(0,0,0))
+				self.screen.blit(title,(0,0))
+
+				afont = pygame.font.SysFont("Arial", 70)
+				name = afont.render("Professor Bruce Maxwell",True,(0,0,0))
+				self.screen.blit(name,(0,50))
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
 						sys.exit()
-					if event.key == pygame.K_SPACE:
-						self.state = "sandbox"
-			pygame.display.update(refresh)
-		while self.state == "sandbox":
-			self.drawBkg(refresh)
-			for event in pygame.event.get():
-				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_q:
-						sys.exit()
-					if event.key == pygame.K_SPACE:
-						self.state = "credits"
-			pygame.display.update(refresh)
+				pygame.display.update(refresh)
 
-		while self.state == "credits":
-			credits = []
-			self.drawBkg(refresh)
-
-			afont = pygame.font.SysFont("Arial", 50)
-			title = afont.render("Credits",True,(0,0,0))
-			self.screen.blit(title,(0,0))
-
-			afont = pygame.font.SysFont("Arial", 20)
-			credits.append(afont.render("Producer: ...........................................................Beatrice Liang", True,(0,0,0)))
-			credits.append(afont.render("Designer: ...........................................................Luis Henriquez-Perez", True,(0,0,0)))
-			credits.append(afont.render("Lead Programmer: .............................................Itrat Akhter", True,(0,0,0)))
-			credits.append(afont.render("Lead Visual Artist: ..............................................Catherine Alden", True,(0,0,0)))
-			credits.append(afont.render("Lead Audio Artist: ...............................................Tiffany Lam", True,(0,0,0)))
-			credits.append(afont.render("Quality Assurance Specialist: ...............................Shama Ramos", True,(0,0,0)))
-			resourcesLoc = 50
-			for i in range(len(credits)):
-				resourcesLoc += 25
-				self.screen.blit(credits[i], (0,resourcesLoc))
-
-			afont = pygame.font.SysFont("Arial", 50)
-			title = afont.render("Resources", True,(0,0,0))
-			self.screen.blit(title,(0,resourcesLoc+40))
-
-			resources = []
-			afont = pygame.font.SysFont("Arial", 20)
-			resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
-
-			for i in range(len(resources)):
-				self.screen.blit(resources[i],(0,resourcesLoc+110+20*i))
-
-			for event in pygame.event.get():
-				if event.type == pygame.KEYDOWN:
-					sys.exit()
-					# if event.key == pygame.K_q:
-					# 	sys.exit()
-					# if event.key == pygame.K_SPACE:
-					# 	self.state = "credits"
-			pygame.display.update(refresh)
 
 if __name__ == '__main__':
 	game = RustyHeart()

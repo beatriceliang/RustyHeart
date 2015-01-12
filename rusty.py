@@ -1,7 +1,9 @@
 import sys
 import random
+import pygame
 class Rusty:
     def __init__(self,location,speed,state):
+        pygame.init()
         self.location = location
         self.speed = speed
         self.state = state
@@ -10,7 +12,8 @@ class Rusty:
         self.originLocation.append(location[0])
         self.originLocation.append(location[1])
         
-        
+        self.image = pygame.image.load("rusty.png").convert_alpha()
+        self.rect = self.image.get_rect()        
     
     def move(self):
         tempy = self.location[1]

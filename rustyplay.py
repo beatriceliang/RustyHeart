@@ -11,7 +11,9 @@ import pygame
 
 # initialize pygame
 pygame.init()
-rus = rusty.Rusty([0,0],[0,0],"ground")
+screen = pygame.display.set_mode( (640, 480) )
+
+rus = rusty.Rusty([0,180],[0,0],"ground")
 cbox = cardboardbox.Cardboardbox([10,0],"ground")
 
 # initialize the fonts
@@ -32,9 +34,7 @@ screen = pygame.display.set_mode( (640, 480) )
 
 # load some images
 
-
-rusdude = pygame.image.load( "Broom.png" ).convert_alpha()
-cboxdude = pygame.image.load( "Spider.png" ).convert_alpha()
+cboxdude = pygame.image.load( "box.png" ).convert_alpha()
 
 # create a font
 afont = pygame.font.SysFont( "Helvetica", 20, bold=True )
@@ -91,14 +91,13 @@ pygame.event.pump()
 # get the mouse position and put the broom so it is centered on the
 # mouse location
 tpos = pygame.mouse.get_pos()
-trect = rusdude.get_rect()
-rusdudeRect = rusdude.get_rect().move( tpos[0] - trect.width/2, tpos[1] - trect.height/2 )
-rusDudeActiveRect = pygame.Rect((4, 41),(106, 82))
+trect = rus.image.get_rect()
+
 cboxdudeRect = cboxdude.get_rect().move(tpos[0]-trect.width/2, tpos[1]-trect.height/2)
 
 
 # blit the broom to the screen and update the display
-screen.blit( rusdude, rusdudeRect )
+screen.blit( rus.image, rus.rect )
 screen.blit( cboxdude, cboxdudeRect)
 
 ####################### Main Event Loop #########################
@@ -119,7 +118,7 @@ while 1:
         
         if event.type == pygame.MOUSEMOTION:
             # erase the existing broom
-            drawBkg( screen, text, refresh, rusdudeRect )
+            drawBkg( screen, text, refresh, rus.rect )
             drawBkg( screen, text, refresh, cboxdudeRect )
             
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -155,7 +154,7 @@ while 1:
                 
         if event.type == pygame.QUIT:
             sys.exit()
-    drawBkg(screen,text,refresh,rusdudeRect)
+    drawBkg(screen,text,refresh,rus.rect)
     drawBkg(screen,text,refresh,cboxdudeRect)
    
     print "speed"
@@ -176,10 +175,10 @@ while 1:
     
             
     # If the game is in focus, draw things
-    rusdudeRect = pygame.Rect((rusdudeRect.width/2+rus.location[0],rusdudeRect.height/2+rus.location[1]),(rusdudeRect.width,rusdudeRect.height))
+    rus.rect = pygame.Rect((rus.rect.width/2+rus.location[0],rus.rect.height/2+rus.location[1]),(rus.rect.width,rus.rect.height))
     cboxdudeRect = pygame.Rect((cboxdudeRect.width/2+cbox.location[0],cboxdudeRect.height/2+cbox.location[1]),(cboxdudeRect.width,cboxdudeRect.height))
-    screen.blit(rusdude,rusdudeRect)
-    refresh.append(rusdudeRect)
+    screen.blit(rus.image,rus.rect)
+    refresh.append(rus.rect)
     screen.blit(cboxdude,cboxdudeRect)
     refresh.append(cboxdudeRect)
 

@@ -5,21 +5,26 @@
 import sys
 import random
 import rusty
-import cardboardbox
+import box
 # import pygame
 import pygame
 
 # initialize pygame
 pygame.init()
-rus = rusty.Rusty([0,0],[0,0],"ground")
-cbox = cardboardbox.Cardboardbox([10,0],"ground")
+screen = pygame.display.set_mode( (640, 480) )
+
+
+
+rus = rusty.Rusty([0,180],[0,0],"ground")
+box = box.Box([0,180],"ground","cardboard")
+
 
 # initialize the fonts
 try:
-	pygame.font.init()
+    pygame.font.init()
 except:
-	print "Fonts unavailable"
-	sys.exit()
+    print "Fonts unavailable"
+    sys.exit()
 
 # create a game clock
 gameClock = pygame.time.Clock()
@@ -32,9 +37,6 @@ screen = pygame.display.set_mode( (640, 480) )
 
 # load some images
 
-
-rusdude = pygame.image.load( "Broom.png" ).convert_alpha()
-cboxdude = pygame.image.load( "Spider.png" ).convert_alpha()
 
 # create a font
 afont = pygame.font.SysFont( "Helvetica", 20, bold=True )
@@ -50,33 +52,33 @@ sweep = pygame.mixer.Sound( "sweep.wav" )
 
 # A function that draws all of the static background elements
 def drawBkg(screen, text, refresh, rect=None):
-	# clear the screen with white
-	if rect == None:
-		screen.fill( (255, 255, 255) )
+    # clear the screen with white
+    if rect == None:
+        screen.fill( (255, 255, 255) )
 
-		# blit the text surface onto the screen
-		screen.blit( text, (10, 10) )
+        # blit the text surface onto the screen
+        screen.blit( text, (10, 10) )
 
-		refresh.append( screen.get_rect() )
-	else:
-		screen.fill( (255, 255, 255), rect )
+        refresh.append( screen.get_rect() )
+    else:
+        screen.fill( (255, 255, 255), rect )
 
-		# blit the text surface onto the screen if it is inside the rectangle
-		screen.fill( (255, 255, 255), text.get_rect().move(10, 10).clip( rect ) )
+        # blit the text surface onto the screen if it is inside the rectangle
+        screen.fill( (255, 255, 255), text.get_rect().move(10, 10).clip( rect ) )
 
-		trect = text.get_rect().move(10, 10) # rectangle in which to
-											 # draw the text
-											 
-		clippedRect = trect.clip( rect ) # intersection of the text
-										 # screen rectangle and the
-										 # area to update
+        trect = text.get_rect().move(10, 10) # rectangle in which to
+                                             # draw the text
+                                             
+        clippedRect = trect.clip( rect ) # intersection of the text
+                                         # screen rectangle and the
+                                         # area to update
 
-		# blit the text into the area to update, the second rectangle
-		# indicates which part of the text to use
-		urect = screen.blit( text, clippedRect, clippedRect.move(-10,-10) )
+        # blit the text into the area to update, the second rectangle
+        # indicates which part of the text to use
+        urect = screen.blit( text, clippedRect, clippedRect.move(-10,-10) )
 
-		# refresh the rectangle
-		refresh.append( rect )
+        # refresh the rectangle
+        refresh.append( rect )
 
 
 ############## Setting up the Broom as a sprite ################
@@ -85,21 +87,18 @@ def drawBkg(screen, text, refresh, rect=None):
 # it is focused on the game window
 pygame.event.pump()
 # if pygame.mouse.get_focused():
-#	  pygame.mouse.set_visible(False)
+#     pygame.mouse.set_visible(False)
 
 
 # get the mouse position and put the broom so it is centered on the
 # mouse location
 tpos = pygame.mouse.get_pos()
-trect = rusdude.get_rect()
-rusdudeRect = rusdude.get_rect().move( tpos[0] - trect.width/2, tpos[1] - trect.height/2 )
-rusDudeActiveRect = pygame.Rect((4, 41),(106, 82))
-cboxdudeRect = cboxdude.get_rect().move(tpos[0]-trect.width/2, tpos[1]-trect.height/2)
+trect = rus.image.get_rect()
 
 
 # blit the broom to the screen and update the display
-screen.blit( rusdude, rusdudeRect )
-screen.blit( cboxdude, cboxdudeRect)
+screen.blit( rus.image, rus.rect )
+screen.blit( box.image, box.rect)
 
 ####################### Main Event Loop #########################
 # set up the refresh rectangle container
@@ -116,109 +115,61 @@ while 1:
    
     # handle events and erase things
     for event in pygame.event.get():
-    	
+        
         if event.type == pygame.MOUSEMOTION:
             # erase the existing broom
-            drawBkg( screen, text, refresh, rusdudeRect )
-            drawBkg( screen, text, refresh, cboxdudeRect )
+            drawBkg( screen, text, refresh, rus.rect )
+            drawBkg( screen, text, refresh, box.rect )
             
         if event.type == pygame.MOUSEBUTTONDOWN:
             sys.exit()
         
         if event.type == pygame.KEYDOWN:   
             if event.key == pygame.K_LEFT:
-            	rus.speedLeft()
+                rus.speedLeft()
                 rus.stateInAir = "left"
             if event.key == pygame.K_RIGHT:
-            	rus.speedRight()
-            	rus.stateInAir = "right"
+                rus.speedRight()
+                rus.stateInAir = "right"
             if event.key == pygame.K_UP:
-            	if(count>11):
-            	    rus.state = "jumpup"
-            	    count = 0
+                if(count>11):
+                    rus.state = "jumpup"
+                    count = 0
             if event.key == pygame.K_SPACE:
-            	if(rus.location[0]<cbox.location[0]+cboxdudeRect.width/2 and rus.location[0]>cbox.location[0]-cboxdudeRect.width/2):
-            	    cbox.picked = "pickedup"
-            	
+                box.canBePicked(rus)
+                
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 rus.speedRight()
-            	rus.stateInAir = "notInAir"
+                rus.stateInAir = "notInAir"
             if event.key == pygame.K_RIGHT:
-            	rus.speedLeft()
-            	rus.stateInAir = "notInAir"
+                rus.speedLeft()
+                rus.stateInAir = "notInAir"
             if event.key == pygame.K_UP:
-            	rus.speed[1] = 0
-            	
+                rus.speed[1] = 0
+                
             if event.key == pygame.K_SPACE:
-            	cbox.picked = "dropped"
+                box.canBeDropped()
                 
         if event.type == pygame.QUIT:
             sys.exit()
-    drawBkg(screen,text,refresh,rusdudeRect)
-    drawBkg(screen,text,refresh,cboxdudeRect)
+    drawBkg(screen,text,refresh,rus.rect)
+    drawBkg(screen,text,refresh,box.rect)
    
-    print "speed"
-    print rus.speed[1]
-    print "count"
-    print count
+   
     
-    
-    if(rus.state=="jumpup"):
-    	if(count==0):
-    	    rus.speed[1] = -1
-            rus.state="speedtop"
-            if(rus.stateInAir=="left"):
-            	rus.speed[0] = -1
-            if(rus.stateInAir=="right"):
-            	rus.speed[0] = 1
-            	
-    if(rus.state=="speedtop"):
-    	if(count==1):
-    	    rus.speed[1] = 0
-    	    rus.state = "jumpdown"
-    	    if(rus.stateInAir=="left"):
-            	rus.speed[0] = -1
-            if(rus.stateInAir=="right"):
-            	rus.speed[0] = 1
-            	
-    if(rus.state=="jumpdown"):
-    	if(count==10):
-    	    rus.speed[1] = 1
-    	    rus.state = "ground"
-    	    if(rus.stateInAir=="left"):
-            	rus.speed[0] = -1
-            if(rus.stateInAir=="right"):
-            	rus.speed[0] = 1
-    	   
-    if(rus.state=="ground"):
-    	if(count==11):
-    	    rus.speed[1] = 0
-    	    if(rus.stateInAir=="left"):
-            	rus.speed[0] = -1
-    	        rus.stateInAir = "notInAir" 
-    	    if(rus.stateInAir=="right"):
-            	rus.speed[0] = 1
-    	        rus.stateInAir = "notInAir" 
-            	
-    count+=1
-    rus.move()
-    if(cbox.picked=="ground"):
-    	cbox.stayOnGround()
-    if(cbox.picked=="pickedup"):
-    	cbox.pickup(rus)
-    if(cbox.picked=="dropped"):
-    	cbox.drop(rus)
-    	cbox.picked = "ground"
-    
-    	    
+    count = rus.actions(count)
+
+    box.pickupmotion(rus)
+    print box.picked
+            
     # If the game is in focus, draw things
-    rusdudeRect = pygame.Rect((rusdudeRect.width/2+rus.location[0],rusdudeRect.height/2+rus.location[1]),(rusdudeRect.width,rusdudeRect.height))
-    cboxdudeRect = pygame.Rect((cboxdudeRect.width/2+cbox.location[0],cboxdudeRect.height/2+cbox.location[1]),(cboxdudeRect.width,cboxdudeRect.height))
-    screen.blit(rusdude,rusdudeRect)
-    refresh.append(rusdudeRect)
-    screen.blit(cboxdude,cboxdudeRect)
-    refresh.append(cboxdudeRect)
+    rus.rect = pygame.Rect((rus.rect.width/2+rus.location[0],rus.rect.height/2+rus.location[1]),(rus.rect.width,rus.rect.height))
+    box.rect = pygame.Rect((box.rect.width/2+box.location[0],box.rect.height/2+box.location[1]),(box.rect.width,box.rect.height))
+    screen.blit(rus.image,rus.rect)
+    refresh.append(rus.rect)
+    screen.blit(box.image,box.rect)
+    refresh.append(box.rect)
 
     # update the parts of the screen that need it
     pygame.display.update( refresh )
@@ -228,6 +179,6 @@ while 1:
 
     # throttle the game speed to 30fps
     gameClock.tick(30)
-		
+        
 # done
 print "Terminating"

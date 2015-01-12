@@ -13,13 +13,11 @@ import pygame
 pygame.init()
 screen = pygame.display.set_mode( (640, 480) )
 
-<<<<<<< HEAD
-rus = rusty.Rusty([0,0],[0,0],"ground")
-cbox = cardboardbox.Cardboardbox([10,0],"ground")
-=======
+
+
 rus = rusty.Rusty([0,180],[0,0],"ground")
 box = box.Box([0,180],"ground","cardboard")
->>>>>>> 66e86a5b384992a2f7dbff37db647e511032237f
+
 
 # initialize the fonts
 try:

@@ -1,14 +1,15 @@
-
+import pygame
 import sys
 import random
 
 
 class Box:
-	def __init__(self,location,picked,typeof,rect):
+	def __init__(self,location,picked,typeof):
 		self.location = location
 		self.picked = picked
 		self.typeof = typeof
-		self.rect = rect
+		self.image = pygame.image.load("box.png").convert_alpha()
+		self.rect = self.image.get_rect()  
 	def canBePicked(self,rus):
 		if(self.typeof=="cardboard"):
 			#if((rus.location[0]<self.location[0]+self.rect.width/2 and rus.location[0]>self.location[0]-self.rect.width/2)):

@@ -14,7 +14,7 @@ pygame.init()
 screen = pygame.display.set_mode( (640, 480) )
 
 rus = rusty.Rusty([0,180],[0,0],"ground")
-
+box = box.Box([0,180],"ground","cardboard")
 
 # initialize the fonts
 try:
@@ -34,7 +34,6 @@ screen = pygame.display.set_mode( (640, 480) )
 
 # load some images
 
-boxdude = pygame.image.load( "box.png" ).convert_alpha()
 
 # create a font
 afont = pygame.font.SysFont( "Helvetica", 20, bold=True )
@@ -93,12 +92,10 @@ pygame.event.pump()
 tpos = pygame.mouse.get_pos()
 trect = rus.image.get_rect()
 
-boxdudeRect = boxdude.get_rect().move(trect.width/2,trect.height/2)
-box = box.Box([0,0],"ground","cardboard",boxdudeRect)
 
 # blit the broom to the screen and update the display
 screen.blit( rus.image, rus.rect )
-screen.blit( boxdude, boxdudeRect)
+screen.blit( box.image, box.rect)
 
 ####################### Main Event Loop #########################
 # set up the refresh rectangle container
@@ -119,7 +116,7 @@ while 1:
         if event.type == pygame.MOUSEMOTION:
             # erase the existing broom
             drawBkg( screen, text, refresh, rus.rect )
-            drawBkg( screen, text, refresh, boxdudeRect )
+            drawBkg( screen, text, refresh, box.rect )
             
         if event.type == pygame.MOUSEBUTTONDOWN:
             sys.exit()
@@ -154,7 +151,7 @@ while 1:
         if event.type == pygame.QUIT:
             sys.exit()
     drawBkg(screen,text,refresh,rus.rect)
-    drawBkg(screen,text,refresh,boxdudeRect)
+    drawBkg(screen,text,refresh,box.rect)
    
    
     
@@ -165,11 +162,11 @@ while 1:
             
     # If the game is in focus, draw things
     rus.rect = pygame.Rect((rus.rect.width/2+rus.location[0],rus.rect.height/2+rus.location[1]),(rus.rect.width,rus.rect.height))
-    boxdudeRect = pygame.Rect((boxdudeRect.width/2+box.location[0],boxdudeRect.height/2+box.location[1]),(boxdudeRect.width,boxdudeRect.height))
+    box.rect = pygame.Rect((box.rect.width/2+box.location[0],box.rect.height/2+box.location[1]),(box.rect.width,box.rect.height))
     screen.blit(rus.image,rus.rect)
     refresh.append(rus.rect)
-    screen.blit(boxdude,boxdudeRect)
-    refresh.append(boxdudeRect)
+    screen.blit(box.image,box.rect)
+    refresh.append(box.rect)
 
     # update the parts of the screen that need it
     pygame.display.update( refresh )

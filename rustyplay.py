@@ -125,7 +125,7 @@ while 1:
             sys.exit()
         
         if event.type == pygame.KEYDOWN:   
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_LEFT:
                 rus.speedLeft()
                 rus.stateInAir = "left"
             if event.key == pygame.K_RIGHT:
@@ -139,7 +139,7 @@ while 1:
                 box.canBePicked(rus)
                 
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_LEFT:
                 rus.speedRight()
                 rus.stateInAir = "notInAir"
             if event.key == pygame.K_RIGHT:

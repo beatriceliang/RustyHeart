@@ -9,7 +9,10 @@ class Box:
 		self.picked = picked
 		self.typeof = typeof
 		self.image = pygame.image.load("box.png").convert_alpha()
-		self.rect = self.image.get_rect()  
+		self.rect = self.image.get_rect()
+		self.originlocation = []
+		self.originlocation.append(location[0])
+		self.originlocation.append(location[1])
 	def canBePicked(self,rus):
 		if(self.typeof=="cardboard"):
 			#if((rus.location[0]<self.location[0]+self.rect.width/2 and rus.location[0]>self.location[0]-self.rect.width/2)):
@@ -31,7 +34,7 @@ class Box:
 		if(rus.state=="ground"):
 			self.location[1] = self.location[1]
 		else:
-			self.location[1] = self.location[1]+50
+			self.location[1] = self.originlocation[1]
 	def stayOnGround(self):
 		self.location[0] = self.location[0]
 		self.location[1] = self.location[1]
@@ -43,5 +46,5 @@ class Box:
 			self.pickup(rus)
 		if(self.picked=="dropped"):
 			self.drop(rus)
-		#self.picked = "ground"
+			self.picked = "ground"
 

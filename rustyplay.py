@@ -5,7 +5,7 @@
 import sys
 import random
 import rusty
-import cardboardbox
+import box
 # import pygame
 import pygame
 
@@ -14,7 +14,7 @@ pygame.init()
 screen = pygame.display.set_mode( (640, 480) )
 
 rus = rusty.Rusty([0,180],[0,0],"ground")
-cbox = cardboardbox.Cardboardbox([10,0],"ground")
+
 
 # initialize the fonts
 try:
@@ -34,7 +34,7 @@ screen = pygame.display.set_mode( (640, 480) )
 
 # load some images
 
-cboxdude = pygame.image.load( "box.png" ).convert_alpha()
+boxdude = pygame.image.load( "box.png" ).convert_alpha()
 
 # create a font
 afont = pygame.font.SysFont( "Helvetica", 20, bold=True )
@@ -93,12 +93,12 @@ pygame.event.pump()
 tpos = pygame.mouse.get_pos()
 trect = rus.image.get_rect()
 
-cboxdudeRect = cboxdude.get_rect().move(tpos[0]-trect.width/2, tpos[1]-trect.height/2)
-
+boxdudeRect = boxdude.get_rect().move(trect.width/2,trect.height/2)
+box = box.Box([0,0],"ground","cardboard",boxdudeRect)
 
 # blit the broom to the screen and update the display
 screen.blit( rus.image, rus.rect )
-screen.blit( cboxdude, cboxdudeRect)
+screen.blit( boxdude, boxdudeRect)
 
 ####################### Main Event Loop #########################
 # set up the refresh rectangle container
@@ -119,7 +119,7 @@ while 1:
         if event.type == pygame.MOUSEMOTION:
             # erase the existing broom
             drawBkg( screen, text, refresh, rus.rect )
-            drawBkg( screen, text, refresh, cboxdudeRect )
+            drawBkg( screen, text, refresh, boxdudeRect )
             
         if event.type == pygame.MOUSEBUTTONDOWN:
             sys.exit()
@@ -136,8 +136,7 @@ while 1:
                     rus.state = "jumpup"
                     count = 0
             if event.key == pygame.K_SPACE:
-                if(rus.location[0]<cbox.location[0]+cboxdudeRect.width and rus.location[0]>cbox.location[0]-cboxdudeRect.width):
-                    cbox.picked = "pickedup"
+                box.canBePicked(rus)
                 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
@@ -150,37 +149,27 @@ while 1:
                 rus.speed[1] = 0
                 
             if event.key == pygame.K_SPACE:
-                cbox.picked = "dropped"
+                box.canBeDropped()
                 
         if event.type == pygame.QUIT:
             sys.exit()
     drawBkg(screen,text,refresh,rus.rect)
-    drawBkg(screen,text,refresh,cboxdudeRect)
+    drawBkg(screen,text,refresh,boxdudeRect)
    
-    print "speed"
-    print rus.speed[1]
-    print "count"
-    print count
-    
+   
     
     count = rus.actions(count)
 
-    if(cbox.picked=="ground"):
-        cbox.stayOnGround()
-    if(cbox.picked=="pickedup"):
-        cbox.pickup(rus)
-    if(cbox.picked=="dropped"):
-        cbox.drop(rus)
-        cbox.picked = "ground"
+    box.pickupmotion(rus)
     
             
     # If the game is in focus, draw things
     rus.rect = pygame.Rect((rus.rect.width/2+rus.location[0],rus.rect.height/2+rus.location[1]),(rus.rect.width,rus.rect.height))
-    cboxdudeRect = pygame.Rect((cboxdudeRect.width/2+cbox.location[0],cboxdudeRect.height/2+cbox.location[1]),(cboxdudeRect.width,cboxdudeRect.height))
+    boxdudeRect = pygame.Rect((boxdudeRect.width/2+box.location[0],boxdudeRect.height/2+box.location[1]),(boxdudeRect.width,boxdudeRect.height))
     screen.blit(rus.image,rus.rect)
     refresh.append(rus.rect)
-    screen.blit(cboxdude,cboxdudeRect)
-    refresh.append(cboxdudeRect)
+    screen.blit(boxdude,boxdudeRect)
+    refresh.append(boxdudeRect)
 
     # update the parts of the screen that need it
     pygame.display.update( refresh )

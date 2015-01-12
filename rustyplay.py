@@ -136,7 +136,7 @@ while 1:
                     rus.state = "jumpup"
                     count = 0
             if event.key == pygame.K_SPACE:
-                if(rus.location[0]<cbox.location[0]+cboxdudeRect.width/2 and rus.location[0]>cbox.location[0]-cboxdudeRect.width/2):
+                if(rus.location[0]<cbox.location[0]+cboxdudeRect.width and rus.location[0]>cbox.location[0]-cboxdudeRect.width):
                     cbox.picked = "pickedup"
                 
         if event.type == pygame.KEYUP:

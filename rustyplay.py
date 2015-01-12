@@ -161,7 +161,7 @@ while 1:
     count = rus.actions(count)
 
     box.pickupmotion(rus)
-    
+    print box.picked
             
     # If the game is in focus, draw things
     rus.rect = pygame.Rect((rus.rect.width/2+rus.location[0],rus.rect.height/2+rus.location[1]),(rus.rect.width,rus.rect.height))

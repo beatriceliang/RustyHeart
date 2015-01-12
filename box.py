@@ -15,8 +15,8 @@ class Box:
 		self.originlocation.append(location[1])
 	def canBePicked(self,rus):
 		if(self.typeof=="cardboard"):
-			#if((rus.location[0]<self.location[0]+self.rect.width/2 and rus.location[0]>self.location[0]-self.rect.width/2)):
-			self.picked = "pickedup"
+			if((rus.location[0]<self.location[0]+self.rect.width/2 and rus.location[0]>self.location[0]-self.rect.width/2)):
+				self.picked = "pickedup"
 		
 	def canBeDropped(self):
 		if(self.typeof=="cardboard"):
@@ -25,16 +25,14 @@ class Box:
 		if(self.typeof=="cardboard"):
 			self.location[0] = rus.location[0]
 			self.location[1] = rus.location[1]
-			print "ruslocation"
-			print rus.location
-			print "boxlocation"
-			print self.location
+			
 		
 	def drop(self,rus):
 		if(rus.state=="ground"):
 			self.location[1] = self.location[1]
 		else:
 			self.location[1] = self.originlocation[1]
+		self.picked = "ground"
 	def stayOnGround(self):
 		self.location[0] = self.location[0]
 		self.location[1] = self.location[1]
@@ -46,5 +44,5 @@ class Box:
 			self.pickup(rus)
 		if(self.picked=="dropped"):
 			self.drop(rus)
-			self.picked = "ground"
+			
 

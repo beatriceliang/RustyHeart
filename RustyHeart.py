@@ -67,7 +67,7 @@ class RustyHeart:
 
 				quit = afont.render("press q to quit", True, (155,50,50))
 				self.screen.blit(quit,(250,300))
-				for event in pygame.event.get():
+				for event in pygame.ev ent.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							sys.exit()
@@ -78,7 +78,7 @@ class RustyHeart:
 				pygame.display.update(refresh)
 			
 			if self.state == "sandbox":
-				self.drawBkg(refresh)
+				self.drawBkg(refresh,'factory.png')
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:

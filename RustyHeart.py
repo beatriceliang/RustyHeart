@@ -6,7 +6,7 @@ import pygame
 class RustyHeart:
 	def __init__(self):
 		'''Creates an instance of Rusty, initializes pygame'''
-		self.rusty = rusty.Rusty((0,400),(0,0), "stationary" )
+		
 		self.state = "start"
 		pygame.init()
 
@@ -22,6 +22,7 @@ class RustyHeart:
 		#create screen
 		self.screen = pygame.display.set_mode(self.screensize)
 		
+		self.rusty = rusty.Rusty((0,400),(0,0), "stationary" )
 	def drawBkg(self, refresh,imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if imageName != None:

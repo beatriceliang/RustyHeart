@@ -65,7 +65,7 @@ class RustyHeart:
 				self.screen.blit(title,(140,150))
 
 				afont = pygame.font.SysFont("Times New Roman", 25, italic = True, bold = True)
-				space = afont.render("press enter to play", True, (155,50,50))
+				space = afont.render("press ENTER to play", True, (155,50,50))
 				self.screen.blit(space,(215,260))
 
 				quit = afont.render("press q to quit", True, (155,50,50))
@@ -162,16 +162,19 @@ class RustyHeart:
 			if self.state == "end":
 				'''Creates a game over page'''
 				self.drawBkg(refresh)	
-				afont = pygame.font.SysFont("Arial", 50)
+				afont = pygame.font.SysFont("Times New Roman", 50)
 				title = afont.render("Game Over",True,(0,0,0))
-				self.screen.blit(title,(0,0))
+				self.screen.blit(title,(210,20))
+				
+				rusty = pygame.image.load( "rustysmall.png" ).convert_alpha()
+				self.screen.blit( rusty, (200, 100) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				space = afont.render("press ENTER for new game", True, (155,50,50))
-				self.screen.blit(space,(210,260))
+				self.screen.blit(space,(210,360))
 
 				quit = afont.render("press q to quit", True, (155,50,50))
-				self.screen.blit(quit,(255,300))
+				self.screen.blit(quit,(265,390))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:

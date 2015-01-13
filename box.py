@@ -55,7 +55,6 @@ class Box:
 		elif self.state == 'dropped':
 			self.state = 'ground'
 			self.location[1] = self.rusty.location[1]+self.rusty.rect.height-self.rect.height/2
-			print self.rusty.left
 			if not self.rusty.left:
 				self.location[0] = self.rusty.location[0]+self.rect.width
 			else:

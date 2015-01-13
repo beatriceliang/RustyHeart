@@ -66,7 +66,7 @@ class RustyHeart:
 
 				afont = pygame.font.SysFont("Times New Roman", 25, italic = True, bold = True)
 				space = afont.render("press ENTER to play", True, (155,50,50))
-				self.screen.blit(space,(215,260))
+				self.screen.blit(space,(210,260))
 
 				quit = afont.render("press q to quit", True, (155,50,50))
 				self.screen.blit(quit,(240,300))

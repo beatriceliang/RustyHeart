@@ -64,17 +64,17 @@ class RustyHeart:
 				title = afont.render("Rusty Heart",True,(155,50,50))
 				self.screen.blit(title,(140,150))
 
-				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
-				space = afont.render("press n to continue", True, (155,50,50))
-				self.screen.blit(space,(200,250))
+				afont = pygame.font.SysFont("Times New Roman", 25, italic = True, bold = True)
+				space = afont.render("press enter to play", True, (155,50,50))
+				self.screen.blit(space,(215,260))
 
 				quit = afont.render("press q to quit", True, (155,50,50))
-				self.screen.blit(quit,(250,300))
+				self.screen.blit(quit,(240,300))
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							sys.exit()
-						if event.key == pygame.K_n:
+						if event.key == pygame.K_RETURN:
 							self.state = "sandbox"
 							pygame.mixer.music.load('chaos.mp3')
 							soundstate = "play"
@@ -127,8 +127,8 @@ class RustyHeart:
 					#Go back to beginning if dead
 					fall = pygame.mixer.Sound( "falling.wav" )
 					fall.play()
-					self.state = 'start'
-					pygame.mixer.music.load('start.mp3')
+					self.state = 'end'
+					pygame.mixer.music.load('AllThis.mp3')
 					soundstate = 'play'
 					self.rusty.left = False
 					self.rusty.speed = [0,0]
@@ -160,6 +160,31 @@ class RustyHeart:
 
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
+			
+			if self.state == "end":
+				'''Creates a game over page'''
+				self.drawBkg(refresh)	
+				afont = pygame.font.SysFont("Arial", 50)
+				title = afont.render("Game Over",True,(0,0,0))
+				self.screen.blit(title,(0,0))
+				
+				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
+				space = afont.render("press ENTER for new game", True, (155,50,50))
+				self.screen.blit(space,(210,260))
+
+				quit = afont.render("press q to quit", True, (155,50,50))
+				self.screen.blit(quit,(255,300))
+				
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_q:
+							sys.exit()
+						if event.key == pygame.K_RETURN:
+							self.state = "start"
+											
+				pygame.display.update(refresh)			
+
+				
 			if self.state == "credits":
 				'''Creates a credits page'''
 				credits = []

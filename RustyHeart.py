@@ -11,7 +11,7 @@ class RustyHeart:
 		self.state = "start"
 		pygame.init()
 
-		self.screensize = (640,480)
+		self.screensize = (640,479)
 		#set up fonts
 		try:
 			pygame.font.init()
@@ -122,6 +122,7 @@ class RustyHeart:
 					self.state = 'start'
 					pygame.mixer.music.load('start.mp3')
 					soundstate = 'play'
+					self.rusty.left = False
 					self.rusty.speed = [0,0]
 					self.rusty.location = [50,200]
 
@@ -130,7 +131,7 @@ class RustyHeart:
 				self.drawBkg(refresh,'factory.png',cbox.rect)
 
 				self.rusty.move([cbox,mbox])
-				cbox.motion()
+				cbox.move([mbox])
 
 				self.rusty.rect = pygame.Rect((self.rusty.rect.width/2+self.rusty.location[0],self.rusty.rect.height/2+self.rusty.location[1]),(self.rusty.rect.width,self.rusty.rect.height))
 				mbox.rect = pygame.Rect((mbox.rect.width/2+mbox.location[0],mbox.rect.height/2+mbox.location[1]),(mbox.rect.width,mbox.rect.height))

@@ -39,15 +39,17 @@ class Rusty:
         return (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
     # def nextToBox(self,box):
     #     return (box.rect.centery+box.rect.height/2 == self.rect.centery + self.rect.height/2) and ((box.rect.centerx +box.rect.width/2 == self.rect.centerx-self.rect.width/2)
-    def collide(self,box):
-        if((box.location[1]<self.location[1]+self.rect.height/2 and box.location[1]>self.location[1]-self.rect.height/2) and (box.location[0]<self.location[0]+self.rect.width/2 and box.location[0]>self.location[0]-self.rect.width/2)):
-            return True
+    # def collide(self,box):
+    #     if((box.location[1]<self.location[1]+self.rect.height/2 and box.location[1]>self.location[1]-self.rect.height/2) and (box.location[0]<self.location[0]+self.rect.width/2 and box.location[0]>self.location[0]-self.rect.width/2)):
+    #         return True
             
     def move(self,boxes):
         notOn = True
         b = None
         for box in boxes:
             if self.isOnBox(box):
+                if box == self.box:
+                    continue
                 notOn = False
                 b = box
 

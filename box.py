@@ -41,10 +41,6 @@ class Box:
 	def move(self,boxes):
 		if self.state == 'held':
 			self.location[0] = self.rusty.rect.centerx-self.rect.width
-			# if self.rusty.left:
-			# 	self.location[0] = self.rusty.location[0]-35
-			# else:
-			# 	self.location[0] = self.rusty.location[0]+self.rusty.rect.width
 			self.location[1] = self.rusty.location[1]-self.rect.height/2
 		elif self.state == 'ground':
 			self.location[0] = self.location[0]
@@ -59,10 +55,11 @@ class Box:
 		elif self.state == 'dropped':
 			self.state = 'ground'
 			self.location[1] = self.rusty.location[1]+self.rusty.rect.height-self.rect.height/2
+			print self.rusty.left
 			if not self.rusty.left:
-				self.location[0] = self.rusty.location[0]-self.rect.width
+				self.location[0] = self.rusty.location[0]+self.rect.width
 			else:
-				self.location[0] = self.rusty.location[0]+self.rusty.rect.width
+				self.location[0] = self.rusty.location[0]-self.rusty.rect.width
 			self.rusty.box = None
 
 

@@ -15,34 +15,24 @@ class Rusty:
         
         self.justJumped = False
         self.box = None
-        
     def speedLeft(self):
-        if self.left:
-            self.image = self.leftImage
-        else:
-            self.left = True
-        #if not self.nextToBox():
+        self.image = self.leftImage
+        self.left = True
 
-        self.speed[0]-=0.5
+        self.speed[0]=-0.5
     def speedRight(self):
-        if not self.left:
-            self.image = self.rightImage
-        else:
-            self.left = False
-        self.speed[0]+=0.5
+        self.image = self.rightImage
+        self.left = False
+        self.speed[0]=0.5
+    def stop(self):
+        self.speed[0] = 0
     def jump(self):
         if not self.justJumped:
-            #if(self.speed[1]> -2):
             self.speed[1]= -2
             self.justJumped = True
     def isOnBox(self,box):
         return (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
-    # def nextToBox(self,box):
-    #     return (box.rect.centery+box.rect.height/2 == self.rect.centery + self.rect.height/2) and ((box.rect.centerx +box.rect.width/2 == self.rect.centerx-self.rect.width/2)
-    # def collide(self,box):
-    #     if((box.location[1]<self.location[1]+self.rect.height/2 and box.location[1]>self.location[1]-self.rect.height/2) and (box.location[0]<self.location[0]+self.rect.width/2 and box.location[0]>self.location[0]-self.rect.width/2)):
-    #         return True
-            
+
     def move(self,boxes):
         notOn = True
         b = None
@@ -58,24 +48,13 @@ class Rusty:
         else:
             self.speed[1] = 0
             self.justJumped = False
-
-            #     if not self.justJumped:
-            #         self.speed[1] = 0
-
-            # if not self.isOnBox(box):
-
-            #     self.speed[1] += 0.5
-            #     self.justJumped = False
-            # else:
-            #     if not self.justJumped:
-            #         self.speed[1] = 0
              
         tempy = self.location[1]
         self.location[0]+=(self.rect.width/2)*self.speed[0]
         
         self.location[1]+=(self.rect.height/2)*self.speed[1]
         if b != None and not self.justJumped:
-            self.location[1] = b.location[1]-self.rect.height*1.12
+            self.location[1] = b.location[1]-self.rect.height*1.25
         
         
         

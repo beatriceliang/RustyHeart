@@ -94,11 +94,9 @@ class RustyHeart:
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
-							sys.exit()
-						if event.key == pygame.K_n:
-							self.state = "credits"
-							pygame.mixer.music.load('radiomartini.mp3')
-							soundstate = "play"
+							self.state = "end"
+							pygame.mixer.music.load('AllThis.mp3')
+							soundstate = 'play'
 
 						if event.key == pygame.K_LEFT:
 							self.rusty.speedLeft()
@@ -167,7 +165,7 @@ class RustyHeart:
 				self.screen.blit(title,(210,20))
 				
 				rusty = pygame.image.load( "rustysmall.png" ).convert_alpha()
-				self.screen.blit( rusty, (200, 100) )
+				self.screen.blit( rusty, (195, 100) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				space = afont.render("press ENTER for new game", True, (155,50,50))

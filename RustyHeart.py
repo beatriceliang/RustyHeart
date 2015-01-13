@@ -82,18 +82,18 @@ class RustyHeart:
 
 							self.drawBkg(refresh,'factory.png')
 							mbox = box.Box([-100,300],"metal",self.rusty,self.boxImages)
-							mbox2 = box.Box([0,300],"metal",self.rusty,self.boxImages)
+							mbox2 = box.Box([100,150],"metal",self.rusty,self.boxImages)
 							cbox = box.Box([100,240],"cardboard",self.rusty,self.boxImages)
+							
 							self.screen.blit( self.rusty.image, self.rusty.rect )
-
 							self.screen.blit(mbox2.image, mbox2.rect)
 							self.screen.blit( mbox.image, mbox.rect)
 							self.screen.blit( cbox.image, cbox.rect)
+							
 							pygame.display.update()
 				pygame.display.update(refresh)
 			
 			if self.state == "sandbox":
-				
 				for event in pygame.event.get():
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
@@ -127,18 +127,19 @@ class RustyHeart:
 								drop.play()
 				if self.rusty.rect.centery >480 :
 					#Go back to beginning if dead
+					self.rusty.left = False
+					self.rusty.speed = [0,0]
+					self.rusty.location = [self.rusty.start[0],self.rusty.start[1]+10]
 					fall = pygame.mixer.Sound( "falling.wav" )
 					fall.play()
 					self.state = 'end'
 					pygame.mixer.music.load('AllThis.mp3')
 					soundstate = 'play'
-					self.rusty.left = False
-					self.rusty.speed = [0,0]
-					self.rusty.location = [50,200]
+					
 
 				self.drawBkg(refresh,'factory.png',self.rusty.rect)
 				self.drawBkg(refresh,'factory.png',mbox.rect)
-				self.drawBkg(refresh,'factory.png',mbox2.rect)
+				self.drawBkg(refresh,'factory.png', mbox2.rect)
 				self.drawBkg(refresh,'factory.png',cbox.rect)
 
 				self.rusty.move([cbox,mbox,mbox2])
@@ -153,7 +154,7 @@ class RustyHeart:
 				refresh.append(self.rusty.rect)
 				self.screen.blit(mbox.image,mbox.rect)
 				refresh.append(mbox.rect)
-				self.screen.blit(mbox2.image,mbox.rect)
+				self.screen.blit(mbox2.image,mbox2.rect)
 				refresh.append(mbox2.rect)
 				self.screen.blit(cbox.image,cbox.rect)
 				refresh.append(cbox.rect)

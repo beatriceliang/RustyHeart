@@ -28,7 +28,7 @@ class Box:
 	def isOnBox(self,boxes):
 		for box in boxes:
 			if (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx):
-					return True
+					return box
 		return False
 	def move(self,boxes):
 		if self.state == 'held':
@@ -36,10 +36,10 @@ class Box:
 			self.location[1] = self.rusty.location[1]-self.rect.height/2
 		elif self.state == 'ground':
 			self.location[0] = self.location[0]
-
-			if self.isOnBox(boxes):
+			b = self.isOnBox(boxes)
+			if b != False:
 				self.yspeed = 0
-				self.location[1] = self.location[1]
+				self.location[1] = b.location[1]-self.rect.height
 			else:
 				self.yspeed += 0.2
 				self.location[1] += (self.rect.height/2)*self.yspeed

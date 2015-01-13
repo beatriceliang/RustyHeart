@@ -107,9 +107,13 @@ class RustyHeart:
 							self.rusty.speedRight()
 						if event.key == pygame.K_UP:
 							self.rusty.jump()
+							jump = pygame.mixer.Sound( "jumping.wav" )
+							jump.play()
 						if event.key == pygame.K_SPACE:
 							pygame.display.update(refresh)
 							cbox.pickUp()
+							pickup = pygame.mixer.Sound( "pickup.wav" )
+							pickup.play()
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT:
 							self.rusty.speedRight()
@@ -118,8 +122,12 @@ class RustyHeart:
 						if event.key == pygame.K_SPACE:
 							if self.rusty.box != None:
 								self.rusty.box.drop()
+								drop = pygame.mixer.Sound( "drop.wav" )
+								drop.play()
 				if self.rusty.rect.centery >480 :
 					#Go back to beginning if dead
+					fall = pygame.mixer.Sound( "falling.wav" )
+					fall.play()
 					self.state = 'start'
 					pygame.mixer.music.load('start.mp3')
 					soundstate = 'play'

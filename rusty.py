@@ -75,7 +75,7 @@ class Rusty:
         
         self.location[1]+=(self.rect.height/2)*self.speed[1]
         if b != None and not self.justJumped:
-            self.location[1] = b.location[1]-self.rect.height*1.2
+            self.location[1] = b.location[1]-self.rect.height*1.12
         
         
         

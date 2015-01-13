@@ -108,7 +108,7 @@ drawBkg( screen, text, refresh )
 # update the display before we start the main loop
 pygame.display.update()
 count = 0
-
+countbox = 0
 # respond to mouse motion events until someone clicks a mouse or hits a key
 print "Entering main loop"
 while 1:
@@ -140,14 +140,17 @@ while 1:
                 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
+<<<<<<< HEAD
                 rus.speedRight()
+=======
+                rus.speed[0] = 0
+>>>>>>> be467d61d6e76f3271312222de21af566f47c62d
                 rus.stateInAir = "notInAir"
             if event.key == pygame.K_RIGHT:
-                rus.speedLeft()
+                rus.speed[0] = 0
                 rus.stateInAir = "notInAir"
             if event.key == pygame.K_UP:
-                rus.speed[1] = 0
-                
+            	rus.speed[1] = 0
             if event.key == pygame.K_SPACE:
                 box.canBeDropped(rus)
                 
@@ -158,8 +161,9 @@ while 1:
    
    
     
-    count = rus.actions(count,box)
-
+    countList = rus.actions(count,countbox,box)
+    count = countList[0]
+    countbox = countList[1]
     box.pickupmotion(rus)
     #print box.picked
             

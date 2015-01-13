@@ -13,6 +13,8 @@ class Rusty:
         self.originLocation.append(location[1])
         
         self.image = pygame.image.load("rusty.png").convert_alpha()
+
+
         self.rect = self.image.get_rect()
 	self.onBox  = "notOnBox" 
 	

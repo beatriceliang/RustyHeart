@@ -4,7 +4,7 @@
 # useful imports
 import sys
 import random
-import rusty
+import RustyB
 import box
 # import pygame
 import pygame
@@ -15,8 +15,8 @@ screen = pygame.display.set_mode( (640, 480) )
 
 
 
-rus = rusty.Rusty([0,180],[0,0],"ground")
-box = box.Box([0,180],"ground","cardboard")
+rus = RustyB.Rusty()
+box = box.Box([0,400],"ground","cardboard")
 
 
 # initialize the fonts
@@ -127,27 +127,18 @@ while 1:
         if event.type == pygame.KEYDOWN:   
             if event.key == pygame.K_LEFT:
                 rus.speedLeft()
-                rus.stateInAir = "left"
             if event.key == pygame.K_RIGHT:
                 rus.speedRight()
-                rus.stateInAir = "right"
             if event.key == pygame.K_UP:
-                if(count>11):
-                    rus.state = "jumpup"
-                    count = 0
+                rus.jump()
             if event.key == pygame.K_SPACE:
                 box.canBePicked(rus)
                 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 rus.speedRight()
-                rus.stateInAir = "notInAir"
             if event.key == pygame.K_RIGHT:
                 rus.speedLeft()
-                rus.stateInAir = "notInAir"
-            if event.key == pygame.K_UP:
-                rus.speed[1] = 0
-                
             if event.key == pygame.K_SPACE:
                 box.canBeDropped(rus)
                 
@@ -156,9 +147,8 @@ while 1:
     drawBkg(screen,text,refresh,rus.rect)
     drawBkg(screen,text,refresh,box.rect)
    
-   
     
-    count = rus.actions(count,box)
+    rus.actions([box])
 
     box.pickupmotion(rus)
     #print box.picked

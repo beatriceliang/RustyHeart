@@ -2,9 +2,10 @@ import sys
 import random
 import pygame
 class Rusty:
-    def __init__(self):
+    def __init__(self,location):
         pygame.init()
-        self.location = [50,280]
+        self.start = (location[0],location[1])
+        self.location = location #[50,280]
         self.speed = [0,0]
         
         self.rightImage = pygame.image.load("rightrusty.png").convert_alpha()
@@ -31,7 +32,7 @@ class Rusty:
             self.speed[1]= -2
             self.justJumped = True
     def isOnBox(self,box):
-        return (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
+        return (box.rect.centery +box.rect.height/2 >= self.rect.centery +self.rect.height/2) and (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
 
     def move(self,boxes):
         notOn = True

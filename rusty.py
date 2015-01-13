@@ -2,9 +2,9 @@ import sys
 import random
 import pygame
 class Rusty:
-    def __init__(self):
+    def __init__(self,location):
         pygame.init()
-        self.location = [50,280]
+        self.location = location #[50,280]
         self.speed = [0,0]
         
         self.rightImage = pygame.image.load("rightrusty.png").convert_alpha()

@@ -24,7 +24,7 @@ class Box:
 		if(self.type=="cardboard"):
 			# if 
 			# (self.rusty.rect.centery + self.rusty.rect.height/2 == self.rect.centery +self.rusty.rect.height/2): #and self.location[0] >= self.rusty.centerx+self.width/2 or self.location[0] +self.rect.width <= self.rusty.centerx+self.width/2)
-			#if((self.rusty.rect.centerx+self.rusty.rect.width/2<self.location[0]+self.rect.width/2 and self.rusty.location[0]>self.location[0]-self.rect.width/2)):
+			if((self.rusty.location[0]<self.location[0]+self.rect.width*1.1 and self.rusty.location[0]>self.location[0]-self.rect.width*1.1)):
 				self.state = 'held'
 				self.rusty.box = self
 				

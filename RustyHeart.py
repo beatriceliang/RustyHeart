@@ -66,8 +66,8 @@ class RustyHeart:
 				self.screen.blit(title,(140,150))
 
 				afont = pygame.font.SysFont("Times New Roman", 25, italic = True, bold = True)
-				space = afont.render("press enter to play", True, (155,50,50))
-				self.screen.blit(space,(215,260))
+				space = afont.render("press ENTER to play", True, (155,50,50))
+				self.screen.blit(space,(210,260))
 
 				quit = afont.render("press q to quit", True, (155,50,50))
 				self.screen.blit(quit,(240,300))
@@ -98,11 +98,9 @@ class RustyHeart:
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
-							sys.exit()
-						if event.key == pygame.K_n:
-							self.state = "credits"
-							pygame.mixer.music.load('radiomartini.mp3')
-							soundstate = "play"
+							self.state = "end"
+							pygame.mixer.music.load('AllThis.mp3')
+							soundstate = 'play'
 
 						if event.key == pygame.K_LEFT:
 							self.rusty.speedLeft()
@@ -171,16 +169,19 @@ class RustyHeart:
 			if self.state == "end":
 				'''Creates a game over page'''
 				self.drawBkg(refresh)	
-				afont = pygame.font.SysFont("Arial", 50)
+				afont = pygame.font.SysFont("Times New Roman", 50)
 				title = afont.render("Game Over",True,(0,0,0))
-				self.screen.blit(title,(0,0))
+				self.screen.blit(title,(210,20))
+				
+				rusty = pygame.image.load( "rustysmall.png" ).convert_alpha()
+				self.screen.blit( rusty, (195, 100) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				space = afont.render("press ENTER for new game", True, (155,50,50))
-				self.screen.blit(space,(210,260))
+				self.screen.blit(space,(210,360))
 
 				quit = afont.render("press q to quit", True, (155,50,50))
-				self.screen.blit(quit,(255,300))
+				self.screen.blit(quit,(265,390))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
@@ -203,9 +204,9 @@ class RustyHeart:
 
 				afont = pygame.font.SysFont("Arial", 50)
 				title = afont.render("Credits",True,(0,0,0))
-				self.screen.blit(title,(0,0))
+				self.screen.blit(title,(10,0))
 
-				afont = pygame.font.SysFont("Lucida Console", 20)
+				afont = pygame.font.SysFont("Lucida Console", 18)
 				credits.append(afont.render("Producer: .......................Beatrice Liang", True,(0,0,0)))
 				credits.append(afont.render("Designer: .......................Luis Henriquez-Perez", True,(0,0,0)))
 				credits.append(afont.render("Lead Programmer: ................Itrat Akhter", True,(0,0,0)))
@@ -215,18 +216,18 @@ class RustyHeart:
 				resourcesLoc = 50
 				for i in range(len(credits)):
 					resourcesLoc += 25
-					self.screen.blit(credits[i], (0,resourcesLoc))
+					self.screen.blit(credits[i], (20,resourcesLoc))
 
 				afont = pygame.font.SysFont("Arial", 50)
 				title = afont.render("Resources", True,(0,0,0))
-				self.screen.blit(title,(0,resourcesLoc+40))
+				self.screen.blit(title,(10,resourcesLoc+40))
 
 				resources = []
 				afont = pygame.font.SysFont("Lucida Console", 15)
 				resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
 				resources.append(afont.render("Songs: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
 				for i in range(len(resources)):
-					self.screen.blit(resources[i],(0,resourcesLoc+110+20*i))
+					self.screen.blit(resources[i],(10,resourcesLoc+110+20*i))
 
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:

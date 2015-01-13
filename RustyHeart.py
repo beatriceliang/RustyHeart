@@ -81,7 +81,7 @@ class RustyHeart:
 
 							self.drawBkg(refresh,'factory.png')
 							mbox = box.Box([-100,400],"metal",self.rusty)
-							cbox = box.Box([100,360],"cardboard",self.rusty)
+							cbox = box.Box([100,340],"cardboard",self.rusty)
 							self.screen.blit( self.rusty.image, self.rusty.rect )
 							self.screen.blit( mbox.image, mbox.rect)
 							self.screen.blit( cbox.image, cbox.rect)
@@ -114,10 +114,8 @@ class RustyHeart:
 							pickup = pygame.mixer.Sound( "pickup.wav" )
 							pickup.play()
 					if event.type == pygame.KEYUP:
-						if event.key == pygame.K_LEFT:
-							self.rusty.speedRight()
-						if event.key == pygame.K_RIGHT:
-							self.rusty.speedLeft()
+						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+							self.rusty.stop()
 						if event.key == pygame.K_SPACE:
 							if self.rusty.box != None:
 								self.rusty.box.drop()

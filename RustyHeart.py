@@ -81,7 +81,7 @@ class RustyHeart:
 
 							self.drawBkg(refresh,'factory.png')
 							mbox = boxb.Box([-100,400],"metal",self.rusty)
-							cbox = boxb.Box([100,375],"cardboard",self.rusty)
+							cbox = boxb.Box([100,360],"cardboard",self.rusty)
 							self.screen.blit( self.rusty.image, self.rusty.rect )
 							self.screen.blit( mbox.image, mbox.rect)
 							self.screen.blit( cbox.image, cbox.rect)

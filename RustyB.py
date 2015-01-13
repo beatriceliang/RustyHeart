@@ -4,10 +4,10 @@ import pygame
 class Rusty:
     def __init__(self):
         pygame.init()
-        self.location = [50,320]
+        self.location = [50,280]
         self.speed = [0,0]
         
-        self.rightImage = pygame.image.load("rusty.png").convert_alpha()
+        self.rightImage = pygame.image.load("rightrusty.png").convert_alpha()
         self.leftImage = pygame.image.load("leftrusty.png").convert_alpha()
         self.image = self.rightImage
         self.left = False
@@ -32,8 +32,8 @@ class Rusty:
     	self.speed[0]+=0.5
     def jump(self):
         if not self.justJumped:
-            if(self.speed[1]> -1):
-                self.speed[1]= -1
+            #if(self.speed[1]> -2):
+            self.speed[1]= -2
             self.justJumped = True
     def isOnBox(self,box):
         return (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
@@ -45,15 +45,18 @@ class Rusty:
             
     def move(self,boxes):
         notOn = True
+        b = None
         for box in boxes:
             if self.isOnBox(box):
                 notOn = False
+                b = box
 
         if notOn ^ self.justJumped:
             self.speed[1] += 0.2
         else:
             self.speed[1] = 0
             self.justJumped = False
+
             #     if not self.justJumped:
             #         self.speed[1] = 0
 
@@ -69,6 +72,8 @@ class Rusty:
         self.location[0]+=(self.rect.width/2)*self.speed[0]
         
         self.location[1]+=(self.rect.height/2)*self.speed[1]
+        if b != None and not self.justJumped:
+            self.location[1] = b.location[1]-self.rect.height*1.2
         
         
         

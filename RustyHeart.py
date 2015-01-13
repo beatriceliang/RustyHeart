@@ -1,8 +1,8 @@
 import sys
 import random
-import RustyB
+import rusty
 import pygame
-import boxb
+import box
 
 class RustyHeart:
 	def __init__(self):
@@ -23,7 +23,7 @@ class RustyHeart:
 		#create screen
 		self.screen = pygame.display.set_mode(self.screensize)
 		
-		self.rusty = RustyB.Rusty()
+		self.rusty = rusty.Rusty()
 	def drawBkg(self, refresh,imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if imageName != None:
@@ -80,8 +80,8 @@ class RustyHeart:
 							soundstate = "play"
 
 							self.drawBkg(refresh,'factory.png')
-							mbox = boxb.Box([-100,400],"metal",self.rusty)
-							cbox = boxb.Box([100,360],"cardboard",self.rusty)
+							mbox = box.Box([-100,400],"metal",self.rusty)
+							cbox = box.Box([100,360],"cardboard",self.rusty)
 							self.screen.blit( self.rusty.image, self.rusty.rect )
 							self.screen.blit( mbox.image, mbox.rect)
 							self.screen.blit( cbox.image, cbox.rect)

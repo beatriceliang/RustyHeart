@@ -52,6 +52,7 @@ class RustyHeart:
 		pygame.mixer.music.play(-1)
 
 		while True:
+			print self.rusty.location
 			if soundstate == "play":
 				pygame.mixer.music.play(-1)
 				soundstate = "start"

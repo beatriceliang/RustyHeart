@@ -6,41 +6,69 @@ class Rusty:
         pygame.init()
         self.location = [50,320]
         self.speed = [0,0]
-
-        self.image = pygame.image.load("rusty.png").convert_alpha()
+        
+        self.rightImage = pygame.image.load("rusty.png").convert_alpha()
+        self.leftImage = pygame.image.load("leftrusty.png").convert_alpha()
+        self.image = self.rightImage
+        self.left = False
         self.rect = self.image.get_rect()
         
         self.justJumped = False
-
-    def move(self):
-        tempy = self.location[1]
-        self.location[0]+=(self.rect.width/2)*self.speed[0]
-        
-        self.location[1]+=(self.rect.height/2)*self.speed[1]
+        self.box = None
         
     def speedLeft(self):
+        if self.left:
+            self.image = self.leftImage
+        else:
+            self.left = True
         #if not self.nextToBox():
+
     	self.speed[0]-=0.5
     def speedRight(self):
+        if not self.left:
+            self.image = self.rightImage
+        else:
+            self.left = False
     	self.speed[0]+=0.5
     def jump(self):
-        if(self.speed[1]> -1.0):
-            self.speed[1]= -1.0
-        self.justJumped = True
+        if not self.justJumped:
+            if(self.speed[1]> -1):
+                self.speed[1]= -1
+            self.justJumped = True
     def isOnBox(self,box):
         return (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
     # def nextToBox(self,box):
     #     return (box.rect.centery+box.rect.height/2 == self.rect.centery + self.rect.height/2) and ((box.rect.centerx +box.rect.width/2 == self.rect.centerx-self.rect.width/2)
-    def actions(self,boxes):
+    def collide(self,box):
+        if((box.location[1]<self.location[1]+self.rect.height/2 and box.location[1]>self.location[1]-self.rect.height/2) and (box.location[0]<self.location[0]+self.rect.width/2 and box.location[0]>self.location[0]-self.rect.width/2)):
+            return True
+            
+    def move(self,boxes):
+        notOn = True
         for box in boxes:
-            if not self.isOnBox(box):
-                self.speed[1] += 0.5
-                self.justJumped = False
-            else:
-                if not self.justJumped:
-                    self.speed[1] = 0
+            if self.isOnBox(box):
+                notOn = False
+
+        if notOn ^ self.justJumped:
+            self.speed[1] += 0.2
+        else:
+            self.speed[1] = 0
+            self.justJumped = False
+            #     if not self.justJumped:
+            #         self.speed[1] = 0
+
+            # if not self.isOnBox(box):
+
+            #     self.speed[1] += 0.5
+            #     self.justJumped = False
+            # else:
+            #     if not self.justJumped:
+            #         self.speed[1] = 0
              
-        self.move()     
+        tempy = self.location[1]
+        self.location[0]+=(self.rect.width/2)*self.speed[0]
+        
+        self.location[1]+=(self.rect.height/2)*self.speed[1]
         
         
         

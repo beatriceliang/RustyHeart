@@ -2,7 +2,7 @@ import sys
 import random
 import RustyB
 import pygame
-import box
+import boxb
 
 class RustyHeart:
 	def __init__(self):
@@ -38,10 +38,6 @@ class RustyHeart:
 			if imageName == None:
 				self.screen.fill( (255, 255, 255), rect )
 			else:
-				# self.screen.fill((255,255,255),background.get_rect().clip(rect))
-				# clippedRect = background.get_rect().clip(rect)
-
-				# #urect = self.screen.blit(background,clippedRect,clippedRect)
 
 				self.screen.blit(background,rect,rect)
 			refresh.append( rect )
@@ -84,9 +80,11 @@ class RustyHeart:
 							soundstate = "play"
 
 							self.drawBkg(refresh,'factory.png')
-							cbbox = box.Box([0,400],"ground","ground")
+							mbox = boxb.Box([-100,400],"metal",self.rusty)
+							cbox = boxb.Box([100,375],"cardboard",self.rusty)
 							self.screen.blit( self.rusty.image, self.rusty.rect )
-							self.screen.blit( cbbox.image, cbbox.rect)
+							self.screen.blit( mbox.image, mbox.rect)
+							self.screen.blit( cbox.image, cbox.rect)
 							pygame.display.update()
 				pygame.display.update(refresh)
 			
@@ -109,16 +107,16 @@ class RustyHeart:
 						if event.key == pygame.K_UP:
 							self.rusty.jump()
 						if event.key == pygame.K_SPACE:
-							box.canBePicked(self.rusty)
 							pygame.display.update(refresh)
+							cbox.pickUp()
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT:
 							self.rusty.speedRight()
 						if event.key == pygame.K_RIGHT:
 							self.rusty.speedLeft()
 						if event.key == pygame.K_SPACE:
-							cbbox.canBeDropped(self.rusty)
-				
+							if self.rusty.box != None:
+								self.rusty.box.drop()
 				if self.rusty.rect.centery >480 :
 					#Go back to beginning if dead
 					self.state = 'start'
@@ -128,25 +126,29 @@ class RustyHeart:
 					self.rusty.location = [50,200]
 
 				self.drawBkg(refresh,'factory.png',self.rusty.rect)
-				self.drawBkg(refresh,'factory.png',cbbox.rect)
+				self.drawBkg(refresh,'factory.png',mbox.rect)
+				self.drawBkg(refresh,'factory.png',cbox.rect)
 
-				self.rusty.actions([cbbox])
-				cbbox.pickupmotion(self.rusty)
+				self.rusty.move([cbox,mbox])
+				cbox.motion()
 
 				self.rusty.rect = pygame.Rect((self.rusty.rect.width/2+self.rusty.location[0],self.rusty.rect.height/2+self.rusty.location[1]),(self.rusty.rect.width,self.rusty.rect.height))
-				cbbox.rect = pygame.Rect((cbbox.rect.width/2+cbbox.location[0],cbbox.rect.height/2+cbbox.location[1]),(cbbox.rect.width,cbbox.rect.height))
+				mbox.rect = pygame.Rect((mbox.rect.width/2+mbox.location[0],mbox.rect.height/2+mbox.location[1]),(mbox.rect.width,mbox.rect.height))
+				cbox.rect = pygame.Rect((cbox.rect.width/2+cbox.location[0],cbox.rect.height/2+cbox.location[1]),(cbox.rect.width,cbox.rect.height))
 				
 				self.screen.blit(self.rusty.image,self.rusty.rect)
 				refresh.append(self.rusty.rect)
-				self.screen.blit(cbbox.image,cbbox.rect)
-				refresh.append(cbbox.rect)
+				self.screen.blit(mbox.image,mbox.rect)
+				refresh.append(mbox.rect)
+				self.screen.blit(cbox.image,cbox.rect)
+				refresh.append(cbox.rect)
 
 				# update the parts of the screen that need it			
 				pygame.display.update(refresh)
 
 				# clear out the refresh rects
 				refresh = []
-				
+
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
 			if self.state == "credits":

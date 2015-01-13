@@ -181,6 +181,8 @@ class RustyHeart:
 							sys.exit()
 						if event.key == pygame.K_RETURN:
 							self.state = "start"
+							pygame.mixer.music.load('start.mp3')
+							soundstate = "play"
 											
 				pygame.display.update(refresh)			
 

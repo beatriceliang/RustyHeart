@@ -184,9 +184,13 @@ class RustyHeart:
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
-							sys.exit()
+							self.state = "credits"
+							pygame.mixer.music.load('radiomartini.mp3')
+							soundstate = "play"
 						if event.key == pygame.K_RETURN:
 							self.state = "start"
+							pygame.mixer.music.load('start.mp3')
+							soundstate = "play"
 											
 				pygame.display.update(refresh)			
 

@@ -147,8 +147,18 @@ class RustyHeart:
 					
 
 				self.drawBkg(refresh,'factory.png',self.rusty.rect)
+				
+				#handling collisions
 				for i in range(len(mboxes)):
 					self.drawBkg(refresh,'factory.png',mboxes[i].rect)
+					#handle collision when not jumping
+					if (not self.rusty.justJumped and self.rusty.rect.colliderect(mboxes[i].rect) and ((self.rusty.image==self.rusty.leftImage and self.rusty.location[0]>mboxes[i].location[0]+mboxes[i].rect.width) or (self.rusty.image==self.rusty.rightImage and self.rusty.location[0]<mboxes[i].location[0]+mboxes[i].rect.width))):
+						self.rusty.speed[0] = 0
+					#handle collision when jumping
+					collisionBox = self.rusty.rect.move((self.rusty.rect.width/2)*self.rusty.speed[0],-abs((self.rusty.rect.height/2)*self.rusty.speed[1]))
+					if (self.rusty.justJumped and self.rusty.location[1]>=mboxes[i].location[1] and collisionBox.colliderect(mboxes[i])):
+						self.rusty.justJumped = False
+						self.rusty.speed[0] = 0
 				for i in range(len(cboxes)):
 					self.drawBkg(refresh,'factory.png',cboxes[i].rect)
 					if(not self.rusty.justJumped and self.rusty.rect.colliderect(cboxes[i].rect) and ((self.rusty.image==self.rusty.leftImage and self.rusty.location[0]>cboxes[i].location[0]) or (self.rusty.image==self.rusty.rightImage and self.rusty.location[0]<cboxes[i].location[0]))):
@@ -164,8 +174,7 @@ class RustyHeart:
 					mboxes[i].rect = pygame.Rect((mboxes[i].rect.width/2+mboxes[i].location[0],mboxes[i].rect.height/2+mboxes[i].location[1]),(mboxes[i].rect.width,mboxes[i].rect.height))
 				for i in range(len(cboxes)):
 					cboxes[i].rect = pygame.Rect((cboxes[i].rect.width/2+cboxes[i].location[0],cboxes[i].rect.height/2+cboxes[i].location[1]),(cboxes[i].rect.width,cboxes[i].rect.height))
-				#mbox2.rect = pygame.Rect((mbox2.rect.width/2+mbox2.location[0],mbox2.rect.height/2+mbox2.location[1]),(mbox2.rect.width,mbox2.rect.height))
-
+			
 				self.screen.blit(self.rusty.image,self.rusty.rect)
 				refresh.append(self.rusty.rect)
 				for i in range(len(mboxes)):

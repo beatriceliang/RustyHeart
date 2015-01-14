@@ -27,7 +27,7 @@ class Box:
 		
 	def isOnBox(self,boxes):
 		for box in boxes:
-			if (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx):
+			if (box.rect.centery +box.rect.height/2 >= self.rect.centery +self.rect.height/2) and(box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx):
 					return box
 		return False
 	def move(self,boxes):

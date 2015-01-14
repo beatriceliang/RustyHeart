@@ -143,7 +143,9 @@ class RustyHeart:
 				self.drawBkg(refresh,'factory.png',mbox.rect)
 				self.drawBkg(refresh,'factory.png', mbox2.rect)
 				self.drawBkg(refresh,'factory.png',cbox.rect)
-
+				
+				if(not self.rusty.justJumped and self.rusty.rect.colliderect(cbox.rect) and ((self.rusty.image==self.rusty.leftImage and self.rusty.location[0]>cbox.location[0]) or (self.rusty.image==self.rusty.rightImage and self.rusty.location[0]<cbox.location[0]))):
+					self.rusty.speed[0] = 0
 				self.rusty.move([cbox,mbox,mbox2])
 				cbox.move([mbox,mbox2])
 

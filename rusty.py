@@ -32,14 +32,13 @@ class Rusty:
             self.justJumped = True
     def isOnBox(self,box):
         return (box.rect.centery +box.rect.height/2 >= self.rect.centery +self.rect.height/2) and (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
-
     def move(self,boxes):
         notOn = True
         b = None
         for box in boxes:
-            if not self.justJumped and self.left and self.rect.colliderect(box.rect) and self.rect.left <= box.rect.right and self.rect.bottom > box.rect.centery:
+            if not self.justJumped and self.left and self.rect.colliderect(box.rect) and self.rect.left <= box.rect.right and self.rect.right >=box.rect.right and self.rect.bottom > box.rect.centery:
                 self.stop()
-            elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.bottom > box.rect.centery:
+            elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.left <= box.rect.left and self.rect.bottom > box.rect.centery:
                 self.stop()
             if self.isOnBox(box):
                 if box == self.box:

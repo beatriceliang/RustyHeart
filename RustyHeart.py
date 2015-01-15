@@ -151,11 +151,11 @@ class RustyHeart:
 				#handling collisions
 				for i in range(len(mboxes)):
 					self.drawBkg(refresh,'factory.png',mboxes[i].rect)
-					'''#handle collision when not jumping
+					#handle collision when not jumping
 					if (not self.rusty.justJumped and self.rusty.rect.colliderect(mboxes[i].rect) and ((self.rusty.image==self.rusty.leftImage and self.rusty.location[0]>mboxes[i].location[0]+mboxes[i].rect.width) or (self.rusty.image==self.rusty.rightImage and self.rusty.location[0]<mboxes[i].location[0]+mboxes[i].rect.width))):
 						self.rusty.speed[0] = 0
 					#handle collision when jumping
-					collisionBox = self.rusty.rect.move((self.rusty.rect.width/2)*self.rusty.speed[0],-abs((self.rusty.rect.height/2)*self.rusty.speed[1]))
+					'''collisionBox = self.rusty.rect.move((self.rusty.rect.width/2)*self.rusty.speed[0],-abs((self.rusty.rect.height/2)*self.rusty.speed[1]))
 					if (self.rusty.justJumped and self.rusty.location[1]>=mboxes[i].location[1] and collisionBox.colliderect(mboxes[i])):
 						self.rusty.justJumped = False
 						self.rusty.speed[0] = 0'''

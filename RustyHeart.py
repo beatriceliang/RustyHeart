@@ -238,7 +238,8 @@ class RustyHeart:
 				resources = []
 				afont = pygame.font.SysFont("Lucida Console", 15)
 				resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
-				resources.append(afont.render("Songs: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
+				resources.append(afont.render("Music: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
+				resources.append(afont.render("Sounds: GarageBand", True, (0,0,0)))
 				for i in range(len(resources)):
 					self.screen.blit(resources[i],(10,resourcesLoc+110+20*i))
 

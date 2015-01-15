@@ -245,22 +245,21 @@ class RustyHeart:
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
-							sys.exit()
-						if event.key == pygame.K_SPACE:
 							self.state = "thanks"
 							pygame.mixer.music.load('spazzmaticpolka.mp3')
 							soundstate = "play"
 				pygame.display.update(refresh)
+				
 			if self.state == "thanks":
 				self.drawBkg(refresh)
 
-				afont = pygame.font.SysFont("Arial", 50)
+				afont = pygame.font.SysFont("Arial", 40)
 				title = afont.render("Special Thanks To",True,(0,0,0))
-				self.screen.blit(title,(0,0))
+				self.screen.blit(title,(150,30))
 
-				afont = pygame.font.SysFont("Arial", 70)
+				afont = pygame.font.SysFont("Arial", 40)
 				name = afont.render("Professor Bruce Maxwell",True,(0,0,0))
-				self.screen.blit(name,(0,50))
+				self.screen.blit(name,(100,100))
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						sys.exit()

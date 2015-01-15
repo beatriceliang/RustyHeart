@@ -253,7 +253,8 @@ class RustyHeart:
 				
 			if self.state == "thanks":
 				self.drawBkg(refresh)
-
+				bruce = pygame.image.load( "Bruce-Header-Collage.png" ).convert_alpha()
+				self.screen.blit( bruce, (220, 200) )
 				afont = pygame.font.SysFont("Arial", 40)
 				title = afont.render("Special Thanks To",True,(0,0,0))
 				self.screen.blit(title,(150,30))

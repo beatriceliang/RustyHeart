@@ -45,13 +45,22 @@ class RustyHeart:
 
 	def main(self):
 		refresh = []
+		cboxes = []
+		mboxes = []
 		self.drawBkg(refresh)
 		pygame.display.update()
 		
 		soundstate = "start"
 		pygame.mixer.music.load('start.mp3')
 		pygame.mixer.music.play(-1)
-
+		jump = pygame.mixer.Sound( "jumping.wav" )
+		jump.set_volume(0.05)
+		pickup = pygame.mixer.Sound( "pickup.wav" )
+		pickup.set_volume(0.05)
+		drop = pygame.mixer.Sound( "drop.wav" )
+		drop.set_volume(0.05)
+		fall = pygame.mixer.Sound( "falling.wav" )
+		fall.set_volume(0.05)
 		while True:
 			if soundstate == "play":
 				pygame.mixer.music.play(-1)
@@ -81,14 +90,16 @@ class RustyHeart:
 							soundstate = "play"
 
 							self.drawBkg(refresh,'factory.png')
-							mbox = box.Box([-100,300],"metal",self.rusty,self.boxImages)
-							mbox2 = box.Box([100,150],"metal",self.rusty,self.boxImages)
-							cbox = box.Box([100,240],"cardboard",self.rusty,self.boxImages)
+							mboxes.append(box.Box([-100,300],"metal",self.rusty,self.boxImages))
+							mboxes.append(box.Box([100,150],"metal",self.rusty,self.boxImages))
+							cboxes.append(box.Box([100,240],"cardboard",self.rusty,self.boxImages))
+							
 							
 							self.screen.blit( self.rusty.image, self.rusty.rect )
-							self.screen.blit(mbox2.image, mbox2.rect)
-							self.screen.blit( mbox.image, mbox.rect)
-							self.screen.blit( cbox.image, cbox.rect)
+							for i in range(len(mboxes)):
+								self.screen.blit(mboxes[i].image, mboxes[i].rect)
+							for i in range(len(cboxes)):
+								self.screen.blit( cboxes[i].image, cboxes[i].rect)
 							
 							pygame.display.update()
 				pygame.display.update(refresh)
@@ -108,14 +119,12 @@ class RustyHeart:
 							self.rusty.speedRight()
 						if event.key == pygame.K_UP:
 							self.rusty.jump()
-							jump = pygame.mixer.Sound( "jumping.wav" )
-							jump.set_volume(0.05)
+							
 							jump.play()
 						if event.key == pygame.K_SPACE:
 							pygame.display.update(refresh)
-							cbox.pickUp()
-							pickup = pygame.mixer.Sound( "pickup.wav" )
-							pickup.set_volume(0.05)
+							for i in range(len(cboxes)):
+								cboxes[i].pickUp()
 							pickup.play()
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -123,16 +132,14 @@ class RustyHeart:
 						if event.key == pygame.K_SPACE:
 							if self.rusty.box != None:
 								self.rusty.box.drop()
-								drop = pygame.mixer.Sound( "drop.wav" )
-								drop.set_volume(0.05)
+								
 								drop.play()
 				if self.rusty.rect.centery >480 :
 					#Go back to beginning if dead
 					self.rusty.left = False
 					self.rusty.speed = [0,0]
 					self.rusty.location = [self.rusty.start[0],self.rusty.start[1]+10]
-					fall = pygame.mixer.Sound( "falling.wav" )
-					fall.set_volume(0.05)
+					
 					fall.play()
 					self.state = 'end'
 					pygame.mixer.music.load('AllThis.mp3')
@@ -140,26 +147,42 @@ class RustyHeart:
 					
 
 				self.drawBkg(refresh,'factory.png',self.rusty.rect)
-				self.drawBkg(refresh,'factory.png',mbox.rect)
-				self.drawBkg(refresh,'factory.png', mbox2.rect)
-				self.drawBkg(refresh,'factory.png',cbox.rect)
-
-				self.rusty.move([cbox,mbox,mbox2])
-				cbox.move([mbox,mbox2])
+				
+				#handling collisions
+				for i in range(len(mboxes)):
+					self.drawBkg(refresh,'factory.png',mboxes[i].rect)
+					'''#handle collision when not jumping
+					if (not self.rusty.justJumped and self.rusty.rect.colliderect(mboxes[i].rect) and ((self.rusty.image==self.rusty.leftImage and self.rusty.location[0]>mboxes[i].location[0]+mboxes[i].rect.width) or (self.rusty.image==self.rusty.rightImage and self.rusty.location[0]<mboxes[i].location[0]+mboxes[i].rect.width))):
+						self.rusty.speed[0] = 0
+					#handle collision when jumping
+					collisionBox = self.rusty.rect.move((self.rusty.rect.width/2)*self.rusty.speed[0],-abs((self.rusty.rect.height/2)*self.rusty.speed[1]))
+					if (self.rusty.justJumped and self.rusty.location[1]>=mboxes[i].location[1] and collisionBox.colliderect(mboxes[i])):
+						self.rusty.justJumped = False
+						self.rusty.speed[0] = 0'''
+				for i in range(len(cboxes)):
+					self.drawBkg(refresh,'factory.png',cboxes[i].rect)
+					if(not self.rusty.justJumped and self.rusty.rect.colliderect(cboxes[i].rect) and ((self.rusty.image==self.rusty.leftImage and self.rusty.location[0]>cboxes[i].location[0]) or (self.rusty.image==self.rusty.rightImage and self.rusty.location[0]<cboxes[i].location[0]))):
+						self.rusty.speed[0] = 0
+				allboxes = []
+				allboxes = cboxes+mboxes
+				self.rusty.move(allboxes)
+				for i in range(len(cboxes)):
+					cboxes[i].move(mboxes)
 
 				self.rusty.rect = pygame.Rect((self.rusty.rect.width/2+self.rusty.location[0],self.rusty.rect.height/2+self.rusty.location[1]),(self.rusty.rect.width,self.rusty.rect.height))
-				mbox.rect = pygame.Rect((mbox.rect.width/2+mbox.location[0],mbox.rect.height/2+mbox.location[1]),(mbox.rect.width,mbox.rect.height))
-				cbox.rect = pygame.Rect((cbox.rect.width/2+cbox.location[0],cbox.rect.height/2+cbox.location[1]),(cbox.rect.width,cbox.rect.height))
-				mbox2.rect = pygame.Rect((mbox2.rect.width/2+mbox2.location[0],mbox2.rect.height/2+mbox2.location[1]),(mbox2.rect.width,mbox2.rect.height))
-
+				for i in range(len(mboxes)):
+					mboxes[i].rect = pygame.Rect((mboxes[i].rect.width/2+mboxes[i].location[0],mboxes[i].rect.height/2+mboxes[i].location[1]),(mboxes[i].rect.width,mboxes[i].rect.height))
+				for i in range(len(cboxes)):
+					cboxes[i].rect = pygame.Rect((cboxes[i].rect.width/2+cboxes[i].location[0],cboxes[i].rect.height/2+cboxes[i].location[1]),(cboxes[i].rect.width,cboxes[i].rect.height))
+			
 				self.screen.blit(self.rusty.image,self.rusty.rect)
 				refresh.append(self.rusty.rect)
-				self.screen.blit(mbox.image,mbox.rect)
-				refresh.append(mbox.rect)
-				self.screen.blit(mbox2.image,mbox2.rect)
-				refresh.append(mbox2.rect)
-				self.screen.blit(cbox.image,cbox.rect)
-				refresh.append(cbox.rect)
+				for i in range(len(mboxes)):
+					self.screen.blit(mboxes[i].image,mboxes[i].rect)
+					refresh.append(mboxes[i].rect)
+				for i in range(len(cboxes)):
+					self.screen.blit(cboxes[i].image,cboxes[i].rect)
+					refresh.append(cboxes[i].rect)
 
 				# update the parts of the screen that need it			
 				pygame.display.update(refresh)

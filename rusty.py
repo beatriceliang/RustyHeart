@@ -19,7 +19,6 @@ class Rusty:
     def speedLeft(self):
         self.image = self.leftImage
         self.left = True
-
         self.speed[0]=-0.5
     def speedRight(self):
         self.image = self.rightImage

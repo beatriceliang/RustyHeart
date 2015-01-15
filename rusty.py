@@ -37,6 +37,10 @@ class Rusty:
         notOn = True
         b = None
         for box in boxes:
+            if not self.justJumped and self.left and self.rect.colliderect(box.rect) and self.rect.left <= box.rect.right and self.rect.bottom > box.rect.centery:
+                self.stop()
+            elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.bottom > box.rect.centery:
+                self.stop()
             if self.isOnBox(box):
                 if box == self.box:
                     continue
@@ -48,13 +52,14 @@ class Rusty:
         else:
             self.speed[1] = 0
             self.justJumped = False
-             
+        
+       
         tempy = self.location[1]
         self.location[0]+=(self.rect.width/2)*self.speed[0]
         
         self.location[1]+=(self.rect.height/2)*self.speed[1]
         if b != None and not self.justJumped:
-            self.location[1] = b.location[1]-self.rect.height*1.25
+            self.location[1] = b.rect.top-self.rect.height*1.5
         
         
         

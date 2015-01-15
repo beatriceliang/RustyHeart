@@ -24,7 +24,7 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 		self.rusty = rusty.Rusty([50,180])
-		self.boxImages = {"metal":pygame.image.load("mbox.png").convert_alpha(),"cardboard":pygame.image.load("cbox.png").convert_alpha()}
+		self.boxImages = {"metal":pygame.image.load("mboxbw.png").convert_alpha(),"cardboard":pygame.image.load("cboxbw.png").convert_alpha()}
 	def drawBkg(self, refresh,imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if imageName != None:

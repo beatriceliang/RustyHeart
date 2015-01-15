@@ -40,6 +40,9 @@ class Rusty:
                 self.stop()
             elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.left <= box.rect.left and self.rect.bottom > box.rect.centery:
                 self.stop()
+            if self.rect.bottom >= box.rect.top and self.rect.top >=box.rect.top and (self.rect.left >= box.rect.left-self.rect.width/2 and self.rect.right <= box.rect.right+self.rect.width/2):
+            	self.justJumped = False
+            	self.speed[1] = 0
             if self.isOnBox(box):
                 if box == self.box:
                     continue

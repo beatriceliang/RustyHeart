@@ -60,7 +60,7 @@ class RustyHeart:
 		drop = pygame.mixer.Sound( "drop.wav" )
 		drop.set_volume(0.05)
 		fall = pygame.mixer.Sound( "falling.wav" )
-		fall.set_volume(0.05)
+		fall.set_volume(0.1)
 		while True:
 			if soundstate == "play":
 				pygame.mixer.music.play(-1)

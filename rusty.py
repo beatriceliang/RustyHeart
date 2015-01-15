@@ -8,8 +8,8 @@ class Rusty:
         self.location = location #[50,280]
         self.speed = [0,0]
         
-        self.rightImage = pygame.image.load("rightrusty.png").convert_alpha()
-        self.leftImage = pygame.image.load("leftrusty.png").convert_alpha()
+        self.rightImage = pygame.image.load("rightrustybw.png").convert_alpha()
+        self.leftImage = pygame.image.load("leftrustybw.png").convert_alpha()
         self.image = self.rightImage
         self.left = False
         self.rect = self.image.get_rect()

@@ -23,8 +23,9 @@ class RustyHeart:
 		#create screen
 		self.screen = pygame.display.set_mode(self.screensize)
 		
-		self.rusty = rusty.Rusty([50,180])
+		self.rusty = rusty.Rusty([5,180])
 		self.boxImages = {"metal":pygame.image.load("mboxbw.png").convert_alpha(),"cardboard":pygame.image.load("cboxbw.png").convert_alpha()}
+		self.objects = []
 	def drawBkg(self, refresh,imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if imageName != None:
@@ -42,11 +43,32 @@ class RustyHeart:
 
 				self.screen.blit(background,rect,rect)
 			refresh.append( rect )
+	def update(self,refresh, background=None):
+		self.drawBkg(refresh,background,self.rusty.rect)
+		if self.rusty.rect.right >= self.screensize[0]:
+			diffX = self.rusty.location[0]
+		elif self.rusty.rect.left <= 0:
 
+		 	diffX =  self.rusty.location[0] - self.screensize[0] + self.rusty.rect.width*2
+		else:
+			diffX = 0
+		self.rusty.move(self.objects)
+		self.rusty.location[0]=self.rusty.location[0]-diffX	
+		self.rusty.rect = pygame.Rect((self.rusty.rect.width/2+self.rusty.location[0],self.rusty.rect.height/2+self.rusty.location[1]),(self.rusty.rect.width,self.rusty.rect.height))
+		self.screen.blit(self.rusty.image,self.rusty.rect)
+		rm = []
+		for item in self.objects:
+			self.drawBkg(refresh,background,item.rect)
+			item.move(self.objects)
+			item.location[0] = item.location[0] -diffX
+			item.rect = pygame.Rect((item.rect.width/2+item.location[0],item.rect.height/2+item.location[1]),(item.rect.width,item.rect.height))
+			self.screen.blit(item.image,item.rect)
+
+		pygame.display.update(refresh)
+
+		refresh = []
 	def main(self):
 		refresh = []
-		self.drawBkg(refresh)
-		pygame.display.update()
 		
 		soundstate = "start"
 		pygame.mixer.music.load('start.mp3')
@@ -88,21 +110,26 @@ class RustyHeart:
 							soundstate = "play"
 
 							self.drawBkg(refresh,'factory.png')
-							mbox = box.Box([-100,300],"metal",self.rusty,self.boxImages)
+							mbox = box.Box([-100,410],"metal",self.rusty,self.boxImages)
+							cbox =  box.Box([50,240],"cardboard",self.rusty,self.boxImages)
+							cbox2 =  box.Box([100,240],"cardboard",self.rusty,self.boxImages)
+							cbox3 =  box.Box([150,240],"cardboard",self.rusty,self.boxImages)
+							cbox4 =  box.Box([200,240],"cardboard",self.rusty,self.boxImages)
 							mbox2 = box.Box([100,150],"metal",self.rusty,self.boxImages)
-							cbox =  box.Box([100,240],"cardboard",self.rusty,self.boxImages)
+							mbox3 = box.Box([300,300],"metal",self.rusty,self.boxImages)
 							
 							
-							self.screen.blit( self.rusty.image, self.rusty.rect )
-							self.screen.blit(mbox.image, mbox.rect)
-							self.screen.blit(mbox2.image, mbox2.rect)
-							self.screen.blit(cbox.image, cbox.rect)
-							
-							
+							self.objects = [mbox,mbox2,cbox,mbox3,cbox2,cbox3,cbox4]
+
+							self.screen.blit(self.rusty.image,self.rusty.rect)
+							for item in self.objects:
+								self.screen.blit(item.image, item.rect)
+
 							pygame.display.update()
 				pygame.display.update(refresh)
 			
 			if self.state == "sandbox":
+
 				for event in pygame.event.get():
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
@@ -144,40 +171,10 @@ class RustyHeart:
 					soundstate = 'play'
 					
 
-				self.drawBkg(refresh,'factory.png',self.rusty.rect)
-				self.drawBkg(refresh,'factory.png',mbox.rect)
-				self.drawBkg(refresh,'factory.png',mbox2.rect)	
-				self.drawBkg(refresh,'factory.png',cbox.rect)
-				
-				self.rusty.move([cbox,mbox,mbox2])
-				cbox.move([mbox,mbox2])
-				
-				
-				self.rusty.rect = pygame.Rect((self.rusty.rect.width/2+self.rusty.location[0],self.rusty.rect.height/2+self.rusty.location[1]),(self.rusty.rect.width,self.rusty.rect.height))
-				
-				mbox.rect = pygame.Rect((mbox.rect.width/2+mbox.location[0],mbox.rect.height/2+mbox.location[1]),(mbox.rect.width,mbox.rect.height))
-				mbox2.rect = pygame.Rect((mbox2.rect.width/2+mbox2.location[0],mbox2.rect.height/2+mbox2.location[1]),(mbox2.rect.width,mbox2.rect.height))
-				
-				cbox.rect = pygame.Rect((cbox.rect.width/2+cbox.location[0],cbox.rect.height/2+cbox.location[1]),(cbox.rect.width,cbox.rect.height))
-			
-				self.screen.blit(self.rusty.image,self.rusty.rect)
-				refresh.append(self.rusty.rect)
-				self.screen.blit(mbox.image,mbox.rect)
-				refresh.append(mbox.rect)
-				self.screen.blit(mbox2.image,mbox2.rect)
-				refresh.append(mbox2.rect)
-				self.screen.blit(cbox.image,cbox.rect)
-				refresh.append(cbox.rect)
-				
-
-				# update the parts of the screen that need it			
-				pygame.display.update(refresh)
-
-				# clear out the refresh rects
-				refresh = []
+				self.update(refresh,'factory.png')
 
 				# throttle the game speed to 30fps
-				self.clock.tick(30)
+				self.clock.tick(60)
 			
 			if self.state == "end":
 				'''Creates a game over page'''
@@ -238,6 +235,7 @@ class RustyHeart:
 				resources = []
 				afont = pygame.font.SysFont("Lucida Console", 15)
 				resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
+				resources.append(afont.render("Bruce: http://cs.colby.edu/maxwell/", True, (0,0,0)))
 				resources.append(afont.render("Music: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
 				resources.append(afont.render("Sounds: GarageBand", True, (0,0,0)))
 				for i in range(len(resources)):

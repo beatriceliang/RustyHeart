@@ -12,7 +12,7 @@ class Rusty:
         self.leftImage = pygame.image.load("leftrustybw.png").convert_alpha()
         self.image = self.rightImage
         self.left = False
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect().move(self.start[0],self.start[1])
         
         self.justJumped = False
         self.box = None

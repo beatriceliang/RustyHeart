@@ -36,20 +36,21 @@ class Rusty:
         notOn = True
         b = None
         for box in boxes:
-            if not self.justJumped and self.left and self.rect.colliderect(box.rect) and self.rect.left <= box.rect.right and self.rect.right >=box.rect.right and self.rect.bottom > box.rect.centery:
-                self.stop()
-            elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.left <= box.rect.left and self.rect.bottom > box.rect.centery:
-                self.stop()
-            #first if statement: to make sure that rusty falls off quickly from a metal box(die quickly just die!)    
-            if box.type =="metal" and abs(self.rect.top-box.rect.top)<=box.rect.height and self.rect.bottom >= box.rect.top and self.rect.top >=box.rect.top and (self.rect.left >= box.rect.left-self.rect.width/2 and self.rect.right <= box.rect.right+self.rect.width/2):
-            	self.justJumped = False
-            	self.speed[1] = 0
-            
-            if self.isOnBox(box):
-                if box == self.box:
-                    continue
-                notOn = False
-                b = box
+            if box.rect.left <640 and box.rect.right>0:
+                if not self.justJumped and self.left and self.rect.colliderect(box.rect) and self.rect.left <= box.rect.right and self.rect.right >=box.rect.right and self.rect.bottom > box.rect.centery:
+                    self.stop()
+                elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.left <= box.rect.left and self.rect.bottom > box.rect.centery:
+                    self.stop()
+                #first if statement: to make sure that rusty falls off quickly from a metal box(die quickly just die!)    
+                if box.type =="metal" and abs(self.rect.top-box.rect.top)<=box.rect.height and self.rect.bottom >= box.rect.top and self.rect.top >=box.rect.top and (self.rect.left >= box.rect.left-self.rect.width/2 and self.rect.right <= box.rect.right+self.rect.width/2):
+                	self.justJumped = False
+                	self.speed[1] = 0
+                
+                if self.isOnBox(box):
+                    if box == self.box:
+                        continue
+                    notOn = False
+                    b = box
 
         if notOn ^ self.justJumped:
             self.speed[1] += 0.2

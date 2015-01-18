@@ -44,10 +44,10 @@ class RustyHeart:
 				self.screen.blit(background,rect,rect)
 			self.refresh.append( rect )
 	def blit(self,obj):
-		if obj.rect.right > 0 and obj.rect.left <640:
+		if obj.rect.right > 0 and obj.rect.left <self.screensize[0]:
 			self.screen.blit(obj.image,obj.rect)
 	def updateState(self,background=None):
-		if self.rusty.rect.centery >480 :
+		if self.rusty.rect.centery >self.screensize[1] :
 			#Go back to beginning if dead
 			self.rusty.left = False
 			self.rusty.speed = [0,0]
@@ -72,7 +72,7 @@ class RustyHeart:
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		rm = []
 		for item in self.objects:
-			if item.rect.left <640 and item.rect.right >0:
+			if item.rect.left <self.screensize[0] and item.rect.right >0:
 				self.drawBkg(background,item.rect)
 			item.move(self.objects)
 			item.location[0] = item.location[0] -diffX

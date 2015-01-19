@@ -151,14 +151,19 @@ class RustyHeart:
 				afont = pygame.font.SysFont("Times New Roman", 25, italic = True, bold = True)
 				space = afont.render("press ENTER to play", True, (255,255,255))
 				self.screen.blit(space,(210,350))
+				
+				instruct = afont.render("press i for instructions", True, (255,255,255))
+				self.screen.blit(instruct,(200,390))
 
 				quit = afont.render("press q to quit", True, (255,255,255))
-				self.screen.blit(quit,(240,390))
+				self.screen.blit(quit,(240,430))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							sys.exit()
+						if event.key == pygame.K_i:
+							self.state = "instructions"
 						if event.key == pygame.K_RETURN:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
@@ -212,12 +217,23 @@ class RustyHeart:
 					self.state = 'end'
 					pygame.mixer.music.load('music/AllThis.mp3')
 					soundstate = 'play'
-
+					
 				self.updateState('images/factory.png')
 
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
+
+			if self.state == "instructions":
+				'''Creates an instructions page'''
+				self.drawBkg()
+				afont = pygame.font.SysFont("Times New Roman", 50)
+				title = afont.render("Instructions",True,(0,0,0))
+				self.screen.blit(title,(200,20))
+				
+				arrows = pygame.image.load( "images/arrowkeys.png" ).convert_alpha()
+				self.screen.blit( arrows, (10, 100) )
 			
+<<<<<<< HEAD
 				#code for the death involving spikes
 				for spike in self.Spikes:
 					if spike.collidesWith(self.rusty.rect):
@@ -229,6 +245,43 @@ class RustyHeart:
 						self.state = 'end'
 						pygame.mixer.music.load('music/AllThis.mp3')
 						soundstate = 'play'
+=======
+				space = pygame.image.load( "images/spacebar.png" ).convert_alpha()
+				self.screen.blit( space, (40, 300) )
+				
+				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
+				jump = afont.render("press to jump",True,(0,0,0))
+				self.screen.blit(jump,(210,140))
+								
+				move = afont.render("press to move",True,(0,0,0))
+				self.screen.blit(move,(260,200))
+				
+				pickup = afont.render("hold to pickup boxes",True,(0,0,0))
+				self.screen.blit(pickup,(250,320))
+				
+				rustyleft = pygame.image.load( "images/leftrusty.png" ).convert_alpha()
+				self.screen.blit( rustyleft, (410, 120) )
+				
+				rustyright = pygame.image.load( "images/rightrusty.png" ).convert_alpha()
+				self.screen.blit( rustyright, (490, 120) )
+				
+				rustybox = pygame.image.load( "images/rustybox.png" ).convert_alpha()
+				self.screen.blit( rustybox, (430, 230) )
+				
+				space = afont.render("press ENTER to go back", True, (155,50,50))
+				self.screen.blit(space,(210,400))
+				
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_q:
+							sys.exit()
+						if event.key == pygame.K_RETURN:
+							self.state = "start"
+							pygame.mixer.music.load('music/start.mp3')
+							soundstate = "play"
+											
+				pygame.display.update(self.refresh)		
+>>>>>>> c1cc49b16d86ee566b21581b2285bff7b80bd6be
 			
 			if self.state == "end":
 				'''Creates a game over page'''

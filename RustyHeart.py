@@ -24,7 +24,7 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 		self.rusty = rusty.Rusty((5,180))
-		self.boxImages = {"metal3": pygame.image.load('mboxbw3.png').convert_alpha(),"metal":pygame.image.load("mbox1.png").convert_alpha(),"cardboard":pygame.image.load("cboxbw.png").convert_alpha()}
+		self.boxImages = {"metal3": pygame.image.load('images/mboxbw3.png').convert_alpha(),"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cboxbw.png").convert_alpha()}
 		self.objects = []
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -115,15 +115,15 @@ class RustyHeart:
 		self.refresh = []
 		
 		soundstate = "start"
-		pygame.mixer.music.load('start.mp3')
+		pygame.mixer.music.load('music/start.mp3')
 		pygame.mixer.music.play(-1)
-		jump = pygame.mixer.Sound( "jumping.wav" )
+		jump = pygame.mixer.Sound( "music/jumping.wav" )
 		jump.set_volume(0.05)
-		pickup = pygame.mixer.Sound( "pickup.wav" )
+		pickup = pygame.mixer.Sound( "music/pickup.wav" )
 		pickup.set_volume(0.05)
-		drop = pygame.mixer.Sound( "drop.wav" )
+		drop = pygame.mixer.Sound( "music/drop.wav" )
 		drop.set_volume(0.05)
-		fall = pygame.mixer.Sound( "falling.wav" )
+		fall = pygame.mixer.Sound( "music/falling.wav" )
 		fall.set_volume(0.1)
 		while True:
 			if soundstate == "play":
@@ -132,7 +132,7 @@ class RustyHeart:
 			if self.state == "start":
 				'''Creates the start screen'''
 				soundstate == "play"
-				self.drawBkg(imageName = "heartPicture.jpeg")
+				self.drawBkg(imageName = "images/heartPicture.jpeg")
 				
 				afont = pygame.font.SysFont("Arial", 72)
 				title = afont.render("Rusty Heart",True,(155,50,50))
@@ -150,9 +150,9 @@ class RustyHeart:
 							sys.exit()
 						if event.key == pygame.K_RETURN:
 							self.state = "sandbox"
-							pygame.mixer.music.load('chaos.mp3')
+							pygame.mixer.music.load('music/chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('level1.csv','factory.png')
+							self.loadLevel('levels/level1.csv','images/factory.png')
 
 							
 				pygame.display.update(self.refresh)
@@ -164,7 +164,7 @@ class RustyHeart:
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							self.state = "end"
-							pygame.mixer.music.load('AllThis.mp3')
+							pygame.mixer.music.load('music/AllThis.mp3')
 							soundstate = 'play'
 						if event.key == pygame.K_s:
 							self.rusty.fast = True
@@ -198,10 +198,10 @@ class RustyHeart:
 					
 					fall.play()
 					self.state = 'end'
-					pygame.mixer.music.load('AllThis.mp3')
+					pygame.mixer.music.load('music/AllThis.mp3')
 					soundstate = 'play'
 
-				self.updateState('factory.png')
+				self.updateState('images/factory.png')
 
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
@@ -213,7 +213,7 @@ class RustyHeart:
 				title = afont.render("Game Over",True,(0,0,0))
 				self.screen.blit(title,(210,20))
 				
-				rusty = pygame.image.load( "rustysmall.png" ).convert_alpha()
+				rusty = pygame.image.load( "images/rustysmall.png" ).convert_alpha()
 				self.screen.blit( rusty, (195, 100) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
@@ -227,11 +227,11 @@ class RustyHeart:
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							self.state = "credits"
-							pygame.mixer.music.load('radiomartini.mp3')
+							pygame.mixer.music.load('music/radiomartini.mp3')
 							soundstate = "play"
 						if event.key == pygame.K_RETURN:
 							self.state = "start"
-							pygame.mixer.music.load('start.mp3')
+							pygame.mixer.music.load('music/start.mp3')
 							soundstate = "play"
 											
 				pygame.display.update(self.refresh)			
@@ -275,13 +275,13 @@ class RustyHeart:
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							self.state = "thanks"
-							pygame.mixer.music.load('spazzmaticpolka.mp3')
+							pygame.mixer.music.load('music/spazzmaticpolka.mp3')
 							soundstate = "play"
 				pygame.display.update(self.refresh)
 				
 			if self.state == "thanks":
 				self.drawBkg()
-				bruce = pygame.image.load( "Bruce-Header-Collage.png" ).convert_alpha()
+				bruce = pygame.image.load( "images/Bruce-Header-Collage.png" ).convert_alpha()
 				self.screen.blit( bruce, (220, 200) )
 				afont = pygame.font.SysFont("Arial", 40)
 				title = afont.render("Special Thanks To",True,(0,0,0))

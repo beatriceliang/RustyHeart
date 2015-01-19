@@ -44,6 +44,10 @@ class Rusty:
         notOn = True
         b = None
         for box in boxes:
+            if self.rect.colliderect(box.rect):
+                box.collide = True
+            else:
+                box.collide = False
             if box.rect.left <640 and box.rect.right>0:
                 if not self.justJumped and self.left and self.rect.colliderect(box.rect) and self.rect.left <= box.rect.right and self.rect.right >=box.rect.right and self.rect.bottom > box.rect.centery:
                     self.stop()

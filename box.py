@@ -11,7 +11,7 @@ class Box:
 		self.type = boxtype
 		self.rusty = rusty
 		self.image = boxImages[boxtype]
-	
+		self.collide = False
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 	def pickUp(self):
 		if(self.type=="cardboard" and self.rusty.box == None):
@@ -26,8 +26,11 @@ class Box:
 	def isOnBox(self,boxes):
 		for box in boxes:
 			if box != self:
+				if self.rect.colliderect(box.rect):
+					box.collide = True
 				if (box.rect.bottom >= self.rect.bottom) and(box.rect.top <= self.rect.bottom) and (box.rect.right >= self.rect.centerx) and (box.rect.left <= self.rect.centerx):
 					return box
+
 		return False
 	def move(self,boxes,diffX):
 		

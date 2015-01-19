@@ -249,20 +249,20 @@ class RustyHeart:
 				self.screen.blit(title,(200,20))
 				
 				arrows = pygame.image.load( "images/arrowkeys.png" ).convert_alpha()
-				self.screen.blit( arrows, (10, 80) )
+				self.screen.blit( arrows, (75, 130) )
 
 				space = pygame.image.load( "images/spacebar.png" ).convert_alpha()
-				self.screen.blit( space, (45, 260) )
+				self.screen.blit( space, (60, 280) )
 				
 				rkey = pygame.image.load( "images/rkey.png" ).convert_alpha()
-				self.screen.blit( rkey, (140, 360) )
+				self.screen.blit( rkey, (120, 350) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				bounce = afont.render("press to jump",True,(0,0,0))
-				self.screen.blit(bounce,(210,120))
+				self.screen.blit(bounce,(200,120))
 								
 				move = afont.render("press to move",True,(0,0,0))
-				self.screen.blit(move,(260,180))
+				self.screen.blit(move,(245,180))
 				
 				upbox = afont.render("hold to pickup boxes",True,(0,0,0))
 				self.screen.blit(upbox,(255,280))

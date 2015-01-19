@@ -152,7 +152,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							pygame.mixer.music.load('chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('level1.csv','factory1.png')
+							self.loadLevel('level1.csv','factory.png')
 
 							
 				pygame.display.update(self.refresh)
@@ -201,7 +201,7 @@ class RustyHeart:
 					pygame.mixer.music.load('AllThis.mp3')
 					soundstate = 'play'
 
-				self.updateState('factory1.png')
+				self.updateState('factory.png')
 
 				# throttle the game speed to 30fps
 				self.clock.tick(30)

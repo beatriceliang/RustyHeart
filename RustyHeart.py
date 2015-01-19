@@ -23,7 +23,7 @@ class RustyHeart:
 		#create screen
 		self.screen = pygame.display.set_mode(self.screensize)
 		
-		self.rusty = rusty.Rusty([5,180])
+		self.rusty = rusty.Rusty((5,180))
 		self.boxImages = {"metal3": pygame.image.load('mboxbw3.png').convert_alpha(),"metal":pygame.image.load("mbox1.png").convert_alpha(),"cardboard":pygame.image.load("cboxbw.png").convert_alpha()}
 		self.objects = []
 	def drawBkg(self, imageName = None, rect = None):
@@ -49,15 +49,13 @@ class RustyHeart:
 	def updateState(self,background=None):
 		self.drawBkg(background,self.rusty.rect)
 		if self.rusty.rect.right >= self.screensize[0]:
-			diffX = self.rusty.location[0]
-		elif self.rusty.rect.left <= 0:
-
-		 	diffX =  self.rusty.location[0] - self.screensize[0] + self.rusty.rect.width*2
+			diffX = self.rusty.rect.left
+		elif self.rusty.rect.left < 0:
+		 	diffX =  self.rusty.rect.width- self.screensize[0]
 		else:
 			diffX = 0
-		self.rusty.move(self.objects)
-		self.rusty.location[0]=self.rusty.location[0]-diffX	
-		self.rusty.rect = pygame.Rect((self.rusty.rect.width/2+self.rusty.location[0],self.rusty.rect.height/2+self.rusty.location[1]),(self.rusty.rect.width,self.rusty.rect.height))
+		self.rusty.move(self.objects,diffX)
+		
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		rm = []
 		for item in self.objects:

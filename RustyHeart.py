@@ -80,7 +80,6 @@ class RustyHeart:
 		self.refresh = []
 	def loadLevel(self, level,background = None):
 		metalSize = self.boxImages["metal"].get_rect().width
-		metal3Size = self.boxImages["metal3"].get_rect().width
 		cardboardSize = self.boxImages["cardboard"].get_rect().width
 		self.drawBkg(background)
 		self.objects = []

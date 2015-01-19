@@ -214,7 +214,7 @@ class RustyHeart:
 			#------------------------------------------------------------
 			# code for the death involving spikes
 			# for spike in self.Spikes:
-			# 	if spike.collidesWith(Rusty):
+			# 	if spike.collidesWith(self.Rusty.rect):
 			# 		#Go back to beginning if dead
 			# 		self.rusty.left = False
 			# 		self.rusty.speed = [0,0]

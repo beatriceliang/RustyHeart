@@ -27,6 +27,7 @@ class RustyHeart:
 		self.rusty = rusty.Rusty((5,180))
 		self.boxImages = {"metal3": pygame.image.load('images/mboxbw3.png').convert_alpha(),"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
 		self.objects = []
+		self.Spikes = []
 
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -48,6 +49,7 @@ class RustyHeart:
 	def blit(self,obj):
 		if obj.rect.right > 0 or obj.rect.left <self.screensize[0]:
 			self.screen.blit(obj.image,obj.rect)
+			self.refresh.append(obj.rect)
 	def updateState(self,background=None):
 		self.drawBkg(background,self.rusty.rect)
 		if self.rusty.rect.right >= self.screensize[0]:
@@ -104,6 +106,12 @@ class RustyHeart:
 					self.objects.append(box.Box([column,row],"cardboard",self.rusty,self.boxImages))
 					column += cardboardSize
 					mCount = 0
+				elif obj == 's':
+					
+					spike = Spike.Spike([column, row])
+					self.objects.append(spike)
+					self.Spikes.append(spike)
+					column += 50
 			mCount = 0
 			column = 0
 			row +=50
@@ -161,7 +169,7 @@ class RustyHeart:
 				pygame.display.update(self.refresh)
 			
 			if self.state == "sandbox":
-
+				self.refresh = []
 				for event in pygame.event.get():
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
@@ -182,7 +190,8 @@ class RustyHeart:
 						if event.key == pygame.K_SPACE:
 							pygame.display.update(self.refresh)
 							for item in self.objects:
-								item.pickUp()
+								if item.type != 'spike':
+									item.pickUp()
 							pickup.play()
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -209,17 +218,17 @@ class RustyHeart:
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
 			
-			#code for the death involving spikes
-			for spike in self.Spikes:
-				if spike.collidesWith(self.Rusty.rect):
-					#Go back to beginning if dead
-					self.rusty.left = False
-					self.rusty.speed = [0,0]
-					
-					fall.play()
-					self.state = 'end'
-					pygame.mixer.music.load('music/AllThis.mp3')
-					soundstate = 'play'
+				#code for the death involving spikes
+				for spike in self.Spikes:
+					if spike.collidesWith(self.rusty.rect):
+						#Go back to beginning if dead
+						self.rusty.left = False
+						self.rusty.speed = [0,0]
+						
+						fall.play()
+						self.state = 'end'
+						pygame.mixer.music.load('music/AllThis.mp3')
+						soundstate = 'play'
 			
 			if self.state == "end":
 				'''Creates a game over page'''

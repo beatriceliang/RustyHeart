@@ -16,7 +16,7 @@ class Box:
 	def pickUp(self):
 		if(self.type=="cardboard" and self.rusty.box == None):
 			if not self.rusty.isOnBox(self):
-				if self.rusty.rect.bottom >= self.rect.centery and self.rusty.rect.bottom <= self.rect.bottom and ((self.rusty.left and self.rusty.rect.right >= self.rect.right and self.rusty.rect.left <= self.rect.right) or (not self.rusty.left and self.rusty.rect.left <= self.rect.left and self.rusty.rect.right >= self.rect.left)):
+				if ((self.rusty.left and self.rusty.rect.right >= self.rect.right and self.rusty.rect.left <= self.rect.right) or (not self.rusty.left and self.rusty.rect.left <= self.rect.left and self.rusty.rect.right >= self.rect.left)):
 					self.state = 'held'
 					self.rusty.box = self
 	def drop(self):

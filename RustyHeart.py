@@ -186,7 +186,7 @@ class RustyHeart:
 							self.state = "end"
 							pygame.mixer.music.load('music/AllThis.mp3')
 							soundstate = 'play'
-						if event.key == pygame.K_s:
+						if event.key == pygame.K_r:
 							self.rusty.fast = True
 						if event.key == pygame.K_LEFT:
 							self.rusty.speedLeft()
@@ -205,7 +205,7 @@ class RustyHeart:
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 							self.rusty.stop()
-						if event.key == pygame.K_s:
+						if event.key == pygame.K_r:
 							self.rusty.fast = False
 						if event.key == pygame.K_SPACE:
 							if self.rusty.box != None:
@@ -216,7 +216,8 @@ class RustyHeart:
 					#Go back to beginning if dead
 					self.rusty.left = False
 					self.rusty.speed = [0,0]
-					
+					self.rusty.box = None
+
 					fall.play()
 					self.state = 'end'
 					pygame.mixer.music.load('music/AllThis.mp3')
@@ -228,16 +229,17 @@ class RustyHeart:
 				self.clock.tick(30)
 
 				#code for the death involving spikes
-				# for spike in self.Spikes:
-				# 	if spike.collidesWith(self.rusty.rect):
-				# 		#Go back to beginning if dead
-				# 		self.rusty.left = False
-				# 		self.rusty.speed = [0,0]
+				for spike in self.Spikes:
+					if spike.collidesWith(self.rusty.rect):
+						#Go back to beginning if dead
+						self.rusty.left = False
+						self.rusty.speed = [0,0]
+						self.rusty.box = None
 						
-				# 		fall.play()
-				# 		self.state = 'end'
-				# 		pygame.mixer.music.load('music/AllThis.mp3')
-				# 		soundstate = 'play'
+						fall.play()
+						self.state = 'end'
+						pygame.mixer.music.load('music/AllThis.mp3')
+						soundstate = 'play'
 						
 			if self.state == "instructions":
 				'''Creates an instructions page'''

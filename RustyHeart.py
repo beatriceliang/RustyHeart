@@ -164,6 +164,8 @@ class RustyHeart:
 							sys.exit()
 						if event.key == pygame.K_i:
 							self.state = "instructions"
+							pygame.mixer.music.load('music/AdventureMeme.mp3')
+							soundstate = "play"
 						if event.key == pygame.K_RETURN:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
@@ -234,6 +236,7 @@ class RustyHeart:
 						self.state = 'end'
 						pygame.mixer.music.load('music/AllThis.mp3')
 						soundstate = 'play'
+						
 			if self.state == "instructions":
 				'''Creates an instructions page'''
 				self.drawBkg()
@@ -248,14 +251,14 @@ class RustyHeart:
 				self.screen.blit( space, (40, 300) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
-				jump = afont.render("press to jump",True,(0,0,0))
-				self.screen.blit(jump,(210,140))
+				bounce = afont.render("press to jump",True,(0,0,0))
+				self.screen.blit(bounce,(210,140))
 								
 				move = afont.render("press to move",True,(0,0,0))
 				self.screen.blit(move,(260,200))
 				
-				pickup = afont.render("hold to pickup boxes",True,(0,0,0))
-				self.screen.blit(pickup,(250,320))
+				upbox = afont.render("hold to pickup boxes",True,(0,0,0))
+				self.screen.blit(upbox,(250,320))
 				
 				rustyleft = pygame.image.load( "images/leftrusty.png" ).convert_alpha()
 				self.screen.blit( rustyleft, (410, 120) )

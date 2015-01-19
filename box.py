@@ -15,7 +15,7 @@ class Box:
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 	def pickUp(self):
 		if(self.type=="cardboard" and self.rusty.box == None):
-			if((self.rusty.isOnBox(self)==False) and (self.rusty.rect.left<self.location[0]+self.rect.width*1.1 and self.rusty.rect.left>self.location[0]-self.rect.width*1.1) and (self.rusty.rect.bottom<self.location[1]+self.rect.height*2 and self.rusty.rect.bottom>self.location[1]-self.rect.height*2)):
+			if((self.rusty.isOnBox(self)==False) and (self.rusty.rect.left<self.rect.left+self.rect.width*1.1 and self.rusty.rect.left>self.rect.left-self.rect.width*1.1) and (self.rusty.rect.bottom<self.rect.top+self.rect.height*2 and self.rusty.rect.bottom>self.rect.top-self.rect.height*2)):
 				self.state = 'held'
 				self.rusty.box = self
 	

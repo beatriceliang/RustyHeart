@@ -14,16 +14,25 @@ class Rusty:
         self.rect = self.image.get_rect().move(self.start[0],self.start[1])
         self.justJumped = False
         self.box = None
+
+        self.fast = False
     def speedLeft(self):
         self.image = self.leftImage
         self.left = True
-        self.speed[0]=-10
+        if self.fast:
+            self.speed[0]=-15
+        else:
+            self.speed[0]=-7
+
     def reset(self):
         self.rect = self.image.get_rect().move(self.start[0],self.start[1])
     def speedRight(self):
         self.image = self.rightImage
         self.left = False
-        self.speed[0]=10
+        if self.fast:
+            self.speed[0]=15
+        else:
+            self.speed[0]=7
     def stop(self):
         self.speed[0] = 0
     def jump(self):

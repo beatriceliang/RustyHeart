@@ -166,7 +166,8 @@ class RustyHeart:
 							self.state = "end"
 							pygame.mixer.music.load('AllThis.mp3')
 							soundstate = 'play'
-
+						if event.key == pygame.K_s:
+							self.rusty.fast = True
 						if event.key == pygame.K_LEFT:
 							self.rusty.speedLeft()
 						if event.key == pygame.K_RIGHT:
@@ -183,17 +184,17 @@ class RustyHeart:
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 							self.rusty.stop()
+						if event.key == pygame.K_s:
+							self.rusty.fast = False
 						if event.key == pygame.K_SPACE:
 							if self.rusty.box != None:
 								self.rusty.box.drop()
-								
 								drop.play()
 				
 				if self.rusty.rect.centery >self.screensize[1] :
 					#Go back to beginning if dead
 					self.rusty.left = False
 					self.rusty.speed = [0,0]
-					self.rusty.location = [self.rusty.start[0],self.rusty.start[1]+10]
 					
 					fall.play()
 					self.state = 'end'
@@ -203,7 +204,7 @@ class RustyHeart:
 				self.updateState('factory.png')
 
 				# throttle the game speed to 30fps
-				self.clock.tick(120)
+				self.clock.tick(30)
 			
 			if self.state == "end":
 				'''Creates a game over page'''

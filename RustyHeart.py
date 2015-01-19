@@ -179,7 +179,6 @@ class RustyHeart:
 				pygame.display.update(self.refresh)
 			
 			if self.state == "sandbox":
-				self.refresh = []
 				for event in pygame.event.get():
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
@@ -229,16 +228,16 @@ class RustyHeart:
 				self.clock.tick(30)
 
 				#code for the death involving spikes
-				for spike in self.Spikes:
-					if spike.collidesWith(self.rusty.rect):
-						#Go back to beginning if dead
-						self.rusty.left = False
-						self.rusty.speed = [0,0]
+				# for spike in self.Spikes:
+				# 	if spike.collidesWith(self.rusty.rect):
+				# 		#Go back to beginning if dead
+				# 		self.rusty.left = False
+				# 		self.rusty.speed = [0,0]
 						
-						fall.play()
-						self.state = 'end'
-						pygame.mixer.music.load('music/AllThis.mp3')
-						soundstate = 'play'
+				# 		fall.play()
+				# 		self.state = 'end'
+				# 		pygame.mixer.music.load('music/AllThis.mp3')
+				# 		soundstate = 'play'
 						
 			if self.state == "instructions":
 				'''Creates an instructions page'''

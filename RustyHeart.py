@@ -62,13 +62,19 @@ class RustyHeart:
 		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		for item in self.objects:
+			#print diffX
 			if(item.type=="cardboard" or diffX!=0 or item.collide):
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.drawBkg(background,item.rect)
-			if(diffX!=0 or item.type == "cardboard"):
+
+		for item in self.objects:
+			if(item.type=="cardboard" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
-			if(item.type=="cardboard" or diffX!=0 or item.collide):
-				self.blit(item)
+				if item.rect.left <self.screensize[0] and item.rect.right >0:
+					self.screen.blit(item.image,item.rect)
+					self.refresh.append(item.rect)
+			item.collide = False
+
 
 		pygame.display.update(self.refresh)
 
@@ -95,16 +101,6 @@ class RustyHeart:
 				elif obj == 'm':
 					self.objects.append(box.Box([column,row],"metal",self.rusty,self.boxImages))
 					column +=metalSize
-					if mCount <3:
-						mCount +=1
-					if mCount == 3:
-						mCount = 0
-						column -=3*metalSize
-						row +=1.5
-						self.objects = self.objects[:-3]
-						self.objects.append(box.Box([column,row],"metal3",self.rusty,self.boxImages))
-						column +=metal3Size
-						row -=1.5
 				elif obj == 'c':
 					
 					self.objects.append(box.Box([column,row],"cardboard",self.rusty,self.boxImages))

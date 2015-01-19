@@ -55,6 +55,7 @@ class Box:
 				else:
 					self.speed[0] = self.rusty.rect.left-self.rect.right
 				self.rusty.box = None
+		
 		self.rect.move_ip(self.speed[0]-diffX, self.speed[1])
 
 

@@ -62,10 +62,13 @@ class RustyHeart:
 		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		for item in self.objects:
-			if item.rect.left <self.screensize[0] and item.rect.right >0:
-				self.drawBkg(background,item.rect)
-			item.move(self.objects,diffX)
-			self.blit(item)
+			if(item.type=="cardboard" or diffX!=0):
+				if item.rect.left <self.screensize[0] and item.rect.right >0:
+					self.drawBkg(background,item.rect)
+			if(diffX!=0):
+				item.move(self.objects,diffX)
+			if(item.type=="cardboard" or diffX!=0):
+				self.blit(item)
 
 		pygame.display.update(self.refresh)
 

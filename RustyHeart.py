@@ -79,6 +79,7 @@ class RustyHeart:
 		cardboardSize = self.boxImages["cardboard"].get_rect().width
 		self.drawBkg(background)
 		self.objects = []
+		self.Spikes = []
 		fp = open(level,'r')
 		level = fp.read().split("\r")
 		fp.close()
@@ -212,7 +213,12 @@ class RustyHeart:
 								self.rusty.box.drop()
 								drop.play()
 				
-				if self.rusty.rect.centery >self.screensize[1] :
+				dead = False
+				for spike in self.Spikes:
+					if spike.collidesWith(self.rusty.rect):
+						dead = True	
+						break
+				if self.rusty.rect.centery >self.screensize[1] or dead == True:
 					#Go back to beginning if dead
 					self.rusty.left = False
 					self.rusty.speed = [0,0]
@@ -224,22 +230,8 @@ class RustyHeart:
 					soundstate = 'play'
 					
 				self.updateState('images/factory.png')
-
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
-
-				#code for the death involving spikes
-				for spike in self.Spikes:
-					if spike.collidesWith(self.rusty.rect):
-						#Go back to beginning if dead
-						self.rusty.left = False
-						self.rusty.speed = [0,0]
-						self.rusty.box = None
-						
-						fall.play()
-						self.state = 'end'
-						pygame.mixer.music.load('music/AllThis.mp3')
-						soundstate = 'play'
 						
 			if self.state == "instructions":
 				'''Creates an instructions page'''

@@ -146,17 +146,17 @@ class RustyHeart:
 				
 				afont = pygame.font.SysFont("Arial", 72)
 				title = afont.render("Rusty Heart",True,(255,255,255))
-				self.screen.blit(title,(140,60))
+				self.screen.blit(title,(120,60))
 
 				afont = pygame.font.SysFont("Times New Roman", 25, italic = True, bold = True)
 				space = afont.render("press ENTER to play", True, (255,255,255))
-				self.screen.blit(space,(210,350))
+				self.screen.blit(space,(190,350))
 				
 				instruct = afont.render("press i for instructions", True, (255,255,255))
-				self.screen.blit(instruct,(200,390))
+				self.screen.blit(instruct,(175,390))
 
 				quit = afont.render("press q to quit", True, (255,255,255))
-				self.screen.blit(quit,(240,430))
+				self.screen.blit(quit,(220,430))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:

@@ -25,7 +25,7 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 		self.rusty = rusty.Rusty((5,180))
-		self.boxImages = {"metal3": pygame.image.load('images/mboxbw3.png').convert_alpha(),"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
+		self.boxImages = {"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
 		self.objects = []
 		self.Spikes = []
 
@@ -62,7 +62,6 @@ class RustyHeart:
 		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		for item in self.objects:
-			#print diffX
 			if(item.type=="cardboard" or diffX!=0 or item.collide):
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.drawBkg(background,item.rect)
@@ -81,7 +80,6 @@ class RustyHeart:
 		self.refresh = []
 	def loadLevel(self, level,background = None):
 		metalSize = self.boxImages["metal"].get_rect().width
-		metal3Size = self.boxImages["metal3"].get_rect().width
 		cardboardSize = self.boxImages["cardboard"].get_rect().width
 		self.drawBkg(background)
 		self.objects = []

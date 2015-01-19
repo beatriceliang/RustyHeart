@@ -223,17 +223,6 @@ class RustyHeart:
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
 
-			if self.state == "instructions":
-				'''Creates an instructions page'''
-				self.drawBkg()
-				afont = pygame.font.SysFont("Times New Roman", 50)
-				title = afont.render("Instructions",True,(0,0,0))
-				self.screen.blit(title,(200,20))
-				
-				arrows = pygame.image.load( "images/arrowkeys.png" ).convert_alpha()
-				self.screen.blit( arrows, (10, 100) )
-			
-<<<<<<< HEAD
 				#code for the death involving spikes
 				for spike in self.Spikes:
 					if spike.collidesWith(self.rusty.rect):
@@ -245,7 +234,16 @@ class RustyHeart:
 						self.state = 'end'
 						pygame.mixer.music.load('music/AllThis.mp3')
 						soundstate = 'play'
-=======
+			if self.state == "instructions":
+				'''Creates an instructions page'''
+				self.drawBkg()
+				afont = pygame.font.SysFont("Times New Roman", 50)
+				title = afont.render("Instructions",True,(0,0,0))
+				self.screen.blit(title,(200,20))
+				
+				arrows = pygame.image.load( "images/arrowkeys.png" ).convert_alpha()
+				self.screen.blit( arrows, (10, 100) )
+
 				space = pygame.image.load( "images/spacebar.png" ).convert_alpha()
 				self.screen.blit( space, (40, 300) )
 				
@@ -281,7 +279,6 @@ class RustyHeart:
 							soundstate = "play"
 											
 				pygame.display.update(self.refresh)		
->>>>>>> c1cc49b16d86ee566b21581b2285bff7b80bd6be
 			
 			if self.state == "end":
 				'''Creates a game over page'''

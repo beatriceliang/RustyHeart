@@ -9,5 +9,5 @@ class Spike:
         self.location = location
         self.image = pygame.image.load("Spike.py")
         self.rect = self.image.get_rect().move(location[0], location[1])
-    def collidesRusty(self, Rusty):
+    def collidesWith(self, Rusty):
         return self.rect.colliderect(Rusty)

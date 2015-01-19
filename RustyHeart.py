@@ -3,6 +3,7 @@ import random
 import rusty
 import pygame
 import box
+import Spike
 
 class RustyHeart:
 	def __init__(self):
@@ -26,6 +27,7 @@ class RustyHeart:
 		self.rusty = rusty.Rusty((5,180))
 		self.boxImages = {"metal3": pygame.image.load('images/mboxbw3.png').convert_alpha(),"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
 		self.objects = []
+
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if imageName != None:
@@ -206,6 +208,18 @@ class RustyHeart:
 
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
+			
+			#code for the death involving spikes
+			for spike in self.Spikes:
+				if spike.collidesWith(self.Rusty.rect):
+					#Go back to beginning if dead
+					self.rusty.left = False
+					self.rusty.speed = [0,0]
+					
+					fall.play()
+					self.state = 'end'
+					pygame.mixer.music.load('music/AllThis.mp3')
+					soundstate = 'play'
 			
 			if self.state == "end":
 				'''Creates a game over page'''

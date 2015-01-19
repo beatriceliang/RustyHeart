@@ -24,7 +24,7 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 		self.rusty = rusty.Rusty((5,180))
-		self.boxImages = {"metal3": pygame.image.load('images/mboxbw3.png').convert_alpha(),"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cboxbw.png").convert_alpha()}
+		self.boxImages = {"metal3": pygame.image.load('images/mboxbw3.png').convert_alpha(),"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
 		self.objects = []
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -132,18 +132,19 @@ class RustyHeart:
 			if self.state == "start":
 				'''Creates the start screen'''
 				soundstate == "play"
-				self.drawBkg(imageName = "images/heartPicture.jpeg")
+				self.drawBkg(imageName = "images/heartPicture.png")
 				
 				afont = pygame.font.SysFont("Arial", 72)
-				title = afont.render("Rusty Heart",True,(155,50,50))
-				self.screen.blit(title,(140,150))
+				title = afont.render("Rusty Heart",True,(255,255,255))
+				self.screen.blit(title,(140,60))
 
 				afont = pygame.font.SysFont("Times New Roman", 25, italic = True, bold = True)
-				space = afont.render("press ENTER to play", True, (155,50,50))
-				self.screen.blit(space,(210,260))
+				space = afont.render("press ENTER to play", True, (255,255,255))
+				self.screen.blit(space,(210,350))
 
-				quit = afont.render("press q to quit", True, (155,50,50))
-				self.screen.blit(quit,(240,300))
+				quit = afont.render("press q to quit", True, (255,255,255))
+				self.screen.blit(quit,(240,390))
+				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
@@ -264,7 +265,7 @@ class RustyHeart:
 
 				resources = []
 				afont = pygame.font.SysFont("Lucida Console", 15)
-				resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
+				#resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
 				resources.append(afont.render("Bruce: http://cs.colby.edu/maxwell/", True, (0,0,0)))
 				resources.append(afont.render("Music: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
 				resources.append(afont.render("Sounds: GarageBand", True, (0,0,0)))

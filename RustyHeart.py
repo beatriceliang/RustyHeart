@@ -24,7 +24,7 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 		self.rusty = rusty.Rusty([5,180])
-		self.boxImages = {"metal":pygame.image.load("mbox1.png").convert_alpha(),"cardboard":pygame.image.load("cboxbw.png").convert_alpha()}
+		self.boxImages = {"metal3": pygame.image.load('mboxbw3.png').convert_alpha(),"metal":pygame.image.load("mbox1.png").convert_alpha(),"cardboard":pygame.image.load("cboxbw.png").convert_alpha()}
 		self.objects = []
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -47,17 +47,6 @@ class RustyHeart:
 		if obj.rect.right > 0 and obj.rect.left <self.screensize[0]:
 			self.screen.blit(obj.image,obj.rect)
 	def updateState(self,background=None):
-		if self.rusty.rect.centery >self.screensize[1] :
-			#Go back to beginning if dead
-			self.rusty.left = False
-			self.rusty.speed = [0,0]
-			self.rusty.location = [self.rusty.start[0],self.rusty.start[1]+10]
-			
-			self.fall.play()
-			self.state = 'end'
-			pygame.mixer.music.load('AllThis.mp3')
-			soundstate = 'play'
-
 		self.drawBkg(background,self.rusty.rect)
 		if self.rusty.rect.right >= self.screensize[0]:
 			diffX = self.rusty.location[0]
@@ -83,6 +72,9 @@ class RustyHeart:
 
 		self.refresh = []
 	def loadLevel(self, level,background = None):
+		metalSize = self.boxImages["metal"].get_rect().width
+		metal3Size = self.boxImages["metal3"].get_rect().width
+		cardboardSize = self.boxImages["cardboard"].get_rect().width
 		self.drawBkg(background)
 		self.objects = []
 		fp = open(level,'r')
@@ -90,18 +82,34 @@ class RustyHeart:
 		fp.close()
 		row = 0
 		column = -75
+
+		mCount = 0
 		for i in level:
 			for obj in i:
 				if obj == '.':
-					column += 50
+					column += metalSize
+					mCount = 0
 				elif obj == 'm':
-					column +=50
+					column +=metalSize
 					self.objects.append(box.Box([column,row],"metal",self.rusty,self.boxImages))
+					if mCount <3:
+						mCount +=1
+					if mCount == 3:
+						mCount = 0
+						column -=3*metalSize
+						row +=1.5
+						self.objects = self.objects[:-3]
+						self.objects.append(box.Box([column,row],"metal3",self.rusty,self.boxImages))
+						column +=metal3Size
+						row -=1.5
 				elif obj == 'c':
-					column +=50
+					column += cardboardSize
 					self.objects.append(box.Box([column,row],"cardboard",self.rusty,self.boxImages))
+					mCount = 0
+			mCount = 0
 			column = -75
 			row +=50
+		self.rusty.reset()
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		for item in self.objects:
 			self.blit(item)
@@ -119,8 +127,8 @@ class RustyHeart:
 		pickup.set_volume(0.05)
 		drop = pygame.mixer.Sound( "drop.wav" )
 		drop.set_volume(0.05)
-		self.fall = pygame.mixer.Sound( "falling.wav" )
-		self.fall.set_volume(0.1)
+		fall = pygame.mixer.Sound( "falling.wav" )
+		fall.set_volume(0.1)
 		while True:
 			if soundstate == "play":
 				pygame.mixer.music.play(-1)
@@ -149,6 +157,7 @@ class RustyHeart:
 							pygame.mixer.music.load('chaos.mp3')
 							soundstate = "play"
 							self.loadLevel('level1.csv','factory.png')
+
 							
 				pygame.display.update(self.refresh)
 			
@@ -183,12 +192,21 @@ class RustyHeart:
 								self.rusty.box.drop()
 								
 								drop.play()
-			
+				if self.rusty.rect.centery >self.screensize[1] :
+					#Go back to beginning if dead
+					self.rusty.left = False
+					self.rusty.speed = [0,0]
+					self.rusty.location = [self.rusty.start[0],self.rusty.start[1]+10]
+					
+					fall.play()
+					self.state = 'end'
+					pygame.mixer.music.load('AllThis.mp3')
+					soundstate = 'play'
 
 				self.updateState('factory.png')
 
 				# throttle the game speed to 30fps
-				self.clock.tick(60)
+				self.clock.tick(120)
 			
 			if self.state == "end":
 				'''Creates a game over page'''

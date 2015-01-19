@@ -44,7 +44,7 @@ class RustyHeart:
 				self.screen.blit(background,rect,rect)
 			self.refresh.append( rect )
 	def blit(self,obj):
-		if obj.rect.right > 0 and obj.rect.left <self.screensize[0]:
+		if obj.rect.right > 0 or obj.rect.left <self.screensize[0]:
 			self.screen.blit(obj.image,obj.rect)
 	def updateState(self,background=None):
 		self.drawBkg(background,self.rusty.rect)
@@ -54,16 +54,13 @@ class RustyHeart:
 		 	diffX =  self.rusty.rect.width- self.screensize[0]
 		else:
 			diffX = 0
-		self.rusty.move(self.objects,diffX)
 		
+		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)
-		rm = []
 		for item in self.objects:
 			if item.rect.left <self.screensize[0] and item.rect.right >0:
 				self.drawBkg(background,item.rect)
-			item.move(self.objects)
-			item.location[0] = item.location[0] -diffX
-			item.rect = pygame.Rect((item.rect.width/2+item.location[0],item.rect.height/2+item.location[1]),(item.rect.width,item.rect.height))
+			item.move(self.objects,diffX)
 			self.blit(item)
 
 		pygame.display.update(self.refresh)
@@ -79,7 +76,7 @@ class RustyHeart:
 		level = fp.read().split("\r")
 		fp.close()
 		row = 0
-		column = -75
+		column = 0
 
 		mCount = 0
 		for i in level:
@@ -88,8 +85,8 @@ class RustyHeart:
 					column += metalSize
 					mCount = 0
 				elif obj == 'm':
-					column +=metalSize
 					self.objects.append(box.Box([column,row],"metal",self.rusty,self.boxImages))
+					column +=metalSize
 					if mCount <3:
 						mCount +=1
 					if mCount == 3:
@@ -101,11 +98,12 @@ class RustyHeart:
 						column +=metal3Size
 						row -=1.5
 				elif obj == 'c':
-					column += cardboardSize
+					
 					self.objects.append(box.Box([column,row],"cardboard",self.rusty,self.boxImages))
+					column += cardboardSize
 					mCount = 0
 			mCount = 0
-			column = -75
+			column = 0
 			row +=50
 		self.rusty.reset()
 		self.screen.blit(self.rusty.image,self.rusty.rect)
@@ -190,6 +188,7 @@ class RustyHeart:
 								self.rusty.box.drop()
 								
 								drop.play()
+				
 				if self.rusty.rect.centery >self.screensize[1] :
 					#Go back to beginning if dead
 					self.rusty.left = False

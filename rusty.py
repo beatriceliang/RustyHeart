@@ -41,8 +41,7 @@ class Rusty:
                     self.stop()
                 elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.left <= box.rect.left and self.rect.bottom > box.rect.centery:
                     self.stop()
-                #first if statement: to make sure that rusty falls off quickly from a metal box(die quickly just die!)    
-                if box.type =="metal" and abs(self.rect.top-box.rect.top)<=box.rect.height and self.rect.bottom >= box.rect.top and self.rect.top >=box.rect.top and (self.rect.left >= box.rect.left-self.rect.width/2 and self.rect.right <= box.rect.right+self.rect.width/2):
+                if box.type =="metal" and self.rect.centerx > box.rect.left and self.rect.centerx <box.rect.right and self.rect.top >= box.rect.bottom and self.rect.top < box.rect.bottom + box.rect.height:
                 	self.justJumped = False
                 	self.speed[1] = 0
                 

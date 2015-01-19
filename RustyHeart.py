@@ -248,32 +248,38 @@ class RustyHeart:
 				self.screen.blit(title,(200,20))
 				
 				arrows = pygame.image.load( "images/arrowkeys.png" ).convert_alpha()
-				self.screen.blit( arrows, (10, 100) )
+				self.screen.blit( arrows, (10, 80) )
 
 				space = pygame.image.load( "images/spacebar.png" ).convert_alpha()
-				self.screen.blit( space, (40, 300) )
+				self.screen.blit( space, (45, 260) )
+				
+				rkey = pygame.image.load( "images/rkey.png" ).convert_alpha()
+				self.screen.blit( rkey, (140, 360) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				bounce = afont.render("press to jump",True,(0,0,0))
-				self.screen.blit(bounce,(210,140))
+				self.screen.blit(bounce,(210,120))
 								
 				move = afont.render("press to move",True,(0,0,0))
-				self.screen.blit(move,(260,200))
+				self.screen.blit(move,(260,180))
 				
 				upbox = afont.render("hold to pickup boxes",True,(0,0,0))
-				self.screen.blit(upbox,(250,320))
+				self.screen.blit(upbox,(255,280))
+				
+				fast = afont.render("press to speed up",True,(0,0,0))
+				self.screen.blit(fast,(250,360))
 				
 				rustyleft = pygame.image.load( "images/leftrusty.png" ).convert_alpha()
-				self.screen.blit( rustyleft, (410, 120) )
+				self.screen.blit( rustyleft, (410, 85) )
 				
 				rustyright = pygame.image.load( "images/rightrusty.png" ).convert_alpha()
-				self.screen.blit( rustyright, (490, 120) )
+				self.screen.blit( rustyright, (490, 85) )
 				
 				rustybox = pygame.image.load( "images/rustybox.png" ).convert_alpha()
-				self.screen.blit( rustybox, (430, 230) )
+				self.screen.blit( rustybox, (435, 185) )
 				
 				space = afont.render("press ENTER to go back", True, (155,50,50))
-				self.screen.blit(space,(210,400))
+				self.screen.blit(space,(210,430))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:

@@ -170,7 +170,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('levels/level1.csv','images/factory.png')
+							self.loadLevel('levels/level0.csv','images/factory.png')
 
 							
 				pygame.display.update(self.refresh)

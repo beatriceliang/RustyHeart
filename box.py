@@ -15,9 +15,10 @@ class Box:
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 	def pickUp(self):
 		if(self.type=="cardboard" and self.rusty.box == None):
-			if((self.rusty.isOnBox(self)==False) and (self.rusty.rect.left<self.rect.left+self.rect.width*1.1 and self.rusty.rect.left>self.rect.left-self.rect.width*1.1) and (self.rusty.rect.bottom<self.rect.top+self.rect.height*2 and self.rusty.rect.bottom>self.rect.top-self.rect.height*2)):
-				self.state = 'held'
-				self.rusty.box = self
+			if not self.rusty.isOnBox(self):
+				if (self.rusty.left and self.rusty.rect.right >= self.rect.right and self.rusty.rect.left <= self.rect.right) or (not self.rusty.left and self.rusty.rect.left <= self.rect.left and self.rusty.rect.right >= self.rect.left):
+					self.state = 'held'
+					self.rusty.box = self
 	
 	def drop(self):
 		if self.state == 'held':
@@ -26,15 +27,17 @@ class Box:
 	def isOnBox(self,boxes):
 		for box in boxes:
 			if box != self:
-				if (box.rect.centery +box.rect.height/2 >= self.rect.centery +self.rect.height/2) and(box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx):
+				if (box.rect.bottom >= self.rect.bottom) and(box.rect.top <= self.rect.bottom) and (box.rect.right >= self.rect.centerx) and (box.rect.left <= self.rect.centerx):
 					return box
 		return False
 	def move(self,boxes,diffX):
 		
 		if self.type == "cardboard":
+			
 			if self.state == 'held':
 				self.speed[0] = self.rusty.rect.centerx-self.rect.centerx
 				self.speed[1] = self.rusty.rect.top-self.rect.height-self.rect.top
+			
 			elif self.state == 'ground':
 				b = self.isOnBox(boxes)
 				self.speed[0] =0

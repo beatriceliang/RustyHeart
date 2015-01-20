@@ -9,6 +9,7 @@ class Heart:
     def __init__(self, location, visible)
        self.location = location
        self.visible = False
+       self.type = 'heart'
        self.image = pygame.image.load("Heart.pgn")
 
     def setVisible(self, visOrNot):

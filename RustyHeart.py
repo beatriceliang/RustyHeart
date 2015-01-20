@@ -29,7 +29,7 @@ class RustyHeart:
 		self.boxImages = {"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
 		self.objects = []
 		self.Spikes = []
-		self.Door = []
+		self.Door = None
 		self.cardboard = []
 
 	def drawBkg(self, imageName = None, rect = None):
@@ -179,7 +179,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('levels/level1.csv','images/factory.png')
+							self.loadLevel('levels/level0.csv','images/factory.png')
 
 							
 				pygame.display.update(self.refresh)
@@ -199,7 +199,7 @@ class RustyHeart:
 						if event.key == pygame.K_RIGHT:
 							self.rusty.speedRight()
 						if event.key == pygame.K_UP:
-							if self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
+							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.loadLevel('levels/level1.csv','images/factory.png')
 							else:
 								self.rusty.jump()

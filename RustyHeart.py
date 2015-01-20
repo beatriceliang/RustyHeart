@@ -168,7 +168,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('levels/level0.csv','images/factory.png')
+							self.loadLevel('levels/level1.csv','images/factory.png')
 
 							
 				pygame.display.update(self.refresh)
@@ -211,7 +211,7 @@ class RustyHeart:
 				for spike in self.Spikes:
 					if spike.collidesWith(self.rusty.rect):
 						dead = True	
-						break
+						break	
 				if self.rusty.rect.centery >self.screensize[1] or dead == True:
 					#Go back to beginning if dead
 					self.rusty.left = False
@@ -265,19 +265,68 @@ class RustyHeart:
 				rustybox = pygame.image.load( "images/rustybox.png" ).convert_alpha()
 				self.screen.blit( rustybox, (435, 185) )
 				
-				space = afont.render("press ENTER to go back", True, (155,50,50))
-				self.screen.blit(space,(210,430))
+				prevpg = afont.render("press left to go back", True, (155,50,50))
+				self.screen.blit(prevpg,(50,430))
+				
+				nextpg = afont.render("press right for next page", True, (155,50,50))
+				self.screen.blit(nextpg,(400,430))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							sys.exit()
-						if event.key == pygame.K_RETURN:
+						if event.key == pygame.K_LEFT:
 							self.state = "start"
 							pygame.mixer.music.load('music/start.mp3')
 							soundstate = "play"
-											
-				pygame.display.update(self.refresh)		
+						if event.key == pygame.K_RIGHT:
+							self.state = "instructions2"
+												
+				pygame.display.update(self.refresh)	
+				
+			if self.state == "instructions2":
+				'''Creates the second instructions page'''
+				self.drawBkg()
+				afont = pygame.font.SysFont("Times New Roman", 50)
+				title = afont.render("Instructions",True,(0,0,0))
+				self.screen.blit(title,(200,20))
+				
+				spikes = pygame.image.load( "images/spike.png" ).convert_alpha()
+				self.screen.blit( spikes, (100, 100) )
+				
+				heart = pygame.image.load( "images/littleheart.png" ).convert_alpha()
+				self.screen.blit( heart, (100, 250) )
+				
+				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
+				spikes = afont.render("avoid hitting the spikes",True,(0,0,0))
+				self.screen.blit(spikes,(220,120))
+				
+				heart = afont.render("collect the hearts",True,(0,0,0))
+				self.screen.blit(heart,(240,270))
+				
+				rustyspike = pygame.image.load( "images/rustyspike.png" ).convert_alpha()
+				self.screen.blit( rustyspike, (460, 40) )
+				
+				prevpg = afont.render("press left to go back", True, (155,50,50))
+				self.screen.blit(prevpg,(50,430))
+				
+				nextpg = afont.render("press right to play", True, (155,50,50))
+				self.screen.blit(nextpg,(400,430))
+				
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_q:
+							sys.exit()
+						if event.key == pygame.K_LEFT:
+							self.state = "instructions"
+							pygame.mixer.music.load('music/AdventureMeme.mp3')
+							soundstate = "play"
+						if event.key == pygame.K_RIGHT:
+							self.state = "start"
+							pygame.mixer.music.load('music/start.mp3')
+							soundstate = "play"
+												
+				pygame.display.update(self.refresh)						
 			
 			if self.state == "end":
 				'''Creates a game over page'''

@@ -27,7 +27,11 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 		self.rusty = rusty.Rusty((5,180))
-		self.boxImages = {"outdoor": {"metal":pygame.image.load("images/stump1.png").convert_alpha(),"cardboard":pygame.image.load("images/leaf.png").convert_alpha()},"factory":{"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}}
+
+		outdoor = {"metal":pygame.image.load("images/stump1.png").convert_alpha(),"cardboard":pygame.image.load("images/leaf.png").convert_alpha()}
+		factory = {"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
+
+		self.boxImages = {"outdoor": outdoor ,"factory":factory}
 		self.backgrounds = {"outdoor": pygame.image.load("images/outdoor.png"),"factory": pygame.image.load("images/factory.png").convert_alpha(),"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
 		self.objects = []
 		self.Spikes = []
@@ -157,37 +161,34 @@ class RustyHeart:
 		#pygame.mixer.music.play(-1)
 
 		#music
-		startMusic = pygame.mixer.Sound('music/CalltoAdventure.wav')
-		instructionsMusic = pygame.mixer.Sound('music/AdventureMeme.wav')
-		factoryMusic = pygame.mixer.Sound('music/EveningofChaos.wav')
-		outdoorMusic = pygame.mixer.Sound('music/Carefree.wav')
-		gameOverMusic = pygame.mixer.Sound('music/AllThis.wav')
-		creditsMusic = pygame.mixer.Sound('music/RadioMartini.wav')
-		bruceMusic = pygame.mixer.Sound('music/TakeaChance.wav')
+		startMusic = pygame.mixer.Sound('music/songs/CalltoAdventure.wav')
+		instructionsMusic = pygame.mixer.Sound('music/songs/AdventureMeme.wav')
+		factoryMusic = pygame.mixer.Sound('music/songs/EveningofChaos.wav')
+		outdoorMusic = pygame.mixer.Sound('music/songs/Carefree.wav')
+		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
+		creditsMusic = pygame.mixer.Sound('music/songs/RadioMartini.wav')
+		bruceMusic = pygame.mixer.Sound('music/songs/TakeaChance.wav')
 
 
 		#sounds
-		jump = pygame.mixer.Sound( "music/jumping.wav" )
+		jump = pygame.mixer.Sound( "music/sounds/jumping.wav" )
 		jump.set_volume(0.05)
-		pickup = pygame.mixer.Sound( "music/pickup.wav" )
+		pickup = pygame.mixer.Sound( "music/sounds/pickup.wav" )
 		pickup.set_volume(0.05)
-		drop = pygame.mixer.Sound( "music/drop.wav" )
+		drop = pygame.mixer.Sound( "music/sounds/drop.wav" )
 		drop.set_volume(0.05)
-		fall = pygame.mixer.Sound( "music/falling.wav" )
+		fall = pygame.mixer.Sound( "music/sounds/falling.wav" )
 		fall.set_volume(0.1)
-		spikes = pygame.mixer.Sound( "music/spikes.wav" )
+		spikes = pygame.mixer.Sound( "music/sounds/spikes.wav" )
 		spikes.set_volume(0.05)
-		level = pygame.mixer.Sound( "music/level.wav" )
+		level = pygame.mixer.Sound( "music/sounds/level.wav" )
 		level.set_volume(0.05)
-		wave = pygame.mixer.Sound( "music/wave.wav" )
+		wave = pygame.mixer.Sound( "music/sounds/wave.wav" )
 		wave.set_volume(0.1)
 
 		
 		startMusic.play(-1)
 		while True:
-			if soundstate == "play":
-				pygame.mixer.music.play(-1)
-				soundstate = "start"
 			if self.state == "start":
 				'''Creates the start screen'''
 				soundstate == "play"

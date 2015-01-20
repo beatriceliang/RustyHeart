@@ -122,7 +122,7 @@ class RustyHeart:
 					column += cardboardSize
 					mCount = 0
 				elif obj == 'C':
-					self.heart = Heart.Heart([column, row])
+					self.heart = Heart.Heart([column+10, row+10])
 					self.objects.append(self.heart)
 					cbox = box.Box([column,row],"cardboard",self.rusty,boxImages)
 					self.objects.append(cbox)
@@ -155,6 +155,9 @@ class RustyHeart:
 		soundstate = "start"
 		pygame.mixer.music.load('music/start.mp3')
 		pygame.mixer.music.play(-1)
+
+		startMusic = pygame.mixer.music.load('music/start.mp3')
+
 		jump = pygame.mixer.Sound( "music/jumping.wav" )
 		jump.set_volume(0.05)
 		pickup = pygame.mixer.Sound( "music/pickup.wav" )
@@ -201,7 +204,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('levels/level0.csv','factory')
+							self.loadLevel('levels/level0.csv','outdoor')
 
 							
 				pygame.display.update(self.refresh)
@@ -228,7 +231,7 @@ class RustyHeart:
 								self.Door = None
 								self.rusty.box = None
 								
-								self.loadLevel('levels/level1.csv','outdoor')
+								self.loadLevel('levels/level1.csv','factory')
 								level.play()
 
 								

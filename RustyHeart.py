@@ -297,12 +297,18 @@ class RustyHeart:
 				heart = pygame.image.load( "images/littleheart.png" ).convert_alpha()
 				self.screen.blit( heart, (105, 250) )
 				
+				door = pygame.image.load( "images/littledoor.png" ).convert_alpha()
+				self.screen.blit( door, (105, 330) )
+				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				spikes = afont.render("avoid hitting the spikes",True,(0,0,0))
 				self.screen.blit(spikes,(220,120))
 				
 				heart = afont.render("collect the hearts",True,(0,0,0))
 				self.screen.blit(heart,(240,270))
+				
+				door = afont.render("walk through to complete level",True,(0,0,0))
+				self.screen.blit(door,(190,345))
 				
 				rustyspike = pygame.image.load( "images/rustyspike.png" ).convert_alpha()
 				self.screen.blit( rustyspike, (460, 40) )

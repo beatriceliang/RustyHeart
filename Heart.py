@@ -6,11 +6,12 @@
 import pygame
 
 class Heart:
-    def __init__(self, location, visible)
+    def __init__(self, location):
        self.location = location
-       self.visible = False
+       #self.visible = False
        self.type = 'heart'
-       self.image = pygame.image.load("Heart.pgn")
+       self.image = pygame.image.load("images/littleHeart.png")
+       self.rect = self.image.get_rect().move(location[0],location[1])
 
-    def setVisible(self, visOrNot):
-        self.visible = True
+    def move(self, objects, diffX):
+		self.rect.move_ip(-diffX, 0)

@@ -278,7 +278,7 @@ class RustyHeart:
 				move = afont.render("press to move",True,(0,0,0))
 				self.screen.blit(move,(240,150))
 				
-				upbox = afont.render("hold to pickup boxes",True,(0,0,0))
+				upbox = afont.render("press to pickup/drop boxes",True,(0,0,0))
 				self.screen.blit(upbox,(255,270))
 				
 				fast = afont.render("press to speed up",True,(0,0,0))
@@ -291,7 +291,7 @@ class RustyHeart:
 				self.screen.blit( rustyright, (490, 85) )
 				
 				rustybox = pygame.image.load( "images/rustybox.png" ).convert_alpha()
-				self.screen.blit( rustybox, (435, 185) )
+				self.screen.blit( rustybox, (480, 185) )
 				
 				prevpg = afont.render("press left to go back", True, (155,50,50))
 				self.screen.blit(prevpg,(50,430))
@@ -320,10 +320,11 @@ class RustyHeart:
 				self.screen.blit(title,(200,20))
 				
 				spikes = pygame.image.load( "images/spike.png" ).convert_alpha()
-				self.screen.blit( spikes, (110, 100) )
+				self.screen.blit( spikes, (100, 100) )
 				
 				heart = pygame.image.load( "images/littleheart.png" ).convert_alpha()
 				self.screen.blit( heart, (105, 250) )
+				self.screen.blit( heart, (480, 250) )
 				
 				door = pygame.image.load( "images/littledoor.png" ).convert_alpha()
 				self.screen.blit( door, (105, 330) )
@@ -335,11 +336,14 @@ class RustyHeart:
 				heart = afont.render("collect the hearts",True,(0,0,0))
 				self.screen.blit(heart,(240,270))
 				
-				door = afont.render("walk through to complete level",True,(0,0,0))
-				self.screen.blit(door,(190,345))
+				door = afont.render("press up to walk through",True,(0,0,0))
+				self.screen.blit(door,(210,345))
 				
 				rustyspike = pygame.image.load( "images/rustyspike.png" ).convert_alpha()
 				self.screen.blit( rustyspike, (460, 40) )
+				
+				door = pygame.image.load( "images/rustydoor.png" ).convert_alpha()
+				self.screen.blit( door, (460, 300) )				
 				
 				prevpg = afont.render("press left to go back", True, (155,50,50))
 				self.screen.blit(prevpg,(50,430))
@@ -360,7 +364,7 @@ class RustyHeart:
 							pygame.mixer.music.load('music/start.mp3')
 							soundstate = "play"
 												
-				pygame.display.update(self.refresh)						
+				pygame.display.update(self.refresh)										
 			
 			if self.state == "end":
 				'''Creates a game over page'''

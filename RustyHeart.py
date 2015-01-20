@@ -164,8 +164,11 @@ class RustyHeart:
 		fall = pygame.mixer.Sound( "music/falling.wav" )
 		fall.set_volume(0.1)
 		spikes = pygame.mixer.Sound( "music/spikes.wav" )
-		spikes.set_volume(0.1)
+		spikes.set_volume(0.05)
 		level = pygame.mixer.Sound( "music/level.wav" )
+		level.set_volume(0.05)
+		wave = pygame.mixer.Sound( "music/wave.wav" )
+		wave.set_volume(0.1)
 		while True:
 			if soundstate == "play":
 				pygame.mixer.music.play(-1)
@@ -223,15 +226,17 @@ class RustyHeart:
 							self.rusty.speedRight()
 						if event.key == pygame.K_t:
 							self.rusty.wave()	
+							wave.play()
 						if event.key == pygame.K_UP:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.Door = None
 								self.rusty.box = None
-								
 								self.loadLevel('levels/level1.csv','outdoor')
 								level.play()
+								self.loadLevel('levels/level1.csv','factory')
+								pygame.mixer.music.load('music/Carefree.mp3')
+								soundstate = "play"
 
-								
 							else:
 								self.rusty.jump()
 								jump.play()
@@ -251,6 +256,7 @@ class RustyHeart:
 							self.rusty.stop()
 						if event.key == pygame.K_r:
 							self.rusty.fast = False
+						
 				
 				dead = False
 				for spike in self.Spikes:

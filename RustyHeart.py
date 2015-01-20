@@ -269,7 +269,7 @@ class RustyHeart:
 				self.screen.blit(prevpg,(50,430))
 				
 				nextpg = afont.render("press right for next page", True, (155,50,50))
-				self.screen.blit(nextpg,(400,430))
+				self.screen.blit(nextpg,(390,430))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
@@ -311,7 +311,7 @@ class RustyHeart:
 				self.screen.blit(prevpg,(50,430))
 				
 				nextpg = afont.render("press right to play", True, (155,50,50))
-				self.screen.blit(nextpg,(400,430))
+				self.screen.blit(nextpg,(440,430))
 				
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:

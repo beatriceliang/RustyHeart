@@ -9,6 +9,7 @@ class Rusty:
         
         self.rightImage = pygame.image.load("images/rightrusty.png").convert_alpha()
         self.leftImage = pygame.image.load("images/leftrusty.png").convert_alpha()
+        self.waveImage = pygame.image.load("images/rustysmaller.png").convert_alpha()
         self.image = self.rightImage
         self.left = False
         self.rect = self.image.get_rect().move(self.start[0],self.start[1])
@@ -34,6 +35,11 @@ class Rusty:
             self.speed[0]=5
     def stop(self):
         self.speed[0] = 0
+        
+    def wave(self):
+    	self.image = self.waveImage
+    	self.left = False
+        
     def jump(self):
         if not self.justJumped:
             self.speed[1]= -75

@@ -5,6 +5,7 @@ import pygame
 import box
 import Spike
 import Door
+import Heart
 
 class RustyHeart:
 	def __init__(self):
@@ -65,12 +66,12 @@ class RustyHeart:
 		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		for item in self.objects:
-			if(item.type=="cardboard" or diffX!=0 or item.collide):
+			if(item.type=="cardboard" or diffX!=0 or item.type=="heart" or item.collide):
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.drawBkg(background,item.rect)
 
 		for item in self.objects:
-			if(item.type=="cardboard" or item.type == "door" or diffX!=0 or item.collide):	
+			if(item.type=="cardboard" or item.type == "door" or item.type=="heart" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.screen.blit(item.image,item.rect)
@@ -104,6 +105,13 @@ class RustyHeart:
 					self.objects.append(box.Box([column,row],"metal",self.rusty,self.boxImages))
 					column +=metalSize
 				elif obj == 'c':
+					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
+					self.objects.append(cbox)
+					column += cardboardSize
+					mCount = 0
+				elif obj == 'C':
+					heart = Heart.Heart([column, row])
+					self.objects.append(heart)
 					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
 					self.objects.append(cbox)
 					column += cardboardSize
@@ -266,10 +274,10 @@ class RustyHeart:
 				move = afont.render("press to move",True,(0,0,0))
 				self.screen.blit(move,(240,150))
 				
-				upbox = afont.render("hold to pickup boxes",True,(0,0,0))
+				upbox = afont.render("press to pickup/drop boxes",True,(0,0,0))
 				self.screen.blit(upbox,(255,270))
 				
-				fast = afont.render("press to speed up",True,(0,0,0))
+				fast = afont.render("press to run",True,(0,0,0))
 				self.screen.blit(fast,(250,360))
 				
 				rustyleft = pygame.image.load( "images/leftrusty.png" ).convert_alpha()
@@ -279,7 +287,7 @@ class RustyHeart:
 				self.screen.blit( rustyright, (490, 85) )
 				
 				rustybox = pygame.image.load( "images/rustybox.png" ).convert_alpha()
-				self.screen.blit( rustybox, (435, 185) )
+				self.screen.blit( rustybox, (480, 185) )
 				
 				prevpg = afont.render("press left to go back", True, (155,50,50))
 				self.screen.blit(prevpg,(50,430))
@@ -308,10 +316,11 @@ class RustyHeart:
 				self.screen.blit(title,(200,20))
 				
 				spikes = pygame.image.load( "images/spike.png" ).convert_alpha()
-				self.screen.blit( spikes, (110, 100) )
+				self.screen.blit( spikes, (100, 100) )
 				
 				heart = pygame.image.load( "images/littleheart.png" ).convert_alpha()
 				self.screen.blit( heart, (105, 250) )
+				self.screen.blit( heart, (480, 250) )
 				
 				door = pygame.image.load( "images/littledoor.png" ).convert_alpha()
 				self.screen.blit( door, (105, 330) )
@@ -323,11 +332,14 @@ class RustyHeart:
 				heart = afont.render("collect the hearts",True,(0,0,0))
 				self.screen.blit(heart,(240,270))
 				
-				door = afont.render("walk through to complete level",True,(0,0,0))
-				self.screen.blit(door,(190,345))
+				door = afont.render("press up to walk through",True,(0,0,0))
+				self.screen.blit(door,(210,345))
 				
 				rustyspike = pygame.image.load( "images/rustyspike.png" ).convert_alpha()
 				self.screen.blit( rustyspike, (460, 40) )
+				
+				door = pygame.image.load( "images/rustydoor.png" ).convert_alpha()
+				self.screen.blit( door, (460, 300) )				
 				
 				prevpg = afont.render("press left to go back", True, (155,50,50))
 				self.screen.blit(prevpg,(50,430))
@@ -348,7 +360,7 @@ class RustyHeart:
 							pygame.mixer.music.load('music/start.mp3')
 							soundstate = "play"
 												
-				pygame.display.update(self.refresh)						
+				pygame.display.update(self.refresh)										
 			
 			if self.state == "end":
 				'''Creates a game over page'''

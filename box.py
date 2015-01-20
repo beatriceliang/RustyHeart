@@ -24,14 +24,15 @@ class Box:
 			self.state = 'dropped'
 		
 	def isOnBox(self,boxes):
+		b = False
 		for box in boxes:
 			if box != self:
 				if self.rect.colliderect(box.rect):
 					box.collide = True
 				if (box.rect.bottom >= self.rect.bottom) and(box.rect.top <= self.rect.bottom) and (box.rect.right >= self.rect.centerx) and (box.rect.left <= self.rect.centerx):
-					return box
+					b = box
 
-		return False
+		return b
 	def move(self,boxes,diffX):
 		
 		if self.type == "cardboard":

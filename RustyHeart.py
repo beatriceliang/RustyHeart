@@ -75,7 +75,7 @@ class RustyHeart:
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.screen.blit(item.image,item.rect)
 					self.refresh.append(item.rect)
-			item.collide = False
+			#item.collide = False
 
 
 		pygame.display.update(self.refresh)

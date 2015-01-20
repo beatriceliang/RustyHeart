@@ -153,9 +153,20 @@ class RustyHeart:
 		self.refresh = []
 		
 		soundstate = "start"
-		pygame.mixer.music.load('music/start.mp3')
-		pygame.mixer.music.play(-1)
+		#pygame.mixer.music.load('music/start.mp3')
+		#pygame.mixer.music.play(-1)
 
+		#music
+		startMusic = pygame.mixer.Sound('music/CalltoAdventure.wav')
+		instructionsMusic = pygame.mixer.Sound('music/AdventureMeme.wav')
+		factoryMusic = pygame.mixer.Sound('music/EveningofChaos.wav')
+		outdoorMusic = pygame.mixer.Sound('music/Carefree.wav')
+		gameOverMusic = pygame.mixer.Sound('music/AllThis.wav')
+		creditsMusic = pygame.mixer.Sound('music/RadioMartini.wav')
+		bruceMusic = pygame.mixer.Sound('music/TakeaChance.wav')
+
+
+		#sounds
 		jump = pygame.mixer.Sound( "music/jumping.wav" )
 		jump.set_volume(0.05)
 		pickup = pygame.mixer.Sound( "music/pickup.wav" )
@@ -170,6 +181,9 @@ class RustyHeart:
 		level.set_volume(0.05)
 		wave = pygame.mixer.Sound( "music/wave.wav" )
 		wave.set_volume(0.1)
+
+		
+		startMusic.play(-1)
 		while True:
 			if soundstate == "play":
 				pygame.mixer.music.play(-1)
@@ -199,12 +213,12 @@ class RustyHeart:
 							sys.exit()
 						if event.key == pygame.K_i:
 							self.state = "instructions"
-							pygame.mixer.music.load('music/AdventureMeme.mp3')
-							soundstate = "play"
+							startMusic.stop()
+							instructionsMusic.play(-1)
 						if event.key == pygame.K_RETURN:
 							self.state = "sandbox"
-							pygame.mixer.music.load('music/chaos.mp3')
-							soundstate = "play"
+							startMusic.stop()
+							factoryMusic.play(-1)
 							self.loadLevel('levels/level0.csv','outdoor')
 
 							
@@ -217,8 +231,10 @@ class RustyHeart:
 						if event.key == pygame.K_q:
 							self.rusty.box = None
 							self.state = "end"
-							pygame.mixer.music.load('music/AllThis.mp3')
-							soundstate = 'play'
+							gameOverMusic.play(-1)
+							factoryMusic.stop()
+							outdoorMusic.stop()
+
 						if event.key == pygame.K_r:
 							self.rusty.fast = True
 						if event.key == pygame.K_LEFT:
@@ -235,8 +251,9 @@ class RustyHeart:
 
 								self.loadLevel('levels/level1.csv','outdoor')
 								level.play()
-								pygame.mixer.music.load('music/Carefree.mp3')
-								soundstate = "play"
+
+								factoryMusic.stop()
+								outdoorMusic.play(-1)
 
 							else:
 								self.rusty.jump()
@@ -276,8 +293,11 @@ class RustyHeart:
 					
 
 					self.state = 'end'
-					pygame.mixer.music.load('music/AllThis.mp3')
-					soundstate = 'play'
+
+					factoryMusic.stop()
+					outdoorMusic.stop()
+
+					gameOverMusic.play(-1)
 				
 				self.updateState(self.mode)
 				# throttle the game speed to 30fps
@@ -333,8 +353,8 @@ class RustyHeart:
 							sys.exit()
 						if event.key == pygame.K_LEFT:
 							self.state = "start"
-							pygame.mixer.music.load('music/start.mp3')
-							soundstate = "play"
+							instructionsMusic.stop()
+							startMusic.play(-1)
 						if event.key == pygame.K_RIGHT:
 							self.state = "instructions2"
 												
@@ -385,12 +405,10 @@ class RustyHeart:
 							sys.exit()
 						if event.key == pygame.K_LEFT:
 							self.state = "instructions"
-							pygame.mixer.music.load('music/AdventureMeme.mp3')
-							soundstate = "play"
 						if event.key == pygame.K_RIGHT:
 							self.state = "start"
-							pygame.mixer.music.load('music/start.mp3')
-							soundstate = "play"
+							instructionsMusic.stop()
+							startMusic.play(-1)
 												
 				pygame.display.update(self.refresh)										
 			
@@ -415,12 +433,12 @@ class RustyHeart:
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							self.state = "credits"
-							pygame.mixer.music.load('music/radiomartini.mp3')
-							soundstate = "play"
+							gameOverMusic.stop()
+							creditsMusic.play(-1)
 						if event.key == pygame.K_RETURN:
 							self.state = "start"
-							pygame.mixer.music.load('music/start.mp3')
-							soundstate = "play"
+							gameOverMusic.stop()
+							startMusic.play(-1)
 											
 				pygame.display.update(self.refresh)			
 
@@ -463,8 +481,8 @@ class RustyHeart:
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							self.state = "thanks"
-							pygame.mixer.music.load('music/spazzmaticpolka.mp3')
-							soundstate = "play"
+							creditsMusic.stop()
+							bruceMusic.play(-1)
 				pygame.display.update(self.refresh)
 				
 			if self.state == "thanks":

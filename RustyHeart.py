@@ -33,6 +33,7 @@ class RustyHeart:
 		self.Spikes = []
 		self.Door = None
 		self.mode = ""
+		self.heart = None
 
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -121,8 +122,8 @@ class RustyHeart:
 					column += cardboardSize
 					mCount = 0
 				elif obj == 'C':
-					heart = Heart.Heart([column, row])
-					self.objects.append(heart)
+					self.heart = Heart.Heart([column, row])
+					self.objects.append(self.heart)
 					cbox = box.Box([column,row],"cardboard",self.rusty,boxImages)
 					self.objects.append(cbox)
 					column += cardboardSize

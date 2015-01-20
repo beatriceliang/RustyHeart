@@ -26,7 +26,7 @@ class Box:
 	def isOnBox(self,boxes):
 		b = False
 		for box in boxes:
-			if box != self:
+			if box != self and box.type!='heart':
 				if self.rect.colliderect(box.rect):
 					box.collide = True
 				if (box.rect.bottom >= self.rect.bottom) and(box.rect.top <= self.rect.bottom) and (box.rect.right >= self.rect.centerx) and (box.rect.left <= self.rect.centerx):

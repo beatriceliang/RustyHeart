@@ -292,10 +292,10 @@ class RustyHeart:
 				self.screen.blit(title,(200,20))
 				
 				spikes = pygame.image.load( "images/spike.png" ).convert_alpha()
-				self.screen.blit( spikes, (100, 100) )
+				self.screen.blit( spikes, (110, 100) )
 				
 				heart = pygame.image.load( "images/littleheart.png" ).convert_alpha()
-				self.screen.blit( heart, (100, 250) )
+				self.screen.blit( heart, (105, 250) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				spikes = afont.render("avoid hitting the spikes",True,(0,0,0))

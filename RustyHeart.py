@@ -156,8 +156,6 @@ class RustyHeart:
 		pygame.mixer.music.load('music/start.mp3')
 		pygame.mixer.music.play(-1)
 
-		startMusic = pygame.mixer.music.load('music/start.mp3')
-
 		jump = pygame.mixer.Sound( "music/jumping.wav" )
 		jump.set_volume(0.05)
 		pickup = pygame.mixer.Sound( "music/pickup.wav" )

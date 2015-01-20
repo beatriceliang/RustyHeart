@@ -27,11 +27,12 @@ class RustyHeart:
 		self.screen = pygame.display.set_mode(self.screensize)
 		
 		self.rusty = rusty.Rusty((5,180))
-		self.boxImages = {"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
-		self.backgrounds = {"factory": pygame.image.load("images/factory.png").convert_alpha(),"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
+		self.boxImages = {"outdoor": {"metal":pygame.image.load("images/stump1.png").convert_alpha(),"cardboard":pygame.image.load("images/leaf.png").convert_alpha()},"factory":{"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}}
+		self.backgrounds = {"outdoor": pygame.image.load("images/outdoor.png"),"factory": pygame.image.load("images/factory.png").convert_alpha(),"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
 		self.objects = []
 		self.Spikes = []
 		self.Door = None
+		self.mode = ""
 
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -83,8 +84,10 @@ class RustyHeart:
 
 		self.refresh = []
 	def loadLevel(self, level,background = None):
-		metalSize = self.boxImages["metal"].get_rect().width
-		cardboardSize = self.boxImages["cardboard"].get_rect().width
+		self.mode = background
+		boxImages = self.boxImages[background]
+		metalSize = boxImages["metal"].get_rect().width
+		cardboardSize = boxImages["cardboard"].get_rect().width
 		self.drawBkg(background)
 		self.objects = []
 		self.Spikes = []
@@ -102,17 +105,17 @@ class RustyHeart:
 					column += metalSize
 					mCount = 0
 				elif obj == 'm':
-					self.objects.append(box.Box([column,row],"metal",self.rusty,self.boxImages))
+					self.objects.append(box.Box([column,row],"metal",self.rusty,boxImages))
 					column +=metalSize
 				elif obj == 'c':
-					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
+					cbox = box.Box([column,row],"cardboard",self.rusty,boxImages)
 					self.objects.append(cbox)
 					column += cardboardSize
 					mCount = 0
 				elif obj == 'C':
 					heart = Heart.Heart([column, row])
 					self.objects.append(heart)
-					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
+					cbox = box.Box([column,row],"cardboard",self.rusty,boxImages)
 					self.objects.append(cbox)
 					column += cardboardSize
 					mCount = 0
@@ -209,7 +212,7 @@ class RustyHeart:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.Door = None
 								self.rusty.box = None
-								self.loadLevel('levels/level1.csv','factory')
+								self.loadLevel('levels/level1.csv','outdoor')
 								
 							else:
 								self.rusty.jump()
@@ -246,8 +249,8 @@ class RustyHeart:
 					self.state = 'end'
 					pygame.mixer.music.load('music/AllThis.mp3')
 					soundstate = 'play'
-					
-				self.updateState('factory')
+				
+				self.updateState(self.mode)
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
 						

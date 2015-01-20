@@ -206,8 +206,9 @@ class RustyHeart:
 								jump.play()
 						if event.key == pygame.K_SPACE:
 							pygame.display.update(self.refresh)
-							for item in self.cardboard:
-								item.pickUp()
+							for item in self.objects :
+								if item.type == 'cardboard':
+									item.pickUp()
 							pickup.play()
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:

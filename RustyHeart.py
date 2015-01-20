@@ -69,14 +69,20 @@ class RustyHeart:
 		for item in self.objects:
 			if(item.type=="cardboard" or diffX!=0 or item.type=="heart" or item.collide):
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
-					self.drawBkg(background,item.rect)
+					if not(item.type=="heart" and item.visible==True):
+						self.drawBkg(background,item.rect)
 
 		for item in self.objects:
 			if(item.type=="cardboard" or item.type == "door" or item.type=="heart" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
-					self.screen.blit(item.image,item.rect)
-					self.refresh.append(item.rect)
+					if item.type!="heart":
+						self.screen.blit(item.image,item.rect)
+						self.refresh.append(item.rect)
+					else:
+						if item.visible==False:
+							self.screen.blit(item.image,item.rect)
+							self.refresh.append(item.rect)
 			#item.collide = False
 
 
@@ -91,6 +97,8 @@ class RustyHeart:
 		self.drawBkg(background)
 		self.objects = []
 		self.Spikes = []
+		if(self.heart!=None):
+			self.heart.visible = False
 		fp = open(level,'r')
 		level = fp.read().split("\r")
 		fp.close()
@@ -202,6 +210,7 @@ class RustyHeart:
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
+							self.rusty.box = None
 							self.state = "end"
 							pygame.mixer.music.load('music/AllThis.mp3')
 							soundstate = 'play'

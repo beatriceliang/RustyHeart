@@ -49,26 +49,32 @@ class Rusty:
     def move(self,boxes,diffX):
         notOn = True
         b = None
+        i = 0
         for box in boxes:
-            if box.type != "door":
+            if box.type != "door" or (box.type=="heart" and box.visible==True):
                 if self.rect.colliderect(box.rect):
                     box.collide = True
+                    if box.type=="heart" and not box.rect.colliderect(boxes[i+1].rect):
+                    	    box.visible=True
                 else:
                     box.collide = False
                 if box.rect.left <640 and box.rect.right>0:
                     if not self.justJumped and self.left and self.rect.colliderect(box.rect) and self.rect.left <= box.rect.right and self.rect.right >=box.rect.right and self.rect.bottom > box.rect.centery:
-                        self.stop()
+                        if not(box.type=="heart" and box.visible==True):
+                        	self.stop()
                     elif not self.justJumped and not self.left and self.rect.colliderect(box.rect) and self.rect.right >= box.rect.left and self.rect.left <= box.rect.left and self.rect.bottom > box.rect.centery:
-                        self.stop()
+                        if not(box.type=="heart" and box.visible==True):
+				 self.stop()
                     if box.type =="metal" and self.rect.centerx > box.rect.left and self.rect.centerx <box.rect.right and self.rect.top >= box.rect.bottom and self.rect.top < box.rect.bottom + box.rect.height:
                     	self.justJumped = False
                     	self.speed[1] = 0
                     
                     if self.isOnBox(box):
-                        if box == self.box:
+                        if box == self.box or box.type=="heart":
                             continue
                         notOn = False
                         b = box
+            i+=1 
 
         if notOn ^ self.justJumped:
             self.speed[1] +=  2

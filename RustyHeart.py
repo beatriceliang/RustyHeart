@@ -5,6 +5,7 @@ import pygame
 import box
 import Spike
 import Door
+import Heart
 
 class RustyHeart:
 	def __init__(self):
@@ -64,12 +65,12 @@ class RustyHeart:
 		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 		for item in self.objects:
-			if(item.type=="cardboard" or diffX!=0 or item.collide):
+			if(item.type=="cardboard" or diffX!=0 or item.type=="heart" or item.collide):
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.drawBkg(background,item.rect)
 
 		for item in self.objects:
-			if(item.type=="cardboard" or item.type == "door" or diffX!=0 or item.collide):	
+			if(item.type=="cardboard" or item.type == "door" or item.type=="heart" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.screen.blit(item.image,item.rect)
@@ -103,6 +104,13 @@ class RustyHeart:
 					self.objects.append(box.Box([column,row],"metal",self.rusty,self.boxImages))
 					column +=metalSize
 				elif obj == 'c':
+					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
+					self.objects.append(cbox)
+					column += cardboardSize
+					mCount = 0
+				elif obj == 'C':
+					heart = Heart.Heart([column, row])
+					self.objects.append(heart)
 					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
 					self.objects.append(cbox)
 					column += cardboardSize

@@ -30,7 +30,6 @@ class RustyHeart:
 		self.objects = []
 		self.Spikes = []
 		self.Door = None
-		self.cardboard = []
 
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -105,7 +104,6 @@ class RustyHeart:
 					column +=metalSize
 				elif obj == 'c':
 					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
-					self.cardboard.append(cbox)
 					self.objects.append(cbox)
 					column += cardboardSize
 					mCount = 0
@@ -200,25 +198,34 @@ class RustyHeart:
 							self.rusty.speedRight()
 						if event.key == pygame.K_UP:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
+								self.Door = None
+								self.rusty.box.drop()
+								self.rusty.box = None
 								self.loadLevel('levels/level1.csv','images/factory.png')
+								
 							else:
 								self.rusty.jump()
 								jump.play()
 						if event.key == pygame.K_SPACE:
+
 							pygame.display.update(self.refresh)
-							for item in self.objects :
-								if item.type == 'cardboard':
-									item.pickUp()
-							pickup.play()
+							if self.rusty.box == None:
+								for item in self.objects :
+									if item.type == 'cardboard':
+										item.pickUp()
+								pickup.play()
+							else:
+								self.rusty.box.drop()
+						 		drop.play()
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 							self.rusty.stop()
 						if event.key == pygame.K_r:
 							self.rusty.fast = False
-						if event.key == pygame.K_SPACE:
-							if self.rusty.box != None:
-								self.rusty.box.drop()
-								drop.play()
+						# if event.key == pygame.K_SPACE:
+						# 	if self.rusty.box != None:
+						# 		self.rusty.box.drop()
+						# 		drop.play()
 				
 				dead = False
 				for spike in self.Spikes:

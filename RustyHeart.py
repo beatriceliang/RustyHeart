@@ -207,7 +207,6 @@ class RustyHeart:
 						if event.key == pygame.K_UP:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.Door = None
-								self.rusty.box.drop()
 								self.rusty.box = None
 								self.loadLevel('levels/level1.csv','images/factory.png')
 								
@@ -281,7 +280,7 @@ class RustyHeart:
 				upbox = afont.render("press to pickup/drop boxes",True,(0,0,0))
 				self.screen.blit(upbox,(255,270))
 				
-				fast = afont.render("press to speed up",True,(0,0,0))
+				fast = afont.render("press to run",True,(0,0,0))
 				self.screen.blit(fast,(250,360))
 				
 				rustyleft = pygame.image.load( "images/leftrusty.png" ).convert_alpha()

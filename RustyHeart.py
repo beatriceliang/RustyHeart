@@ -27,6 +27,7 @@ class RustyHeart:
 		
 		self.rusty = rusty.Rusty((5,180))
 		self.boxImages = {"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
+		self.backgrounds = {"factory": pygame.image.load("images/factory.png").convert_alpha(),"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
 		self.objects = []
 		self.Spikes = []
 		self.Door = None
@@ -34,7 +35,7 @@ class RustyHeart:
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if imageName != None:
-			background = pygame.image.load(imageName).convert_alpha()
+			background = self.backgrounds[imageName]
 		if rect == None:
 			if imageName == None:
 				self.screen.fill((255,255,255))
@@ -149,7 +150,7 @@ class RustyHeart:
 			if self.state == "start":
 				'''Creates the start screen'''
 				soundstate == "play"
-				self.drawBkg(imageName = "images/heartPicture.png")
+				self.drawBkg(imageName = "heartPicture")
 				
 				afont = pygame.font.SysFont("Arial", 72)
 				title = afont.render("Rusty Heart",True,(255,255,255))
@@ -177,7 +178,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('levels/level0.csv','images/factory.png')
+							self.loadLevel('levels/level0.csv','factory')
 
 							
 				pygame.display.update(self.refresh)
@@ -199,9 +200,8 @@ class RustyHeart:
 						if event.key == pygame.K_UP:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.Door = None
-								self.rusty.box.drop()
 								self.rusty.box = None
-								self.loadLevel('levels/level1.csv','images/factory.png')
+								self.loadLevel('levels/level1.csv','factory')
 								
 							else:
 								self.rusty.jump()
@@ -222,10 +222,6 @@ class RustyHeart:
 							self.rusty.stop()
 						if event.key == pygame.K_r:
 							self.rusty.fast = False
-						# if event.key == pygame.K_SPACE:
-						# 	if self.rusty.box != None:
-						# 		self.rusty.box.drop()
-						# 		drop.play()
 				
 				dead = False
 				for spike in self.Spikes:
@@ -243,7 +239,7 @@ class RustyHeart:
 					pygame.mixer.music.load('music/AllThis.mp3')
 					soundstate = 'play'
 					
-				self.updateState('images/factory.png')
+				self.updateState('factory')
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
 						

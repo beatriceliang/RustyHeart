@@ -22,16 +22,16 @@ class Rusty:
         self.image = self.leftImage
         self.left = True
         if self.fast:
-            self.speed[0]=-17
+            self.speed[0]=-7
         else:
-            self.speed[0]=-10
+            self.speed[0]=-5
     def speedRight(self):
         self.image = self.rightImage
         self.left = False
         if self.fast:
-            self.speed[0]=17
+            self.speed[0]=7
         else:
-            self.speed[0]=10
+            self.speed[0]=5
     def stop(self):
         self.speed[0] = 0
     def jump(self):
@@ -65,7 +65,7 @@ class Rusty:
                         b = box
 
         if notOn ^ self.justJumped:
-            self.speed[1] +=  7
+            self.speed[1] +=  2
         else:
             self.speed[1] = 0
             self.justJumped = False

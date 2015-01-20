@@ -16,7 +16,7 @@ class Box:
 	def pickUp(self):
 		if(self.type=="cardboard" and self.rusty.box == None):
 			if not self.rusty.isOnBox(self):
-				if ((self.rusty.left and self.rusty.rect.right >= self.rect.right and self.rusty.rect.left <= self.rect.right) or (not self.rusty.left and self.rusty.rect.left <= self.rect.left and self.rusty.rect.right >= self.rect.left)):
+				if self.rect.centery >= self.rusty.rect.top and self.rect.centery <= self.rusty.rect.bottom and ((self.rusty.left and self.rusty.rect.right >= self.rect.right and self.rusty.rect.left <= self.rect.right) or (not self.rusty.left and self.rusty.rect.left <= self.rect.left and self.rusty.rect.right >= self.rect.left)):
 					self.state = 'held'
 					self.rusty.box = self
 	def drop(self):
@@ -47,7 +47,7 @@ class Box:
 				if b != False:
 					self.speed[1] = b.rect.top-self.rect.bottom
 				else:
-					self.speed[1] += 5
+					self.speed[1] += 2
 
 			elif self.state == 'dropped':
 				self.state = 'ground'

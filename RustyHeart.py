@@ -4,6 +4,7 @@ import rusty
 import pygame
 import box
 import Spike
+import Door
 
 class RustyHeart:
 	def __init__(self):
@@ -29,6 +30,7 @@ class RustyHeart:
 		self.objects = []
 		self.Spikes = []
 		self.Door = []
+		self.cardboard = []
 
 	def drawBkg(self, imageName = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
@@ -68,7 +70,7 @@ class RustyHeart:
 					self.drawBkg(background,item.rect)
 
 		for item in self.objects:
-			if(item.type=="cardboard" or diffX!=0 or item.collide):	
+			if(item.type=="cardboard" or item.type == "door" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					self.screen.blit(item.image,item.rect)
@@ -102,8 +104,9 @@ class RustyHeart:
 					self.objects.append(box.Box([column,row],"metal",self.rusty,self.boxImages))
 					column +=metalSize
 				elif obj == 'c':
-					
-					self.objects.append(box.Box([column,row],"cardboard",self.rusty,self.boxImages))
+					cbox = box.Box([column,row],"cardboard",self.rusty,self.boxImages)
+					self.cardboard.append(cbox)
+					self.objects.append(cbox)
 					column += cardboardSize
 					mCount = 0
 				elif obj == 's':
@@ -113,7 +116,8 @@ class RustyHeart:
 					self.Spikes.append(spike)
 					column += 50
 				elif obj == 'd':
-					self.Door = [column,row]
+					self.Door = Door.Door([column,row])
+					self.objects.append(self.Door)
 					column += 50
 					
 
@@ -175,7 +179,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							pygame.mixer.music.load('music/chaos.mp3')
 							soundstate = "play"
-							self.loadLevel('levels/level1.csv','images/factory.png')
+							self.loadLevel('levels/level0.csv','images/factory.png')
 
 							
 				pygame.display.update(self.refresh)
@@ -195,14 +199,15 @@ class RustyHeart:
 						if event.key == pygame.K_RIGHT:
 							self.rusty.speedRight()
 						if event.key == pygame.K_UP:
-							self.rusty.jump()
-							jump.play()
-
+							if self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
+								self.loadLevel('levels/level1.csv','images/factory.png')
+							else:
+								self.rusty.jump()
+								jump.play()
 						if event.key == pygame.K_SPACE:
 							pygame.display.update(self.refresh)
-							for item in self.objects:
-								if item.type != 'spike':
-									item.pickUp()
+							for item in self.cardboard:
+								item.pickUp()
 							pickup.play()
 					if event.type == pygame.KEYUP:
 						if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -213,10 +218,7 @@ class RustyHeart:
 							if self.rusty.box != None:
 								self.rusty.box.drop()
 								drop.play()
-				print self.Door
-				if self.rusty.rect.centerx <= self.Door[0]+25 and self.rusty.rect.centerx >= self.Door[0]-25:
-					if self.rusty.rect.centery <= self.Door[1] and self.rusty.rect.centery >= self.Door[1]-100: 
-							print "Door"
+				
 				dead = False
 				for spike in self.Spikes:
 					if spike.collidesWith(self.rusty.rect):

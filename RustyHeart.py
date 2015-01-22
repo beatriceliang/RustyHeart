@@ -73,9 +73,7 @@ class RustyHeart:
 		 	diffX =  self.rusty.rect.width- self.screensize[0]
 		else:
 			diffX = 0
-		
-		self.rusty.move(self.objects,diffX)
-		self.screen.blit(self.rusty.image,self.rusty.rect)
+	
 		for item in self.objects:
 			if(item.type=="cardboard" or diffX!=0 or item.type=="heart" or item.collide):
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
@@ -85,6 +83,7 @@ class RustyHeart:
 		for item in self.objects:
 			if(item.type=="cardboard" or item.type == "door" or item.type=="heart" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
+				self.drawBkg(background,item.rect)
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					if item.type!="heart":
 						self.screen.blit(item.image,item.rect)
@@ -94,7 +93,8 @@ class RustyHeart:
 							self.screen.blit(item.image,item.rect)
 							self.refresh.append(item.rect)
 			#item.collide = False
-
+		self.rusty.move(self.objects,diffX)
+		self.screen.blit(self.rusty.image,self.rusty.rect)
 
 		pygame.display.update(self.refresh)
 

@@ -249,7 +249,7 @@ class RustyHeart:
 							self.rusty.speedLeft()
 						if event.key == pygame.K_RIGHT:
 							self.rusty.speedRight()
-						if event.key == pygame.K_t:
+						if event.key == pygame.K_DOWN:
 							self.rusty.wave()	
 							wave.play()
 						if event.key == pygame.K_UP:

@@ -28,39 +28,44 @@ class RustyHeart:
 		
 		self.rusty = rusty.Rusty((5,180))
 
-		outdoor = {"metal":pygame.image.load("images/stump1.png").convert_alpha(),"cardboard":pygame.image.load("images/leaf.png").convert_alpha()}
-		factory = {"metal":pygame.image.load("images/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/cbox.png").convert_alpha()}
 
-		self.boxImages = {"outdoor": outdoor ,"factory":factory}
-		self.backgrounds = {"outdoor": pygame.image.load("images/outdoor.png"),"factory": pygame.image.load("images/factory.png").convert_alpha(),"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
+		self.level = -1
+
+		
+		outdoor = {"music": pygame.mixer.Sound('music/songs/Carefree.wav'),"background":pygame.image.load("images/outdoor/outdoor.png"),"metal":pygame.image.load("images/outdoor/stump1.png").convert_alpha(),"cardboard":pygame.image.load("images/outdoor/leaf.png").convert_alpha()}
+		factory = {"music": pygame.mixer.Sound('music/songs/EveningofChaos.wav'), "background":pygame.image.load("images/factory/factory.png"),"metal":pygame.image.load("images/factory/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/factory/cbox.png").convert_alpha()}
+		forest = {"music": pygame.mixer.Sound('music/songs/Carefree.wav'),"background":pygame.image.load("images/forest/forest.png"),"metal":pygame.image.load("images/forest/rock.png").convert_alpha(),"cardboard":pygame.image.load("images/forest/mushroom.png").convert_alpha()}
+		
+		self.levels = [factory,forest ,outdoor]
+		self.backgrounds = {"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
+
 		self.objects = []
 		self.Spikes = []
 		self.Door = None
-		self.mode = ""
 		self.heart = None
 
-	def drawBkg(self, imageName = None, rect = None):
+	def drawBkg(self, image = None, rect = None):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
-		if imageName != None:
-			background = self.backgrounds[imageName]
+		if image != None:
+			background = image
 		if rect == None:
-			if imageName == None:
+			if image == None:
 				self.screen.fill((255,255,255))
 			else:
 				self.screen.blit(background,(0,0))
 			self.refresh.append(self.screen.get_rect())
 		else:
-			if imageName == None:
+			if image == None:
 				self.screen.fill( (255, 255, 255), rect )
 			else:
-
 				self.screen.blit(background,rect,rect)
 			self.refresh.append( rect )
 	def blit(self,obj):
 		if obj.rect.right > 0 or obj.rect.left <self.screensize[0]:
 			self.screen.blit(obj.image,obj.rect)
 			self.refresh.append(obj.rect)
-	def updateState(self,background=None):
+	def updateState(self):
+		background = self.levels[self.level]["background"]
 		self.drawBkg(background,self.rusty.rect)
 		if self.rusty.rect.right >= self.screensize[0]:
 			diffX = self.rusty.rect.left
@@ -94,17 +99,25 @@ class RustyHeart:
 		pygame.display.update(self.refresh)
 
 		self.refresh = []
-	def loadLevel(self, level,background = None):
-		self.mode = background
-		boxImages = self.boxImages[background]
-		metalSize = boxImages["metal"].get_rect().width
-		cardboardSize = boxImages["cardboard"].get_rect().width
-		self.drawBkg(background)
+	def loadLevel(self):
+		if self.level > -1:
+			self.levels[self.level]["music"].stop()
+		
+		self.level += 1
+		levelStuff = self.levels[self.level]
+		levelStuff["music"].play(-1)
+
+		lvl = 'levels/level'+str(self.level)+'.csv'
+
+		
+		metalSize = levelStuff["metal"].get_rect().width
+		cardboardSize = levelStuff["cardboard"].get_rect().width
+		self.drawBkg(levelStuff["background"])
 		self.objects = []
 		self.Spikes = []
 		if(self.heart!=None):
 			self.heart.visible = False
-		fp = open(level,'r')
+		fp = open(lvl,'r')
 		level = fp.read().split("\r")
 		fp.close()
 		row = 0
@@ -118,17 +131,17 @@ class RustyHeart:
 					column += metalSize
 					mCount = 0
 				elif obj == 'm':
-					self.objects.append(box.Box([column,row],"metal",self.rusty,boxImages))
+					self.objects.append(box.Box([column,row],"metal",self.rusty,levelStuff))
 					column +=metalSize
 				elif obj == 'c':
-					cbox = box.Box([column,row],"cardboard",self.rusty,boxImages)
+					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
 					self.objects.append(cbox)
 					column += cardboardSize
 					mCount = 0
 				elif obj == 'C':
 					self.heart = Heart.Heart([column+10, row+10])
 					self.objects.append(self.heart)
-					cbox = box.Box([column,row],"cardboard",self.rusty,boxImages)
+					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
 					self.objects.append(cbox)
 					column += cardboardSize
 					mCount = 0
@@ -157,19 +170,16 @@ class RustyHeart:
 		self.refresh = []
 		
 		soundstate = "start"
-		#pygame.mixer.music.load('music/start.mp3')
-		#pygame.mixer.music.play(-1)
 
 		#music
+
 		startMusic = pygame.mixer.Sound('music/songs/CalltoAdventure.wav')
 		instructionsMusic = pygame.mixer.Sound('music/songs/AdventureMeme.wav')
-		factoryMusic = pygame.mixer.Sound('music/songs/EveningofChaos.wav')
-		outdoorMusic = pygame.mixer.Sound('music/songs/Carefree.wav')
-		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
+		
 		creditsMusic = pygame.mixer.Sound('music/songs/RadioMartini.wav')
 		bruceMusic = pygame.mixer.Sound('music/songs/TakeaChance.wav')
-
-
+		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
+		
 		#sounds
 		jump = pygame.mixer.Sound( "music/sounds/jumping.wav" )
 		jump.set_volume(0.05)
@@ -192,7 +202,7 @@ class RustyHeart:
 			if self.state == "start":
 				'''Creates the start screen'''
 				soundstate == "play"
-				self.drawBkg(imageName = "heartPicture")
+				self.drawBkg(image = self.backgrounds["heartPicture"])
 				
 				afont = pygame.font.SysFont("Arial", 72)
 				title = afont.render("Rusty Heart",True,(255,255,255))
@@ -219,8 +229,7 @@ class RustyHeart:
 						if event.key == pygame.K_RETURN:
 							self.state = "sandbox"
 							startMusic.stop()
-							factoryMusic.play(-1)
-							self.loadLevel('levels/level0.csv','outdoor')
+							self.loadLevel()
 
 							
 				pygame.display.update(self.refresh)
@@ -233,8 +242,8 @@ class RustyHeart:
 							self.rusty.box = None
 							self.state = "end"
 							gameOverMusic.play(-1)
-							factoryMusic.stop()
-							outdoorMusic.stop()
+
+							self.levels[self.level]["music"].stop()
 
 						if event.key == pygame.K_r:
 							self.rusty.fast = True
@@ -249,12 +258,9 @@ class RustyHeart:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.Door = None
 								self.rusty.box = None
-
-								self.loadLevel('levels/level1.csv','outdoor')
+								
+								self.loadLevel()
 								level.play()
-
-								factoryMusic.stop()
-								outdoorMusic.play(-1)
 
 							else:
 								self.rusty.jump()
@@ -295,12 +301,11 @@ class RustyHeart:
 
 					self.state = 'end'
 
-					factoryMusic.stop()
-					outdoorMusic.stop()
-
+					self.levels[self.level]["music"].stop()
+					self.level = -1
 					gameOverMusic.play(-1)
 				
-				self.updateState(self.mode)
+				self.updateState()
 				# throttle the game speed to 30fps
 				self.clock.tick(30)
 						
@@ -333,13 +338,13 @@ class RustyHeart:
 				fast = afont.render("press to run",True,(0,0,0))
 				self.screen.blit(fast,(250,360))
 				
-				rustyleft = pygame.image.load( "images/leftrusty.png" ).convert_alpha()
+				rustyleft = pygame.image.load( "images/rusty/leftrusty.png" ).convert_alpha()
 				self.screen.blit( rustyleft, (410, 85) )
 				
-				rustyright = pygame.image.load( "images/rightrusty.png" ).convert_alpha()
+				rustyright = pygame.image.load( "images/rusty/rightrusty.png" ).convert_alpha()
 				self.screen.blit( rustyright, (490, 85) )
 				
-				rustybox = pygame.image.load( "images/rustybox.png" ).convert_alpha()
+				rustybox = pygame.image.load( "images/rusty/rustybox.png" ).convert_alpha()
 				self.screen.blit( rustybox, (480, 185) )
 				
 				prevpg = afont.render("press left to go back", True, (155,50,50))
@@ -388,10 +393,10 @@ class RustyHeart:
 				door = afont.render("press up to walk through",True,(0,0,0))
 				self.screen.blit(door,(210,345))
 				
-				rustyspike = pygame.image.load( "images/rustyspike.png" ).convert_alpha()
+				rustyspike = pygame.image.load( "images/rusty/rustyspike.png" ).convert_alpha()
 				self.screen.blit( rustyspike, (460, 40) )
 				
-				door = pygame.image.load( "images/rustydoor.png" ).convert_alpha()
+				door = pygame.image.load( "images/rusty/rustydoor.png" ).convert_alpha()
 				self.screen.blit( door, (460, 300) )				
 				
 				prevpg = afont.render("press left to go back", True, (155,50,50))
@@ -415,12 +420,13 @@ class RustyHeart:
 			
 			if self.state == "end":
 				'''Creates a game over page'''
+				self.level = -1
 				self.drawBkg()	
 				afont = pygame.font.SysFont("Times New Roman", 50)
 				title = afont.render("Game Over",True,(0,0,0))
 				self.screen.blit(title,(210,20))
 				
-				rusty = pygame.image.load( "images/rustysmall.png" ).convert_alpha()
+				rusty = pygame.image.load( "images/rusty/rustysmall.png" ).convert_alpha()
 				self.screen.blit( rusty, (195, 100) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)

@@ -164,6 +164,7 @@ class RustyHeart:
 		startMusic = pygame.mixer.Sound('music/songs/CalltoAdventure.wav')
 		instructionsMusic = pygame.mixer.Sound('music/songs/AdventureMeme.wav')
 		factoryMusic = pygame.mixer.Sound('music/songs/EveningofChaos.wav')
+		forestMusic = pygame.mixer.Sound('music/songs/Undaunted.wav')
 		outdoorMusic = pygame.mixer.Sound('music/songs/LifeofRiley.wav')
 		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
 		creditsMusic = pygame.mixer.Sound('music/songs/RadioMartini.wav')

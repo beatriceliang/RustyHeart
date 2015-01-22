@@ -51,7 +51,6 @@ class Rusty:
 		b = None
 		i = 0
 		heart = pygame.mixer.Sound( "music/sounds/heart.wav" )
-		heart.set_volume(0.1)
 		for box in boxes:
 			if box.type=="heart" and box.visible==True:
 				continue

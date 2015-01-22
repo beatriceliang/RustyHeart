@@ -50,8 +50,8 @@ class Rusty:
 		notOn = True
 		b = None
 		i = 0
-		heart = pygame.mixer.Sound( "music/heart.wav" )
-		heart.set_volume(0.05)
+		heart = pygame.mixer.Sound( "music/sounds/heart.wav" )
+		heart.set_volume(0.1)
 		for box in boxes:
 			if box.type=="heart" and box.visible==True:
 				continue
@@ -61,6 +61,7 @@ class Rusty:
 					box.collide = True
 					if box.type=="heart" and not box.rect.colliderect(boxes[i+1].rect):
 							box.visible=True
+							heart.play()
 							
 							
 				else:

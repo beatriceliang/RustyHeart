@@ -175,7 +175,14 @@ class RustyHeart:
 
 		startMusic = pygame.mixer.Sound('music/songs/CalltoAdventure.wav')
 		instructionsMusic = pygame.mixer.Sound('music/songs/AdventureMeme.wav')
+<<<<<<< HEAD
 		
+=======
+		factoryMusic = pygame.mixer.Sound('music/songs/EveningofChaos.wav')
+		forestMusic = pygame.mixer.Sound('music/songs/Undaunted.wav')
+		outdoorMusic = pygame.mixer.Sound('music/songs/LifeofRiley.wav')
+		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
+>>>>>>> 581133d23e5f412dd94a594572281e16b06fbd4d
 		creditsMusic = pygame.mixer.Sound('music/songs/RadioMartini.wav')
 		bruceMusic = pygame.mixer.Sound('music/songs/TakeaChance.wav')
 		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
@@ -230,6 +237,7 @@ class RustyHeart:
 							self.state = "sandbox"
 							startMusic.stop()
 							self.loadLevel()
+
 
 							
 				pygame.display.update(self.refresh)
@@ -381,7 +389,7 @@ class RustyHeart:
 				self.screen.blit( heart, (480, 250) )
 				
 				door = pygame.image.load( "images/littledoor.png" ).convert_alpha()
-				self.screen.blit( door, (105, 330) )
+				self.screen.blit( door, (105, 320) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				spikes = afont.render("avoid hitting the spikes",True,(0,0,0))

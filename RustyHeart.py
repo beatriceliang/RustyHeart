@@ -175,14 +175,7 @@ class RustyHeart:
 
 		startMusic = pygame.mixer.Sound('music/songs/CalltoAdventure.wav')
 		instructionsMusic = pygame.mixer.Sound('music/songs/AdventureMeme.wav')
-<<<<<<< HEAD
-		
-=======
-		factoryMusic = pygame.mixer.Sound('music/songs/EveningofChaos.wav')
-		forestMusic = pygame.mixer.Sound('music/songs/Undaunted.wav')
-		outdoorMusic = pygame.mixer.Sound('music/songs/LifeofRiley.wav')
-		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
->>>>>>> 581133d23e5f412dd94a594572281e16b06fbd4d
+
 		creditsMusic = pygame.mixer.Sound('music/songs/RadioMartini.wav')
 		bruceMusic = pygame.mixer.Sound('music/songs/TakeaChance.wav')
 		gameOverMusic = pygame.mixer.Sound('music/songs/AllThis.wav')
@@ -237,8 +230,6 @@ class RustyHeart:
 							self.state = "sandbox"
 							startMusic.stop()
 							self.loadLevel()
-
-
 							
 				pygame.display.update(self.refresh)
 			

@@ -23,14 +23,14 @@ class Rusty:
 		self.image = self.leftImage
 		self.left = True
 		if self.fast:
-			self.speed[0]=-7
+			self.speed[0]=-10
 		else:
 			self.speed[0]=-5
 	def speedRight(self):
 		self.image = self.rightImage
 		self.left = False
 		if self.fast:
-			self.speed[0]=7
+			self.speed[0]=10
 		else:
 			self.speed[0]=5
 	def stop(self):

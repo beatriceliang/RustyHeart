@@ -83,7 +83,8 @@ class RustyHeart:
 		for item in self.objects:
 			if(item.type=="cardboard" or item.type == "door" or item.type=="heart" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
-				self.drawBkg(background,item.rect)
+				#if item.type=="heart":
+					self.drawBkg(background,item.rect)
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					if item.type!="heart":
 						self.screen.blit(item.image,item.rect)

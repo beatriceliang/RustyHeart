@@ -39,7 +39,7 @@ class RustyHeart:
 		space = {"music": pygame.mixer.Sound('music/songs/DestinyDay.wav'),"background":pygame.image.load("images/space/space.png"),"metal":pygame.image.load("images/space/spacestep.png").convert_alpha(),"cardboard":pygame.image.load("images/space/moonrock.png").convert_alpha()}
 		self.levels = [factory,forest,outdoor,coastline,space]
 		self.backgrounds = {"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
-
+		self.lifeImage = pygame.image.load("images/tinyHeart.png")
 		self.objects = []
 		self.Spikes = []
 		self.Door = None
@@ -133,7 +133,6 @@ class RustyHeart:
 			for obj in i:
 				if obj == '.':
 					column += metalSize
-					mCount = 0
 				elif obj == 'm':
 					self.objects.append(box.Box([column,row],"metal",self.rusty,levelStuff))
 					column +=metalSize
@@ -141,14 +140,12 @@ class RustyHeart:
 					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
 					self.objects.append(cbox)
 					column += cardboardSize
-					mCount = 0
 				elif obj == 'C':
 					self.heart = Heart.Heart([column+10, row+10])
 					self.objects.append(self.heart)
 					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
 					self.objects.append(cbox)
 					column += cardboardSize
-					mCount = 0
 				elif obj == 's':
 					
 					spike = Spike.Spike([column, row])
@@ -169,7 +166,66 @@ class RustyHeart:
 		for item in self.objects:
 			self.blit(item)
 		pygame.display.update()
+	def relevel(self):
+		self.rusty.box = None
+		
+		lvl = 'levels/level'+str(self.level)+'.csv'
 
+		levelStuff = self.levels[self.level]
+		metalSize = levelStuff["metal"].get_rect().width
+		cardboardSize = levelStuff["cardboard"].get_rect().width
+		self.drawBkg(levelStuff["background"])
+		self.objects = []
+		self.Spikes = []
+		if(self.heart!=None):
+			self.heart.visible = False
+		fp = open(lvl,'r')
+		level = fp.read().split("\r")
+		fp.close()
+		row = 0
+		column = 0
+
+		mCount = 0
+		#print level
+		for i in level:
+			for obj in i:
+				if obj == '.':
+					column += metalSize
+				elif obj == 'm':
+					self.objects.append(box.Box([column,row],"metal",self.rusty,levelStuff))
+					column +=metalSize
+				elif obj == 'c':
+					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
+					self.objects.append(cbox)
+					column += cardboardSize
+				elif obj == 'C':
+					loc = [column+10, row+10]
+					if loc not in self.rusty.collectedHearts:
+
+						self.heart = Heart.Heart(loc)
+						self.objects.append(self.heart)
+					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
+					self.objects.append(cbox)
+					column += cardboardSize
+				elif obj == 's':
+					
+					spike = Spike.Spike([column, row])
+					self.objects.append(spike)
+					self.Spikes.append(spike)
+					column += 50
+				elif obj == 'd':
+					self.Door = Door.Door([column,row])
+					self.objects.append(self.Door)
+					column += 50
+					
+
+			column = 0
+			row +=50
+		self.rusty.reset()
+		self.screen.blit(self.rusty.image,self.rusty.rect)
+		for item in self.objects:
+			self.blit(item)
+		pygame.display.update()
 	def main(self):
 		self.refresh = []
 		
@@ -204,7 +260,6 @@ class RustyHeart:
 		while True:
 			if self.state == "start":
 				'''Creates the start screen'''
-				soundstate == "play"
 				self.drawBkg(image = self.backgrounds["heartPicture"])
 				
 				afont = pygame.font.SysFont("Arial", 72)
@@ -230,13 +285,17 @@ class RustyHeart:
 							startMusic.stop()
 							instructionsMusic.play(-1)
 						if event.key == pygame.K_RETURN:
-							self.state = "sandbox"
+							self.state = "play"
 							startMusic.stop()
 							self.loadLevel()
 							
 				pygame.display.update(self.refresh)
 			
-			if self.state == "sandbox":
+			if self.state == "play":
+				for i in range(self.rusty.lives):
+					rect = pygame.Rect(20*i+10,10,20,17)
+					self.screen.blit(self.lifeImage, rect)
+
 				for event in pygame.event.get():
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
@@ -288,19 +347,19 @@ class RustyHeart:
 							self.rusty.fast = False
 						
 				
-				dead = False
 				for spike in self.Spikes:
 					if spike.collidesWith(self.rusty.rect):
 						spikes.play()
 						self.rusty.lives -= 1
-						self.level -=1
-						self.loadLevel()
+						self.relevel()
+						
 						break	
 				if self.rusty.rect.centery >self.screensize[1]:
 					fall.play()
 					self.rusty.lives -= 1
-					self.level -=1
-					self.loadLevel()
+					self.relevel()
+
+
 				if self.rusty.lives <= 0:
 					#Go back to beginning if dead
 					self.rusty.left = False

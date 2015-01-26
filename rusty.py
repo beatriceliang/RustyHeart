@@ -17,6 +17,7 @@ class Rusty:
 		self.box = None
 
 		self.fast = False
+		self.lives = 3
 	def reset(self):
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 	def speedLeft(self):

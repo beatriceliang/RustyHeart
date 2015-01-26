@@ -100,6 +100,7 @@ class RustyHeart:
 
 		self.refresh = []
 	def loadLevel(self):
+		self.rusty.box = None
 		if self.level > -1:
 			self.levels[self.level]["music"].stop()
 		
@@ -288,12 +289,16 @@ class RustyHeart:
 				for spike in self.Spikes:
 					if spike.collidesWith(self.rusty.rect):
 						spikes.play()
-						dead = True	
+						self.rusty.lives -= 1
+						self.level -=1
+						self.loadLevel()
 						break	
 				if self.rusty.rect.centery >self.screensize[1]:
 					fall.play()
-					dead = True
-				if dead:
+					self.rusty.lives -= 1
+					self.level -=1
+					self.loadLevel()
+				if self.rusty.lives <= 0:
 					#Go back to beginning if dead
 					self.rusty.left = False
 					self.rusty.speed = [0,0]
@@ -305,6 +310,8 @@ class RustyHeart:
 					self.levels[self.level]["music"].stop()
 					self.level = -1
 					gameOverMusic.play(-1)
+
+					self.rusty.lives = 3
 				
 				self.updateState()
 				# throttle the game speed to 30fps

@@ -1,3 +1,9 @@
+'''
+Itrat Akhter, Catherine Alden, Luis Henriquez-Perez, Beatrice Liang, Tiffany Lam, Shama Ramos
+RustyHeart Game
+CS369 
+January 2015
+'''
 import sys
 import random
 import rusty
@@ -62,11 +68,12 @@ class RustyHeart:
 				self.screen.blit(background,rect,rect)
 			self.refresh.append( rect )
 	def blit(self,obj):
+		'''blits an object onto the screen if it is within the screen width'''
 		if obj.rect.right > 0 or obj.rect.left <self.screensize[0]:
 			self.screen.blit(obj.image,obj.rect)
 			self.refresh.append(obj.rect)
 	def updateState(self):
-
+		'''updates the locations of all of the objects on the screen'''
 		background = self.levels[self.level]["background"]
 		self.drawBkg(background,self.rusty.rect)
 		if self.rusty.rect.right >= self.screensize[0]:
@@ -75,18 +82,18 @@ class RustyHeart:
 		 	diffX =  self.rusty.rect.width- self.screensize[0]
 		else:
 			diffX = 0
-	
+		#draws the background over each object if it moved or can move
 		for item in self.objects:
 			if(item.type=="cardboard" or diffX!=0 or item.type=="heart" or item.collide):
 				if item.rect.left <self.screensize[0] and item.rect.right >0:
 					if not(item.type=="heart" and item.visible==True):
 						self.drawBkg(background,item.rect)
-
+		#moves object
 		for item in self.objects:
 			if(item.type=="cardboard" or item.type == "door" or item.type=="heart" or diffX!=0 or item.collide):	
 				item.move(self.objects,diffX)
-				#if item.type=="heart":
-				self.drawBkg(background,item.rect)
+				
+		#blits object onto screen if it moved
 		for item in self.objects:
 			if item.rect.left <self.screensize[0] and item.rect.right >0:
 				if item.type!="heart":
@@ -96,7 +103,7 @@ class RustyHeart:
 					if item.visible==False:
 						self.screen.blit(item.image,item.rect)
 						self.refresh.append(item.rect)
-			#item.collide = False
+		#moves rusty
 		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)
 
@@ -104,7 +111,10 @@ class RustyHeart:
 
 		self.refresh = []
 	def loadLevel(self):
+		'''loads a level from the file and adds all of the objects to the list to be drawn'''
+
 		self.rusty.box = None
+		#handles music for the level
 		if self.level > -1:
 			self.levels[self.level]["music"].stop()
 		
@@ -122,6 +132,8 @@ class RustyHeart:
 		self.Spikes = []
 		if(self.heart!=None):
 			self.heart.visible = False
+
+		#reads in file
 		fp = open(lvl,'r')
 		level = fp.read().split("\r")
 		fp.close()
@@ -129,30 +141,34 @@ class RustyHeart:
 		column = 0
 
 		mCount = 0
-		#print level
+		
 		for i in level:
 			for obj in i:
 				if obj == '.':
 					column += metalSize
+				#adds a metal box
 				elif obj == 'm':
 					self.objects.append(box.Box([column,row],"metal",self.rusty,levelStuff))
 					column +=metalSize
+				#adds a cardboard box
 				elif obj == 'c':
 					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
 					self.objects.append(cbox)
 					column += cardboardSize
+				#adds a cardboard box with heart hidden behind it
 				elif obj == 'C':
 					self.heart = Heart.Heart([column+10, row+10])
 					self.objects.append(self.heart)
 					cbox = box.Box([column,row],"cardboard",self.rusty,levelStuff)
 					self.objects.append(cbox)
 					column += cardboardSize
+				#adds a spike
 				elif obj == 's':
-					
 					spike = Spike.Spike([column, row])
 					self.objects.append(spike)
 					self.Spikes.append(spike)
 					column += 50
+				#adds a door
 				elif obj == 'd':
 					self.Door = Door.Door([column,row])
 					self.objects.append(self.Door)
@@ -168,6 +184,7 @@ class RustyHeart:
 			self.blit(item)
 		pygame.display.update()
 	def relevel(self):
+		'''does the same thing as loadLevel, but without changing music and deleting hearts'''
 		self.rusty.box = None
 		
 		lvl = 'levels/level'+str(self.level)+'.csv'
@@ -293,6 +310,7 @@ class RustyHeart:
 				pygame.display.update(self.refresh)
 			
 			if self.state == "play":
+
 				for i in range(self.rusty.lives):
 					rect = pygame.Rect(20*i+10,10,20,17)
 					self.screen.blit(self.lifeImage, rect)
@@ -321,7 +339,6 @@ class RustyHeart:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.Door = None
 								self.rusty.box = None
-								#print self.level, self.level.s
 								if self.level >= len(self.levels)-1:
 									self.state= "end"
 									self.levels[self.level]["music"].stop()
@@ -355,7 +372,7 @@ class RustyHeart:
 						if event.key == pygame.K_r:
 							self.rusty.fast = False
 						
-				
+				#handles rusty dying
 				for spike in self.Spikes:
 					if spike.collidesWith(self.rusty.rect):
 						spikes.play()

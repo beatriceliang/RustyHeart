@@ -1,7 +1,9 @@
-# Heart.py
-# Luis Henriquez-Perez
-# Tue Jan 20 2015
-# This class if for the spike class in the game Rusty Heart
+'''
+Itrat Akhter, Catherine Alden, Luis Henriquez-Perez, Beatrice Liang, Tiffany Lam, Shama Ramos
+Heart
+CS369 
+January 2015
+'''
 
 import pygame
 

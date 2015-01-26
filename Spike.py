@@ -1,7 +1,9 @@
-# Spike.py
-# Luis Henriquez-Perez
-# Fri Jan 16 2015
-# This program represents a spike in the game Rusty Heart
+'''
+Itrat Akhter, Catherine Alden, Luis Henriquez-Perez, Beatrice Liang, Tiffany Lam, Shama Ramos
+RustyHeart
+CS369 
+January 2015
+'''
 import pygame
 
 class Spike:

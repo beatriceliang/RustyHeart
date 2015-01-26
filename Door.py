@@ -1,3 +1,9 @@
+'''
+Itrat Akhter, Catherine Alden, Luis Henriquez-Perez, Beatrice Liang, Tiffany Lam, Shama Ramos
+Door
+CS369 
+January 2015
+'''
 import pygame
 class Door:
 	def __init__(self,location):

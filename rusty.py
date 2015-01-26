@@ -1,35 +1,47 @@
+'''
+Itrat Akhter, Catherine Alden, Luis Henriquez-Perez, Beatrice Liang, Tiffany Lam, Shama Ramos
+Rusty
+CS369 
+January 2015
+'''
 import sys
 import random
 import pygame
 class Rusty:
 	def __init__(self,start):
+		''' initializes rusty class which holds its images and location'''
 		pygame.init()
 		self.start = start
 		self.speed = [0,0]
-		
+		#images
 		self.rightImage = pygame.image.load("images/rusty/rightrusty.png").convert_alpha()
 		self.leftImage = pygame.image.load("images/rusty/leftrusty.png").convert_alpha()
 		self.waveImage = pygame.image.load("images/rusty/rustysmaller.png").convert_alpha()
 		self.image = self.rightImage
-		self.left = False
+
+
+		self.left = False #direction rusty is facing
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 		self.justJumped = False
 		self.box = None
 
 		self.fast = False
-		self.lives = 100
+		self.lives = 3
 		self.collectedHearts = []
 		self.heart = pygame.mixer.Sound( "music/sounds/heart.wav" )
 	def reset(self):
+		'''places rusty back to the beginning of the screen'''
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 	def speedLeft(self):
+		'''moves rusty left'''
 		self.image = self.leftImage
 		self.left = True
 		if self.fast:
-			self.speed[0]=-10
+			self.speed[0]=-8
 		else:
 			self.speed[0]=-5
 	def speedRight(self):
+		'''moves rusty right'''
 		self.image = self.rightImage
 		self.left = False
 		if self.fast:
@@ -37,19 +49,23 @@ class Rusty:
 		else:
 			self.speed[0]=5
 	def stop(self):
+		'''makes rusty stop'''
 		self.speed[0] = 0
 		
 	def wave(self):
+		'''pointless, makes rusty wave'''
 		self.image = self.waveImage
-		#self.left = False
 		
 	def jump(self):
+		'''makes rusty jump'''
 		if not self.justJumped:
 			self.speed[1]= -75
 			self.justJumped = True
 	def isOnBox(self,box):
+		'''checks if rusty is on a box or not'''
 		return (box.rect.centery +box.rect.height/2 >= self.rect.centery +self.rect.height/2) and (box.rect.centery-box.rect.height/2 <= self.rect.centery + self.rect.height/2) and (box.rect.centerx + box.rect.width/2 >= self.rect.centerx) and (box.rect.centerx-box.rect.width/2 <= self.rect.centerx)
 	def move(self,boxes,diffX):
+		''' checks the conditions of rusty to handles its movements'''
 		notOn = True
 		b = None
 		i = 0

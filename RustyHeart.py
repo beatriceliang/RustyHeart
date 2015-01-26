@@ -557,7 +557,9 @@ class RustyHeart:
                 self.screen.blit(title,(210,20))
                 
                 rusty = pygame.image.load( "images/rusty/rustysmall.png" ).convert_alpha()
-                self.screen.blit( rusty, (195, 100) )
+                self.screen.blit( rusty, (100, 100) )
+            	femalerusty = pygame.image.load( "images/femalerobot.png" ).convert_alpha()
+                self.screen.blit( femalerusty, (250, 80) )
                 
                 afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
                 space = afont.render("press ENTER for new game", True, (155,50,50))

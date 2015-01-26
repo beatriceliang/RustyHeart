@@ -36,7 +36,7 @@ class Rusty:
 			self.speed[0]=-5
 	def speedRight(self):
                 if(self.doneWave=="doneWaving"):
-                        self.rect = self.lrightImage.get_rect().move(self.rect.left,self.rect.top)
+                        self.rect = self.rightImage.get_rect().move(self.rect.left,self.rect.top)
                         self.doneWave = "notWaving"
                 if(self.doneWave=="waving"):
                         self.doneWave="doneWaving"

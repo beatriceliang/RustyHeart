@@ -18,6 +18,8 @@ class Rusty:
 
 		self.fast = False
 		self.lives = 3
+		self.collectedHearts = []
+		self.heart = pygame.mixer.Sound( "music/sounds/heart.wav" )
 	def reset(self):
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 	def speedLeft(self):
@@ -51,7 +53,7 @@ class Rusty:
 		notOn = True
 		b = None
 		i = 0
-		heart = pygame.mixer.Sound( "music/sounds/heart.wav" )
+		
 		for box in boxes:
 			if box.type=="heart" and box.visible==True:
 				continue
@@ -61,7 +63,9 @@ class Rusty:
 					box.collide = True
 					if box.type=="heart" and not box.rect.colliderect(boxes[i+1].rect):
 							box.visible=True
-							heart.play()
+							self.heart.play()
+							self.collectedHearts.append(box.location)
+							self.lives +=1
 							
 							
 				else:

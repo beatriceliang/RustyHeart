@@ -36,7 +36,8 @@ class RustyHeart:
 		factory = {"music": pygame.mixer.Sound('music/songs/EveningofChaos.wav'), "background":pygame.image.load("images/factory/factory.png"),"metal":pygame.image.load("images/factory/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/factory/cbox.png").convert_alpha()}
 		forest = {"music": pygame.mixer.Sound('music/songs/Undaunted.wav'),"background":pygame.image.load("images/forest/forest.png"),"metal":pygame.image.load("images/forest/rock.png").convert_alpha(),"cardboard":pygame.image.load("images/forest/mushroom.png").convert_alpha()}
 		coastline = {"music": pygame.mixer.Sound('music/songs/Carefree.wav'),"background":pygame.image.load("images/coastline/coastline.png"),"metal":pygame.image.load("images/coastline/beachrock.png").convert_alpha(),"cardboard":pygame.image.load("images/coastline/coconuts.png").convert_alpha()}
-		self.levels = [factory,forest ,outdoor, coastline]
+		space = {"music": pygame.mixer.Sound('music/songs/DestinyDay.wav'),"background":pygame.image.load("images/space/space.png"),"metal":pygame.image.load("images/space/spacestep.png").convert_alpha(),"cardboard":pygame.image.load("images/space/moonrock.png").convert_alpha()}
+		self.levels = [factory,forest,outdoor,coastline,space]
 		self.backgrounds = {"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
 
 		self.objects = []
@@ -85,14 +86,15 @@ class RustyHeart:
 				item.move(self.objects,diffX)
 				#if item.type=="heart":
 				self.drawBkg(background,item.rect)
-				if item.rect.left <self.screensize[0] and item.rect.right >0:
-					if item.type!="heart":
+		for item in self.objects:
+			if item.rect.left <self.screensize[0] and item.rect.right >0:
+				if item.type!="heart":
+					self.screen.blit(item.image,item.rect)
+					self.refresh.append(item.rect)
+				else:
+					if item.visible==False:
 						self.screen.blit(item.image,item.rect)
 						self.refresh.append(item.rect)
-					else:
-						if item.visible==False:
-							self.screen.blit(item.image,item.rect)
-							self.refresh.append(item.rect)
 			#item.collide = False
 		self.rusty.move(self.objects,diffX)
 		self.screen.blit(self.rusty.image,self.rusty.rect)

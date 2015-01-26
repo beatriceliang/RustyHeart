@@ -15,7 +15,7 @@ class Rusty:
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 		self.justJumped = False
 		self.box = None
-
+                self.doneWave = "notWaving"
 		self.fast = False
 		self.lives = 100
 		self.collectedHearts = []
@@ -23,6 +23,11 @@ class Rusty:
 	def reset(self):
 		self.rect = self.image.get_rect().move(self.start[0],self.start[1])
 	def speedLeft(self):
+                if(self.doneWave=="doneWaving"):
+                        self.rect = self.leftImage.get_rect().move(self.rect.left,self.rect.top)
+                        self.doneWave = "notWaving"
+                if(self.doneWave=="waving"):
+                        self.doneWave="doneWaving"
 		self.image = self.leftImage
 		self.left = True
 		if self.fast:
@@ -30,6 +35,11 @@ class Rusty:
 		else:
 			self.speed[0]=-5
 	def speedRight(self):
+                if(self.doneWave=="doneWaving"):
+                        self.rect = self.lrightImage.get_rect().move(self.rect.left,self.rect.top)
+                        self.doneWave = "notWaving"
+                if(self.doneWave=="waving"):
+                        self.doneWave="doneWaving"
 		self.image = self.rightImage
 		self.left = False
 		if self.fast:
@@ -41,6 +51,8 @@ class Rusty:
 		
 	def wave(self):
 		self.image = self.waveImage
+		self.rect = self.waveImage.get_rect().move(self.rect.left,self.rect.top)
+		self.donewave = "waving"
 		#self.left = False
 		
 	def jump(self):

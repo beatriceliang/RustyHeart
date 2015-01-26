@@ -66,6 +66,7 @@ class RustyHeart:
 			self.screen.blit(obj.image,obj.rect)
 			self.refresh.append(obj.rect)
 	def updateState(self):
+
 		background = self.levels[self.level]["background"]
 		self.drawBkg(background,self.rusty.rect)
 		if self.rusty.rect.right >= self.screensize[0]:
@@ -288,7 +289,7 @@ class RustyHeart:
 							self.state = "play"
 							startMusic.stop()
 							self.loadLevel()
-							
+
 				pygame.display.update(self.refresh)
 			
 			if self.state == "play":
@@ -300,6 +301,7 @@ class RustyHeart:
 					#Handles key presses
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
+							self.rusty.lives = 3
 							self.rusty.box = None
 							self.state = "end"
 							gameOverMusic.play(-1)
@@ -319,9 +321,16 @@ class RustyHeart:
 							if self.Door != None and self.Door.active and self.rusty.rect.centerx <= self.Door.rect.right and self.rusty.rect.centerx >= self.Door.rect.left and self.rusty.rect.centery >= self.Door.rect.top and self.rusty.rect.centery <= self.Door.rect.bottom:
 								self.Door = None
 								self.rusty.box = None
-								
-								self.loadLevel()
-								level.play()
+								#print self.level, self.level.s
+								if self.level >= len(self.levels)-1:
+									self.state= "end"
+									self.levels[self.level]["music"].stop()
+									self.level = -1
+									gameOverMusic.play(-1)
+
+								else:
+									self.loadLevel()
+									level.play()
 
 							else:
 								self.rusty.jump()

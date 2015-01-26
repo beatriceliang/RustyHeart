@@ -17,7 +17,7 @@ class Rusty:
 		self.box = None
 
 		self.fast = False
-		self.lives = 10
+		self.lives = 100
 		self.collectedHearts = []
 		self.heart = pygame.mixer.Sound( "music/sounds/heart.wav" )
 	def reset(self):

@@ -65,7 +65,7 @@ class Rusty:
         '''pointless, makes rusty wave'''
         self.image = self.waveImage
         self.rect = self.waveImage.get_rect().move(self.rect.left,self.rect.top)
-        self.donewave = "waving"
+        self.doneWave = "waving"
         
     def jump(self):
         '''makes rusty jump'''

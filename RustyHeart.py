@@ -92,6 +92,8 @@ class RustyHeart:
         for item in self.objects:
             if(item.type=="cardboard" or item.type == "door" or item.type=="heart" or diffX!=0 or item.collide):    
                 item.move(self.objects,diffX)
+                if item.type=="heart":
+                	self.drawBkg(background,item.rect)
                 
         #blits object onto screen if it moved
         for item in self.objects:

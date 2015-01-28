@@ -54,7 +54,7 @@ class Rusty:
         self.image = self.rightImage
         self.left = False
         if self.fast:
-            self.speed[0]=10
+            self.speed[0]=8
         else:
             self.speed[0]=5
     def stop(self):

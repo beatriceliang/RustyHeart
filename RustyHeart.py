@@ -251,6 +251,7 @@ class RustyHeart:
 			self.blit(item)
 		pygame.display.update()
 	def main(self):
+		
 		self.refresh = []
 		
 		soundstate = "start"
@@ -283,6 +284,7 @@ class RustyHeart:
 
 		
 		startMusic.play(-1)
+		
 		while True:
 			if self.state == "start":
 				'''Creates the start screen'''

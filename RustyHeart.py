@@ -633,10 +633,10 @@ class RustyHeart:
 				prevTime = afont.render("Fastest Time:"+str(self.score),True,(0,0,0))
 				self.screen.blit(prevTime,((self.screensize[0] - prevTime.get_rect().width)/2,415))
 				
-				afont = pygame.font.SysFont("baskerville", 100)
+				afont = pygame.font.SysFont("baskerville", 90)
 				highscore = afont.render("HIGH SCORE", True,(255,0,0))
 				if self.highscore:
-					self.screen.blit(highscore,(0,self.screensize[1]/2 - 100))
+					self.screen.blit(highscore,(self.screensize[0]-highscore.get_rect().width,self.screensize[1]/2 - 100))
 				for event in pygame.event.get():
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:

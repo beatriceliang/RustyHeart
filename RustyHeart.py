@@ -42,8 +42,9 @@ class RustyHeart:
 		factory = {"music": pygame.mixer.Sound('music/songs/EveningofChaos.wav'), "background":pygame.image.load("images/factory/factory.png"),"metal":pygame.image.load("images/factory/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/factory/cbox.png").convert_alpha()}
 		forest = {"music": pygame.mixer.Sound('music/songs/Undaunted.wav'),"background":pygame.image.load("images/forest/forest.png"),"metal":pygame.image.load("images/forest/rock.png").convert_alpha(),"cardboard":pygame.image.load("images/forest/mushroom.png").convert_alpha()}
 		coastline = {"music": pygame.mixer.Sound('music/songs/Carefree.wav'),"background":pygame.image.load("images/coastline/coastline.png"),"metal":pygame.image.load("images/coastline/beachrock.png").convert_alpha(),"cardboard":pygame.image.load("images/coastline/coconuts.png").convert_alpha()}
+		ocean = {"music":pygame.mixer.Sound('music/songs/Ambler.wav'),"background":pygame.image.load("images/ocean/ocean.png"),"metal":pygame.image.load("images/ocean/plywood.png").convert_alpha(),"cardboard":pygame.image.load("images/ocean/ball.png").convert_alpha()}
 		space = {"music": pygame.mixer.Sound('music/songs/DestinyDay.wav'),"background":pygame.image.load("images/space/space.png"),"metal":pygame.image.load("images/space/spacestep.png").convert_alpha(),"cardboard":pygame.image.load("images/space/moonrock.png").convert_alpha()}
-		self.levels = [factory,forest,outdoor,coastline,space]
+		self.levels = [factory,forest,outdoor,coastline,ocean,space]
 		self.backgrounds = {"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
 		self.lifeImage = pygame.image.load("images/tinyHeart.png")
 		self.objects = []
@@ -52,19 +53,20 @@ class RustyHeart:
 		self.heart = None
 		self.highscore = False
 
-	def drawBkg(self, image = None, rect = None):
+	def drawBkg(self, image = None, rect = None, color = (255,255,255)):
 		'''Draws the background elements. If it is given a image name, then the background will be filled by the given image'''
 		if image != None:
 			background = image
 		if rect == None:
+
 			if image == None:
-				self.screen.fill((255,255,255))
+				self.screen.fill(color)
 			else:
 				self.screen.blit(background,(0,0))
 			self.refresh.append(self.screen.get_rect())
 		else:
 			if image == None:
-				self.screen.fill( (255, 255, 255), rect )
+				self.screen.fill( color, rect )
 			else:
 				self.screen.blit(background,rect,rect)
 			self.refresh.append( rect )
@@ -209,7 +211,6 @@ class RustyHeart:
 		column = 0
 
 		mCount = 0
-		#print level
 		for i in level:
 			for obj in i:
 				if obj == '.':
@@ -302,8 +303,10 @@ class RustyHeart:
 				self.screen.blit(quit,(220,430))
 				
 				for event in pygame.event.get():
+					if pygame.mouse.get_pressed()[0]:
+						sys.exit()
 					if event.type == pygame.KEYDOWN:
-						if event.key == pygame.K_q:
+						if event.key == pygame.K_q: 
 							sys.exit()
 						if event.key == pygame.K_i:
 							self.state = "instructions"
@@ -316,7 +319,7 @@ class RustyHeart:
 							self.loadLevel()
 				self.rusty.lives = 3
 				pygame.display.update(self.refresh)
-			
+
 			if self.state == "play":
 				#handles timer in game
 				afont = pygame.font.SysFont("Arial",25)
@@ -333,15 +336,19 @@ class RustyHeart:
 
 				for event in pygame.event.get():
 					#Handles key presses
+					if pygame.mouse.get_pressed()[0]:
+						self.rusty.lives = 3
+						self.rusty.box = None
+						self.state = "end"
+						gameOverMusic.play(-1)
+						self.levels[self.level]["music"].stop()
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_q:
 							self.rusty.lives = 3
 							self.rusty.box = None
 							self.state = "end"
 							gameOverMusic.play(-1)
-
 							self.levels[self.level]["music"].stop()
-
 						if event.key == pygame.K_r:
 							self.rusty.fast = True
 						if event.key == pygame.K_LEFT:
@@ -458,7 +465,7 @@ class RustyHeart:
 						
 			if self.state == "instructions":
 				'''Creates an instructions page'''
-				self.drawBkg()
+				self.drawBkg(color = (200,200,200))
 				afont = pygame.font.SysFont("Times New Roman", 50)
 				title = afont.render("Instructions",True,(0,0,0))
 				self.screen.blit(title,(200,20))
@@ -515,13 +522,13 @@ class RustyHeart:
 				
 			if self.state == "instructions2":
 				'''Creates the second instructions page'''
-				self.drawBkg()
+				self.drawBkg(color = (200,200,200))
 				afont = pygame.font.SysFont("Times New Roman", 50)
 				title = afont.render("Instructions",True,(0,0,0))
 				self.screen.blit(title,(200,20))
 				
-				spikes = pygame.image.load( "images/spike.png" ).convert_alpha()
-				self.screen.blit( spikes, (100, 100) )
+				s = pygame.image.load( "images/spike.png" ).convert_alpha()
+				self.screen.blit( s, (100, 100) )
 				
 				heart = pygame.image.load( "images/littleheart.png" ).convert_alpha()
 				self.screen.blit( heart, (105, 250) )
@@ -531,8 +538,8 @@ class RustyHeart:
 				self.screen.blit( door, (105, 320) )
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
-				spikes = afont.render("avoid hitting the spikes",True,(0,0,0))
-				self.screen.blit(spikes,(220,120))
+				s = afont.render("avoid hitting the spikes",True,(0,0,0))
+				self.screen.blit(s,(220,120))
 				
 				heart = afont.render("collect the hearts",True,(0,0,0))
 				self.screen.blit(heart,(240,270))
@@ -568,13 +575,13 @@ class RustyHeart:
 			if self.state == "end":
 				'''Creates a game over page'''
 				self.level = -1
-				self.drawBkg()  
+				self.drawBkg(color = (0,0,0))  
 				afont = pygame.font.SysFont("Times New Roman", 50)
-				title = afont.render("Game Over",True,(0,0,0))
-				self.screen.blit(title,(210,20))
+				title = afont.render("Rusty failed to find love",True,(200,200,200))
+				self.screen.blit(title,((self.screensize[0]-title.get_rect().width)/2,50))
 				
-				rusty = pygame.image.load( "images/rusty/rustysmall.png" ).convert_alpha()
-				self.screen.blit( rusty, (195, 100) )
+				rusty = pygame.image.load( "images/brokenheart.png" ).convert_alpha()
+				self.screen.blit( rusty, ((self.screensize[0]-rusty.get_rect().width)/2, (self.screensize[1]-rusty.get_rect().height)/2 ))
 				
 				afont = pygame.font.SysFont("Times New Roman", 20, italic = True, bold = True)
 				space = afont.render("press ENTER for new game", True, (155,50,50))
@@ -593,6 +600,7 @@ class RustyHeart:
 							self.state = "start"
 							gameOverMusic.stop()
 							startMusic.play(-1)
+
 											
 				pygame.display.update(self.refresh) 
 						
@@ -601,7 +609,7 @@ class RustyHeart:
 
 				
 				self.level = -1
-				self.drawBkg()  
+				self.drawBkg(color = (252,182,229))  
 				string = "Rusty found the love of his life in " + str(self.time) + " seconds"
 				afont = pygame.font.SysFont("Times New Roman", 30)
 				title = afont.render(string,True,(0,0,0))
@@ -634,7 +642,6 @@ class RustyHeart:
 							winMusic.stop()
 							creditsMusic.play(-1)
 						if event.key == pygame.K_RETURN:
-							print (self.endTime - self.startTime)/1000
 							self.state = "start"
 							winMusic.stop()
 							startMusic.play(-1)
@@ -668,7 +675,6 @@ class RustyHeart:
 
 				resources = []
 				afont = pygame.font.SysFont("Lucida Console", 15)
-				#resources.append(afont.render("Start Screen Image: https://www.flickr.com/photos/seanfx/", True,(0,0,0)))
 				resources.append(afont.render("Bruce: http://cs.colby.edu/maxwell/", True, (0,0,0)))
 				resources.append(afont.render("Music: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
 				resources.append(afont.render("Sounds: GarageBand", True, (0,0,0)))
@@ -676,11 +682,10 @@ class RustyHeart:
 					self.screen.blit(resources[i],(10,resourcesLoc+110+20*i))
 
 				for event in pygame.event.get():
-					if event.type == pygame.KEYDOWN:
-						if event.key == pygame.K_q:
-							self.state = "thanks"
-							creditsMusic.stop()
-							bruceMusic.play(-1)
+					if event.type == pygame.KEYDOWN or pygame.mouse.get_pressed()[0]:
+						self.state = "thanks"
+						creditsMusic.stop()
+						bruceMusic.play(-1)
 				pygame.display.update(self.refresh)
 				
 			if self.state == "thanks":
@@ -695,7 +700,7 @@ class RustyHeart:
 				name = afont.render("Professor Bruce Maxwell",True,(0,0,0))
 				self.screen.blit(name,(100,100))
 				for event in pygame.event.get():
-					if event.type == pygame.KEYDOWN:
+					if event.type == pygame.KEYDOWN or pygame.mouse.get_pressed()[0]:
 						sys.exit()
 				pygame.display.update(self.refresh)
 

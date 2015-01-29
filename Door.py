@@ -6,9 +6,9 @@ January 2015
 '''
 import pygame
 class Door:
-	def __init__(self,location):
+	def __init__(self,location,levelStuff):
 		self.location = location
-		self.image = pygame.image.load("images/door.png")
+		self.image = levelStuff["door"]
 		self.rect = self.image.get_rect().move(location[0], location[1]-50)
 		self.type = "door"
 		self.collide = True

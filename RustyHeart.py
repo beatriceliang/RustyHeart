@@ -38,12 +38,12 @@ class RustyHeart:
 		self.level = -1
 
 		
-		outdoor = {"music": pygame.mixer.Sound('music/songs/LifeofRiley.wav'),"background":pygame.image.load("images/outdoor/outdoor.png"),"metal":pygame.image.load("images/outdoor/stump1.png").convert_alpha(),"cardboard":pygame.image.load("images/outdoor/leaf.png").convert_alpha()}
-		factory = {"music": pygame.mixer.Sound('music/songs/EveningofChaos.wav'), "background":pygame.image.load("images/factory/factory.png"),"metal":pygame.image.load("images/factory/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/factory/cbox.png").convert_alpha()}
-		forest = {"music": pygame.mixer.Sound('music/songs/Undaunted.wav'),"background":pygame.image.load("images/forest/forest.png"),"metal":pygame.image.load("images/forest/rock.png").convert_alpha(),"cardboard":pygame.image.load("images/forest/mushroom.png").convert_alpha()}
-		coastline = {"music": pygame.mixer.Sound('music/songs/Carefree.wav'),"background":pygame.image.load("images/coastline/coastline.png"),"metal":pygame.image.load("images/coastline/beachrock.png").convert_alpha(),"cardboard":pygame.image.load("images/coastline/coconuts.png").convert_alpha()}
-		ocean = {"music":pygame.mixer.Sound('music/songs/Ambler.wav'),"background":pygame.image.load("images/ocean/ocean.png"),"metal":pygame.image.load("images/ocean/plywood.png").convert_alpha(),"cardboard":pygame.image.load("images/ocean/ball.png").convert_alpha()}
-		space = {"music": pygame.mixer.Sound('music/songs/DestinyDay.wav'),"background":pygame.image.load("images/space/space.png"),"metal":pygame.image.load("images/space/spacestep.png").convert_alpha(),"cardboard":pygame.image.load("images/space/moonrock.png").convert_alpha()}
+		outdoor = {"door":pygame.image.load("images/door.png"),"music": pygame.mixer.Sound('music/songs/LifeofRiley.wav'),"background":pygame.image.load("images/outdoor/outdoor.png"),"metal":pygame.image.load("images/outdoor/stump1.png").convert_alpha(),"cardboard":pygame.image.load("images/outdoor/leaf.png").convert_alpha()}
+		factory = {"door":pygame.image.load("images/door.png"),"music": pygame.mixer.Sound('music/songs/EveningofChaos.wav'), "background":pygame.image.load("images/factory/factory.png"),"metal":pygame.image.load("images/factory/mbox1.png").convert_alpha(),"cardboard":pygame.image.load("images/factory/cbox.png").convert_alpha()}
+		forest = {"door":pygame.image.load("images/door.png"),"music": pygame.mixer.Sound('music/songs/Undaunted.wav'),"background":pygame.image.load("images/forest/forest.png"),"metal":pygame.image.load("images/forest/rock.png").convert_alpha(),"cardboard":pygame.image.load("images/forest/mushroom.png").convert_alpha()}
+		coastline = {"door":pygame.image.load("images/door.png"),"music": pygame.mixer.Sound('music/songs/Carefree.wav'),"background":pygame.image.load("images/coastline/coastline.png"),"metal":pygame.image.load("images/coastline/beachrock.png").convert_alpha(),"cardboard":pygame.image.load("images/coastline/coconuts.png").convert_alpha()}
+		ocean = {"door":pygame.image.load("images/rocket.png"),"music":pygame.mixer.Sound('music/songs/Ambler.wav'),"background":pygame.image.load("images/ocean/ocean.png"),"metal":pygame.image.load("images/ocean/plywood.png").convert_alpha(),"cardboard":pygame.image.load("images/ocean/ball.png").convert_alpha()}
+		space = {"door":pygame.image.load("images/door.png"),"music": pygame.mixer.Sound('music/songs/DestinyDay.wav'),"background":pygame.image.load("images/space/space.png"),"metal":pygame.image.load("images/space/spacestep.png").convert_alpha(),"cardboard":pygame.image.load("images/space/moonrock.png").convert_alpha()}
 		self.levels = [factory,forest,outdoor,coastline,ocean,space]
 		self.backgrounds = {"heartPicture":pygame.image.load("images/heartPicture.png").convert_alpha()}
 		self.lifeImage = pygame.image.load("images/tinyHeart.png")
@@ -177,7 +177,7 @@ class RustyHeart:
 					column += 50
 				#adds a door
 				elif obj == 'd':
-					self.Door = Door.Door([column,row])
+					self.Door = Door.Door([column,row],levelStuff)
 					self.objects.append(self.Door)
 					column += 50
 					
@@ -238,7 +238,7 @@ class RustyHeart:
 					self.Spikes.append(spike)
 					column += 50
 				elif obj == 'd':
-					self.Door = Door.Door([column,row])
+					self.Door = Door.Door([column,row],levelStuff)
 					self.objects.append(self.Door)
 					column += 50
 					

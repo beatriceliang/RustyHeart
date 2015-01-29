@@ -125,5 +125,7 @@ class Rusty:
         if b != None and not self.justJumped:
             self.speed[1] = b.rect.top-self.rect.height-self.rect.top
         self.rect.move_ip(self.speed[0]-diffX, self.speed[1])
+if __name__ == '__main__':
+    print "please go to RustyHeart.py to play"
  
         

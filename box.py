@@ -59,4 +59,5 @@ class Box:
 		
 		self.rect.move_ip(self.speed[0]-diffX, self.speed[1])
 
-
+if __name__ == '__main__':
+	print "please go to RustyHeart.py to play"

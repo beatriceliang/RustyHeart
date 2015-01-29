@@ -17,3 +17,5 @@ class Spike:
 		return self.rect.colliderect(rusty)
 	def move(self, objects, diffX):
 		self.rect.move_ip(-diffX, 0)
+if __name__ == '__main__':
+	print "please go to RustyHeart.py to play"

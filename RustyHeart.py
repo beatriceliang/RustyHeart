@@ -279,7 +279,6 @@ class RustyHeart:
 		spikes = pygame.mixer.Sound( "music/sounds/spikes.wav" )
 		spikes.set_volume(0.05)
 		level = pygame.mixer.Sound( "music/sounds/level.wav" )
-		level.set_volume(0.1)
 		wave = pygame.mixer.Sound( "music/sounds/wave.wav" )
 
 		

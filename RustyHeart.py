@@ -290,7 +290,7 @@ class RustyHeart:
 				'''Creates the start screen'''
 				self.drawBkg(image = self.backgrounds["heartPicture"])
 				
-				afont = pygame.font.SysFont("Arial", 72)
+				afont = pygame.font.SysFont("baskerville", 72)
 				title = afont.render("Rusty Heart",True,(255,255,255))
 				self.screen.blit(title,(120,60))
 
@@ -468,7 +468,7 @@ class RustyHeart:
 			if self.state == "instructions":
 				'''Creates an instructions page'''
 				self.drawBkg(color = (200,200,200))
-				afont = pygame.font.SysFont("Times New Roman", 50)
+				afont = pygame.font.SysFont("baskerville", 50)
 				title = afont.render("Instructions",True,(0,0,0))
 				self.screen.blit(title,(200,20))
 				
@@ -525,7 +525,7 @@ class RustyHeart:
 			if self.state == "instructions2":
 				'''Creates the second instructions page'''
 				self.drawBkg(color = (200,200,200))
-				afont = pygame.font.SysFont("Times New Roman", 50)
+				afont = pygame.font.SysFont("baskerville", 50)
 				title = afont.render("Instructions",True,(0,0,0))
 				self.screen.blit(title,(200,20))
 				
@@ -578,7 +578,7 @@ class RustyHeart:
 				'''Creates a game over page'''
 				self.level = -1
 				self.drawBkg(color = (0,0,0))  
-				afont = pygame.font.SysFont("Times New Roman", 50)
+				afont = pygame.font.SysFont("baskerville", 50)
 				title = afont.render("Rusty failed to find love",True,(200,200,200))
 				self.screen.blit(title,((self.screensize[0]-title.get_rect().width)/2,50))
 				
@@ -613,7 +613,7 @@ class RustyHeart:
 				self.level = -1
 				self.drawBkg(color = (252,182,229))  
 				string = "Rusty found the love of his life in " + str(self.time) + " seconds"
-				afont = pygame.font.SysFont("Times New Roman", 30)
+				afont = pygame.font.SysFont("baskerville", 30)
 				title = afont.render(string,True,(0,0,0))
 				self.screen.blit(title,((self.screensize[0] - title.get_rect().width)/2,20))
 				
@@ -629,11 +629,11 @@ class RustyHeart:
 				quit = afont.render("press q to quit", True, (155,50,50))
 				self.screen.blit(quit,(265,390))
 
-				afont = pygame.font.SysFont("Times New Roman", 30)
+				afont = pygame.font.SysFont("baskerville", 30)
 				prevTime = afont.render("Fastest Time:"+str(self.score),True,(0,0,0))
 				self.screen.blit(prevTime,((self.screensize[0] - prevTime.get_rect().width)/2,415))
 				
-				afont = pygame.font.SysFont("Arial", 100)
+				afont = pygame.font.SysFont("baskerville", 100)
 				highscore = afont.render("HIGH SCORE", True,(255,0,0))
 				if self.highscore:
 					self.screen.blit(highscore,(0,self.screensize[1]/2 - 100))
@@ -655,11 +655,11 @@ class RustyHeart:
 				credits = []
 				self.drawBkg()
 
-				afont = pygame.font.SysFont("Arial", 50)
+				afont = pygame.font.SysFont("baskerville", 50)
 				title = afont.render("Credits",True,(0,0,0))
 				self.screen.blit(title,(10,0))
 
-				afont = pygame.font.SysFont("Lucida Console", 18)
+				afont = pygame.font.SysFont("lucida console", 18)
 				credits.append(afont.render("Producer: .......................Beatrice Liang", True,(0,0,0)))
 				credits.append(afont.render("Designer: .......................Luis Henriquez-Perez", True,(0,0,0)))
 				credits.append(afont.render("Lead Programmer: ................Itrat Akhter", True,(0,0,0)))
@@ -671,12 +671,12 @@ class RustyHeart:
 					resourcesLoc += 25
 					self.screen.blit(credits[i], (20,resourcesLoc))
 
-				afont = pygame.font.SysFont("Arial", 50)
+				afont = pygame.font.SysFont("baskerville", 50)
 				title = afont.render("Resources", True,(0,0,0))
 				self.screen.blit(title,(10,resourcesLoc+40))
 
 				resources = []
-				afont = pygame.font.SysFont("Lucida Console", 15)
+				afont = pygame.font.SysFont("lucida console", 15)
 				resources.append(afont.render("Bruce: http://cs.colby.edu/maxwell/", True, (0,0,0)))
 				resources.append(afont.render("Music: Kevin Macleod at http://incompetech.com/",True,(0,0,0)))
 				resources.append(afont.render("Sounds: GarageBand", True, (0,0,0)))
@@ -694,11 +694,11 @@ class RustyHeart:
 				self.drawBkg()
 				bruce = pygame.image.load( "images/Bruce-Header-Collage.png" ).convert_alpha()
 				self.screen.blit( bruce, (220, 200) )
-				afont = pygame.font.SysFont("Arial", 40)
+				afont = pygame.font.SysFont("baskerville", 40)
 				title = afont.render("Special Thanks To",True,(0,0,0))
 				self.screen.blit(title,(150,30))
 
-				afont = pygame.font.SysFont("Arial", 40)
+				afont = pygame.font.SysFont("baskerville", 40)
 				name = afont.render("Professor Bruce Maxwell",True,(0,0,0))
 				self.screen.blit(name,(100,100))
 				for event in pygame.event.get():
